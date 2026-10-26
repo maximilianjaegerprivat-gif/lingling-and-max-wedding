@@ -41,7 +41,7 @@ Domain management → **Add a domain**. Netlify shows the DNS records for the re
 
 Search `index.html` for `PLACEHOLDER`. The important ones:
 
-1. **Bank details** for the olive trees: in the gifts section, the `<dl class="bank">` element carries `data-holder`, `data-iban` and `data-bic` (used for the QR code) and shows the same values as text. Replace all of them.
+1. **Bank details** for the olive trees: in the gifts section, the `<dl class="bank">` element carries `data-holder`, `data-iban` and `data-bic` (used for the QR code) and shows the same values as text. The IBAN is in; the BIC `NTSBDEB1XXX` was derived from it (N26) and the account holder still says "Lingling & Max". The holder must be the exact name on the account, because banks now check the payee name against the IBAN.
 2. **PayPal link:** the `data-paypal` and `href` on the PayPal button, `https://paypal.me/PLACEHOLDER`. Create a PayPal.me name at paypal.me and put the full link there. The amount is added automatically (`/280EUR` for two trees).
 3. **The church** for the ceremony, the exact spot for Friday's get-together, dress codes, travel details (shuttles, parking).
 4. **Hotels:** booking code `MAXLING2027`, the hold date, further hotel tips.
@@ -80,7 +80,7 @@ If the schedule changes, update it in three places: the texts in `index.html`, t
 
 ### Photos
 
-- **Gallery:** twelve photos at the moment: the card photo, seven from the Grand Tirolia website (grand-tirolia-kitzbuehel.hommage-hotels.com, one credited to Martin Mathes) and four from Bei Tomschy (beitomschy.at). They are used with the venues' material as a stand-in until our own photos exist; both are credited under the gallery. The images sit in the gallery section of `index.html`, each as an `<a>` wrapping an `<img>` with the file name, `alt` text and the `data-caption-en` / `data-caption-de` captions. Add or remove entries as you like; JPGs about 1600 px wide work best. The remaining `gallery-*.svg` files are drawings standing in for photos.
+- **Gallery:** empty on purpose for now. To fill it, add list items inside `<ul class="gallery">` in the gallery section of `index.html`, each an `<a>` wrapping an `<img>` with the file name, `alt` text and `data-caption-en` / `data-caption-de` captions; the lightbox picks them up automatically. JPGs about 1600 px wide work best. Candidate photos from the Grand Tirolia and Bei Tomschy websites are in the git history (commit 0a662ba) if we want them back.
 - **Hero:** `images/hero.jpg`, see above. The page shows the whole photo on phones and crops the top and bottom a little on wide screens.
 - **Social preview:** `images/og-image.png` (1200 × 630) is what WhatsApp, iMessage and the like show when the link is shared. It is rendered from `images/og-image.svg`; on a Mac: `sips -s format png images/og-image.svg --out images/og-image.png`.
 - **Olive tree with the plaque:** `images/olive-tree.svg`, the names are plain text inside the file.
