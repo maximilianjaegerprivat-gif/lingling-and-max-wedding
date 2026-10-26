@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="240" viewBox="0 0 320 240">
+<path d="M18 222C60 170 120 118 300 60" fill="none" stroke="#7d8a5c" stroke-width="3.5" stroke-linecap="round"/>
+<g transform="translate(60 180) rotate(-70)"><ellipse cx="22" cy="0" rx="30" ry="8.5" fill="#8a9a6b"/><ellipse cx="24" cy="-2" rx="20" ry="3.5" fill="#a9b78c" opacity=".55"/></g>
+<g transform="translate(74 164) rotate(10)"><ellipse cx="22" cy="0" rx="30" ry="8.5" fill="#6f7f4f"/><ellipse cx="24" cy="-2" rx="20" ry="3.5" fill="#8fa070" opacity=".55"/></g>
+<g transform="translate(104 142) rotate(-62)"><ellipse cx="22" cy="0" rx="30" ry="8.5" fill="#8a9a6b"/><ellipse cx="24" cy="-2" rx="20" ry="3.5" fill="#a9b78c" opacity=".55"/></g>
+<g transform="translate(120 128) rotate(18)"><ellipse cx="22" cy="0" rx="30" ry="8.5" fill="#6f7f4f"/><ellipse cx="24" cy="-2" rx="20" ry="3.5" fill="#8fa070" opacity=".55"/></g>
+<g transform="translate(152 112) rotate(-58)"><ellipse cx="22" cy="0" rx="30" ry="8.5" fill="#8a9a6b"/><ellipse cx="24" cy="-2" rx="20" ry="3.5" fill="#a9b78c" opacity=".55"/></g>
+<g transform="translate(170 100) rotate(22)"><ellipse cx="22" cy="0" rx="30" ry="8.5" fill="#6f7f4f"/><ellipse cx="24" cy="-2" rx="20" ry="3.5" fill="#8fa070" opacity=".55"/></g>
+<g transform="translate(204 88) rotate(-54)"><ellipse cx="22" cy="0" rx="30" ry="8.5" fill="#8a9a6b"/><ellipse cx="24" cy="-2" rx="20" ry="3.5" fill="#a9b78c" opacity=".55"/></g>
+<g transform="translate(224 78) rotate(26)"><ellipse cx="22" cy="0" rx="30" ry="8.5" fill="#6f7f4f"/><ellipse cx="24" cy="-2" rx="20" ry="3.5" fill="#8fa070" opacity=".55"/></g>
+<g transform="translate(258 68) rotate(-50)"><ellipse cx="22" cy="0" rx="30" ry="8.5" fill="#8a9a6b"/><ellipse cx="24" cy="-2" rx="20" ry="3.5" fill="#a9b78c" opacity=".55"/></g>
+<g transform="translate(278 60) rotate(30)"><ellipse cx="22" cy="0" rx="30" ry="8.5" fill="#6f7f4f"/><ellipse cx="24" cy="-2" rx="20" ry="3.5" fill="#8fa070" opacity=".55"/></g>
+<circle cx="92" cy="196" r="12" fill="#9aa84a"/><circle cx="88" cy="192" r="4" fill="#d9df9a" opacity=".8"/>
+<circle cx="118" cy="206" r="12" fill="#9aa84a"/><circle cx="114" cy="202" r="4" fill="#d9df9a" opacity=".8"/>
+</svg>

@@ -1,0 +1,67 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Lingling and Max//Wedding 2027//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Lingling & Max Wedding
+X-WR-TIMEZONE:Europe/Berlin
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:friday-welcome-bbq-2027@lingling-and-max.netlify.app
+DTSTAMP:20261026T120000Z
+DTSTART;TZID=Europe/Berlin:20270611T180000
+DTEND;TZID=Europe/Berlin:20270611T220000
+SUMMARY:Lingling & Max — Welcome BBQ
+LOCATION:Lakeside Garden\, Seehotel Leoni\, Assenbucher Str. 44\, 8233
+ 5 Berg\, Germany
+DESCRIPTION:An easy evening to arrive\, meet everyone\, and watch the 
+ sun set over the lake. Dress code: relaxed summer casual.\nhttps://li
+ ngling-and-max.netlify.app/
+URL:https://lingling-and-max.netlify.app/
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:saturday-wedding-2027@lingling-and-max.netlify.app
+DTSTAMP:20261026T120000Z
+DTSTART;TZID=Europe/Berlin:20270612T140000
+DTEND;TZID=Europe/Berlin:20270613T020000
+SUMMARY:Lingling & Max — The Wedding
+LOCATION:Schloss Berg\, Seestraße 17\, 82335 Berg\, Germany
+DESCRIPTION:14:00 Ceremony in the Chapel Garden · 15:00 Drinks on the 
+ Lawn · 16:30 Reception · 18:30 Dinner in the Orangery · 21:30 Party\,
+  open end. Dress code: summer formal.\nhttps://lingling-and-max.netli
+ fy.app/
+URL:https://lingling-and-max.netlify.app/
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:sunday-farewell-breakfast-2027@lingling-and-max.netlify.app
+DTSTAMP:20261026T120000Z
+DTSTART;TZID=Europe/Berlin:20270613T100000
+DTEND;TZID=Europe/Berlin:20270613T130000
+SUMMARY:Lingling & Max — Farewell Breakfast
+LOCATION:Terrace\, Seehotel Leoni\, Assenbucher Str. 44\, 82335 Berg\,
+  Germany
+DESCRIPTION:Coffee\, pretzels\, and one last morning together before e
+ veryone travels home. Come as you are.\nhttps://lingling-and-max.netl
+ ify.app/
+URL:https://lingling-and-max.netlify.app/
+STATUS:CONFIRMED
+END:VEVENT
+END:VCALENDAR

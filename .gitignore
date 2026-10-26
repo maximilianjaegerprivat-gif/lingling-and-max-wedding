@@ -1,0 +1,14 @@
+# macOS
+.DS_Store
+._*
+
+# Editors and tooling
+.claude/
+.netlify/
+.vscode/
+.idea/
+*.log
+
+# Never commit secrets (version 2 will use environment variables on Netlify)
+.env
+.env.*

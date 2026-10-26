@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" role="img" aria-label="The Orangery with tall arched windows">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e8eef2"/><stop offset="1" stop-color="#aab9ca"/></linearGradient></defs>
+  <rect width="1200" height="900" fill="#f4efe3"/>
+  <rect y="120" width="1200" height="620" fill="#f7efe3"/>
+  <rect y="120" width="1200" height="24" fill="#e6d8c6"/>
+  <rect y="716" width="1200" height="24" fill="#e6d8c6"/>
+  <g>
+    <path d="M150 700V330a130 130 0 0 1 260 0v370Z" fill="url(#g)"/>
+    <path d="M470 700V330a130 130 0 0 1 260 0v370Z" fill="url(#g)"/>
+    <path d="M790 700V330a130 130 0 0 1 260 0v370Z" fill="url(#g)"/>
+  </g>
+  <g stroke="#f7efe3" stroke-width="8">
+    <path d="M280 200v500M150 420h260M470 420h260M790 420h260M600 200v500M920 200v500"/>
+  </g>
+  <rect y="740" width="1200" height="160" fill="#c9b79a"/>
+  <g>
+    <rect x="200" y="690" width="70" height="60" rx="8" fill="#8b6b4a"/><circle cx="235" cy="650" r="55" fill="#6e8a64"/><circle cx="215" cy="635" r="9" fill="#d9a441"/><circle cx="255" cy="665" r="9" fill="#d9a441"/>
+    <rect x="930" y="690" width="70" height="60" rx="8" fill="#8b6b4a"/><circle cx="965" cy="650" r="55" fill="#6e8a64"/><circle cx="950" cy="665" r="9" fill="#d9a441"/><circle cx="985" cy="640" r="9" fill="#d9a441"/>
+  </g>
+</svg>

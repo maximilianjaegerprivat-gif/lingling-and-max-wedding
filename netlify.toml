@@ -1,0 +1,30 @@
+# Netlify configuration for lingling-and-max
+# Static site: no build step, the repository root is published as-is.
+
+[build]
+  publish = "."
+  command = ""
+
+# Security and privacy headers. The Content-Security-Policy only allows
+# the site's own files: no third-party scripts, styles, fonts or images.
+# If you ever add an embedded map or video, extend the relevant directive.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+    Content-Security-Policy = "default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; connect-src 'self'; form-action 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'"
+
+# Images and the calendar file change rarely; let browsers keep them for a week.
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/*.ics"
+  [headers.values]
+    Content-Type = "text/calendar; charset=utf-8"
+    Content-Disposition = "attachment; filename=\"lingling-and-max.ics\""
