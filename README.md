@@ -22,8 +22,11 @@ Plain HTML, CSS and vanilla JavaScript. No framework, no build step, no dependen
 1. The code lives on GitHub at `maximilianjaegerprivat-gif/lingling-and-max-wedding`.
 2. Go to [app.netlify.com](https://app.netlify.com) and log in with GitHub.
 3. **Add new site → Import an existing project → GitHub**, pick `lingling-and-max-wedding`.
-4. Leave the build command **empty** and the publish directory as `.` (both are already in `netlify.toml`). Click **Deploy**.
-5. Every later push to `main` deploys automatically.
+4. Leave the build command **empty** and the publish directory as `.` (both are already in `netlify.toml`). Set the project name to `lingling-and-max` and click **Deploy**.
+5. New Netlify projects start **private** (visitors get a login page). On the project overview click **Make public**.
+6. Every later push to `main` deploys automatically.
+
+*Done on 26 October 2026: the project `lingling-and-max` exists, is public and deploys from this repository.*
 
 ### Setting the site name
 
@@ -31,7 +34,7 @@ Site configuration → General → Site details → **Change site name** → `li
 
 ### The RSVP form
 
-The form uses Netlify Forms. Netlify finds it when the site is deployed, nothing else to set up.
+The form uses Netlify Forms. **Forms → Enable form detection** must be switched on once (done), after which every deploy registers the `rsvp` form.
 
 - **Where replies are listed:** Netlify dashboard → your site → **Forms** → `rsvp`. Each submission shows name, email, attending, guests, dietary notes and message. You can export everything as CSV.
 - **Email notifications:** Site configuration → **Notifications** → **Form submission notifications** → **Add notification** → *Email notification* → form `rsvp`, enter the address that should receive each reply.
