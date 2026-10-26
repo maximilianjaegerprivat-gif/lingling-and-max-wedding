@@ -4,9 +4,9 @@ PRODID:-//Lingling and Max//Wedding 2027//EN
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
 X-WR-CALNAME:Lingling & Max Wedding
-X-WR-TIMEZONE:Europe/Berlin
+X-WR-TIMEZONE:Europe/Vienna
 BEGIN:VTIMEZONE
-TZID:Europe/Berlin
+TZID:Europe/Vienna
 BEGIN:DAYLIGHT
 TZOFFSETFROM:+0100
 TZOFFSETTO:+0200
@@ -23,44 +23,30 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:friday-welcome-bbq-2027@lingling-and-max.netlify.app
-DTSTAMP:20261026T120000Z
-DTSTART;TZID=Europe/Berlin:20270611T180000
-DTEND;TZID=Europe/Berlin:20270611T220000
-SUMMARY:Lingling & Max — Welcome BBQ
-LOCATION:Lakeside Garden\, Seehotel Leoni\, Assenbucher Str. 44\, 8233
- 5 Berg\, Germany
-DESCRIPTION:An easy evening to arrive\, meet everyone\, and watch the 
- sun set over the lake. Dress code: relaxed summer casual.\nhttps://li
- ngling-and-max.netlify.app/
+UID:friday-welcome-2027@lingling-and-max.netlify.app
+DTSTAMP:20261026T190000Z
+DTSTART;TZID=Europe/Vienna:20270709T190000
+DTEND;TZID=Europe/Vienna:20270709T220000
+SUMMARY:Lingling & Max — Welcome Get-Together
+LOCATION:Grand Tirolia Kitzbühel\, Eichenheim 10\, 6370 Kitzbühel\, Au
+ stria
+DESCRIPTION:Light bites and drinks. Arrive\, relax and enjoy the eveni
+ ng with us!\nhttps://lingling-and-max.netlify.app/
 URL:https://lingling-and-max.netlify.app/
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
 UID:saturday-wedding-2027@lingling-and-max.netlify.app
-DTSTAMP:20261026T120000Z
-DTSTART;TZID=Europe/Berlin:20270612T140000
-DTEND;TZID=Europe/Berlin:20270613T020000
+DTSTAMP:20261026T190000Z
+DTSTART;TZID=Europe/Vienna:20270710T113000
+DTEND;TZID=Europe/Vienna:20270711T020000
 SUMMARY:Lingling & Max — The Wedding
-LOCATION:Schloss Berg\, Seestraße 17\, 82335 Berg\, Germany
-DESCRIPTION:14:00 Ceremony in the Chapel Garden · 15:00 Drinks on the 
- Lawn · 16:30 Reception · 18:30 Dinner in the Orangery · 21:30 Party\,
-  open end. Dress code: summer formal.\nhttps://lingling-and-max.netli
- fy.app/
-URL:https://lingling-and-max.netlify.app/
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:sunday-farewell-breakfast-2027@lingling-and-max.netlify.app
-DTSTAMP:20261026T120000Z
-DTSTART;TZID=Europe/Berlin:20270613T100000
-DTEND;TZID=Europe/Berlin:20270613T130000
-SUMMARY:Lingling & Max — Farewell Breakfast
-LOCATION:Terrace\, Seehotel Leoni\, Assenbucher Str. 44\, 82335 Berg\,
-  Germany
-DESCRIPTION:Coffee\, pretzels\, and one last morning together before e
- veryone travels home. Come as you are.\nhttps://lingling-and-max.netl
- ify.app/
+LOCATION:Church & Grand Tirolia Kitzbühel\, Eichenheim 10\, 6370 Kitzb
+ ühel\, Austria
+DESCRIPTION:11:30 Arrival at the church · 12:00 Church ceremony · 13:3
+ 0 Coffee & tea on the terrace · 14:00 Group photos & bouquet throw · 
+ 17:00 Cocktail reception · 18:30 Dinner · 21:30 Opening dance · 21:40
+  Party!\nhttps://lingling-and-max.netlify.app/
 URL:https://lingling-and-max.netlify.app/
 STATUS:CONFIRMED
 END:VEVENT

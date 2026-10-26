@@ -13,43 +13,32 @@
      Event data (single source of truth for countdown + calendar file)
      Times are local to Europe/Berlin.
      --------------------------------------------------------------- */
-  var TIMEZONE = 'Europe/Berlin';
+  var TIMEZONE = 'Europe/Vienna';
   var SITE_URL = 'https://lingling-and-max.netlify.app/';
 
-  var CEREMONY = { y: 2027, m: 6, d: 12, h: 14, min: 0 };
+  var CEREMONY = { y: 2027, m: 7, d: 10, h: 12, min: 0 };
 
   var EVENTS = [
     {
-      uid: 'friday-welcome-bbq-2027@lingling-and-max.netlify.app',
-      start: [2027, 6, 11, 18, 0],
-      end: [2027, 6, 11, 22, 0],
-      summary: { en: 'Lingling & Max — Welcome BBQ', de: 'Lingling & Max – Willkommens-BBQ' },
-      location: 'Lakeside Garden, Seehotel Leoni, Assenbucher Str. 44, 82335 Berg, Germany',
+      uid: 'friday-welcome-2027@lingling-and-max.netlify.app',
+      start: [2027, 7, 9, 19, 0],
+      end: [2027, 7, 9, 22, 0],
+      summary: { en: 'Lingling & Max — Welcome Get-Together', de: 'Lingling & Max – Willkommensabend' },
+      location: 'Grand Tirolia Kitzbühel, Eichenheim 10, 6370 Kitzbühel, Austria',
       description: {
-        en: 'An easy evening to arrive, meet everyone, and watch the sun set over the lake. Dress code: relaxed summer casual.',
-        de: 'Ein entspannter Abend zum Ankommen und Kennenlernen, mit Sonnenuntergang über dem See. Dresscode: lässig-sommerlich.'
+        en: 'Light bites and drinks. Arrive, relax and enjoy the evening with us!',
+        de: 'Kleine Häppchen und Drinks. Ankommen, entspannen und den Abend mit uns genießen!'
       }
     },
     {
       uid: 'saturday-wedding-2027@lingling-and-max.netlify.app',
-      start: [2027, 6, 12, 14, 0],
-      end: [2027, 6, 13, 2, 0],
+      start: [2027, 7, 10, 11, 30],
+      end: [2027, 7, 11, 2, 0],
       summary: { en: 'Lingling & Max — The Wedding', de: 'Lingling & Max – Die Hochzeit' },
-      location: 'Schloss Berg, Seestraße 17, 82335 Berg, Germany',
+      location: 'Church & Grand Tirolia Kitzbühel, Eichenheim 10, 6370 Kitzbühel, Austria',
       description: {
-        en: '14:00 Ceremony in the Chapel Garden · 15:00 Drinks on the Lawn · 16:30 Reception · 18:30 Dinner in the Orangery · 21:30 Party, open end. Dress code: summer formal.',
-        de: '14:00 Trauung im Kapellengarten · 15:00 Drinks auf der Wiese · 16:30 Empfang · 18:30 Abendessen in der Orangerie · 21:30 Party, Open End. Dresscode: sommerlich-festlich.'
-      }
-    },
-    {
-      uid: 'sunday-farewell-breakfast-2027@lingling-and-max.netlify.app',
-      start: [2027, 6, 13, 10, 0],
-      end: [2027, 6, 13, 13, 0],
-      summary: { en: 'Lingling & Max — Farewell Breakfast', de: 'Lingling & Max – Abschiedsfrühstück' },
-      location: 'Terrace, Seehotel Leoni, Assenbucher Str. 44, 82335 Berg, Germany',
-      description: {
-        en: 'Coffee, pretzels, and one last morning together before everyone travels home. Come as you are.',
-        de: 'Kaffee, Brezen und ein letzter gemeinsamer Morgen, bevor alle nach Hause fahren. Kommt, wie ihr seid.'
+        en: '11:30 Arrival at the church · 12:00 Church ceremony · 13:30 Coffee & tea on the terrace · 14:00 Group photos & bouquet throw · 17:00 Cocktail reception · 18:30 Dinner · 21:30 Opening dance · 21:40 Party!',
+        de: '11:30 Ankunft an der Kirche · 12:00 Kirchliche Trauung · 13:30 Kaffee & Tee auf der Terrasse · 14:00 Gruppenfotos & Brautstraußwurf · 17:00 Cocktail-Empfang · 18:30 Abendessen · 21:30 Eröffnungstanz · 21:40 Party!'
       }
     }
   ];
@@ -90,7 +79,7 @@
         return zonedToUtc(y, m, d, h, min, TIMEZONE);
       }
     } catch (e) { /* fall through */ }
-    // Fallback: Central European Summer Time (UTC+2) applies in June.
+    // Fallback: Central European Summer Time (UTC+2) applies in July.
     return Date.UTC(y, m - 1, d, h - 2, min, 0);
   }
 
@@ -388,6 +377,86 @@
     doc.addEventListener('langchange', function () {
       if (dlg.open) { cap.textContent = caption(links[index]); }
     });
+  })();
+
+  /* ---------------------------------------------------------------
+     Olive trees: quantity, total, payment details, SEPA QR code
+     --------------------------------------------------------------- */
+  (function oliveTrees() {
+    var form = doc.querySelector('.olive-form');
+    if (!form) { return; }
+    var price = parseFloat(form.getAttribute('data-price')) || 140;
+    var select = form.querySelector('#tree-count');
+    var nameInput = form.querySelector('#tree-name');
+    var totals = form.querySelectorAll('[data-total]');
+    var refs = form.querySelectorAll('[data-reference]');
+    var paypal = form.querySelector('[data-paypal]');
+    var bank = form.querySelector('.bank');
+    var canvas = doc.getElementById('epc-qr');
+    var count = 1, total = price;
+
+    function money(n) {
+      var s = String(Math.round(n));
+      return getLang() === 'de' ? s + ' €' : '€' + s;
+    }
+    function reference() {
+      var n = nameInput ? nameInput.value.replace(/[\r\n]+/g, ' ').trim() : '';
+      return ('Olive tree' + (count > 1 ? 's' : '') + ' for Lingling & Max' + (n ? ' - ' + n : '')).slice(0, 140);
+    }
+    function drawQr() {
+      if (!canvas || !window.LMQR || !bank || !canvas.getContext) { return; }
+      var iban = (bank.getAttribute('data-iban') || '').replace(/\s+/g, '').toUpperCase();
+      var bic = (bank.getAttribute('data-bic') || '').replace(/\s+/g, '').toUpperCase();
+      var holder = bank.getAttribute('data-holder') || 'Lingling & Max';
+      // EPC069-12 "SEPA credit transfer" payload (GiroCode), version 002, UTF-8
+      var payload = ['BCD', '002', '1', 'SCT', bic, holder, iban, 'EUR' + total.toFixed(2), '', '', reference()].join('\n');
+      var qr;
+      try { qr = window.LMQR.encode(payload); } catch (e) { return; }
+      var quiet = 4, scale = 4, dim = (qr.size + quiet * 2) * scale;
+      canvas.width = dim;
+      canvas.height = dim;
+      var ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, dim, dim);
+      ctx.fillStyle = '#2f3b27';
+      for (var y = 0; y < qr.size; y++) {
+        for (var x = 0; x < qr.size; x++) {
+          if (qr.get(x, y)) { ctx.fillRect((x + quiet) * scale, (y + quiet) * scale, scale, scale); }
+        }
+      }
+    }
+    function update() {
+      count = parseInt(select.value, 10) || 1;
+      total = count * price;
+      Array.prototype.forEach.call(totals, function (el) { el.textContent = money(total); });
+      Array.prototype.forEach.call(refs, function (el) { el.textContent = reference(); });
+      if (paypal) {
+        paypal.href = paypal.getAttribute('data-paypal').replace(/\/+$/, '') + '/' + total + 'EUR';
+      }
+      drawQr();
+    }
+    select.addEventListener('change', update);
+    if (nameInput) { nameInput.addEventListener('input', update); }
+    Array.prototype.forEach.call(form.querySelectorAll('[data-step]'), function (btn) {
+      btn.addEventListener('click', function () {
+        var i = select.selectedIndex + parseInt(btn.getAttribute('data-step'), 10);
+        if (i >= 0 && i < select.options.length) { select.selectedIndex = i; update(); }
+      });
+    });
+    Array.prototype.forEach.call(form.querySelectorAll('[data-copy]'), function (btn) {
+      btn.addEventListener('click', function () {
+        var target = form.querySelector('[data-copy-value="' + btn.getAttribute('data-copy') + '"]');
+        if (!target || !navigator.clipboard) { return; }
+        navigator.clipboard.writeText(target.textContent.trim()).then(function () {
+          var label = btn.querySelector('.copy__label'), done = btn.querySelector('.copy__done');
+          if (!label || !done) { return; }
+          label.hidden = true; done.hidden = false;
+          setTimeout(function () { label.hidden = false; done.hidden = true; }, 1600);
+        });
+      });
+    });
+    doc.addEventListener('langchange', update);
+    update();
   })();
 
   /* ---------------------------------------------------------------

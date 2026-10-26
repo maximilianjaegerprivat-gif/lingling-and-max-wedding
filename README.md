@@ -1,49 +1,62 @@
 # Lingling & Max — Wedding 2027
 
-The public wedding website for Lingling and Max: one page, English with a German toggle, hosted on Netlify at **https://lingling-and-max.netlify.app**.
+The public wedding website for Lingling and Max: one page, English with a German toggle, hosted on Netlify at **https://lingling-and-max.netlify.app**. The wedding is on Saturday 10 July 2027 in Kitzbühel, with a welcome evening on Friday 9 July.
 
-Plain HTML, CSS and vanilla JavaScript. No framework, no build step, no dependencies, no third-party requests (no fonts, analytics, maps or CDN scripts), so no cookie banner is needed. Everything reads correctly with JavaScript turned off.
+Plain HTML, CSS and vanilla JavaScript. No framework, no build step, no dependencies, no third-party requests (no fonts, analytics, maps, payment scripts or CDN files), so no cookie banner is needed. Everything reads correctly with JavaScript turned off.
 
 ## What is in the folder
 
 | File | What it is |
 | --- | --- |
-| `index.html` | The whole site: hero, welcome, schedule, venue and travel, hotels, gallery, gifts, RSVP, footer |
-| `thanks.html` | The page guests see after sending the RSVP form |
+| `index.html` | The whole site: hero, welcome, schedule, venue and travel, hotels, gallery, gifts (olive trees), RSVP, footer |
+| `thanks.html` | The page guests see after sending the RSVP or the olive-tree form |
 | `css/styles.css` | All styling, with the colours and fonts defined at the top |
-| `js/main.js` | Countdown, day tabs, lightbox, EN/DE toggle, calendar download, sticky-nav highlighting |
+| `js/main.js` | Countdown, day tabs, lightbox, EN/DE toggle, calendar download, olive-tree form, sticky-nav highlighting |
+| `js/qr.js` | A small QR-code generator for the bank-transfer code (no library) |
 | `js/head.js` | Tiny script that restores the saved language before the page paints |
-| `images/` | Hero scene, gallery placeholders, olive sprig, favicons, the social-preview image |
+| `images/` | Hero photo, gallery images, olive tree and sprig drawings, favicons, the social-preview image |
 | `lingling-and-max.ics` | Calendar file (used when JavaScript is off; with JS the file is generated in the chosen language) |
 | `netlify.toml` | Netlify settings: publish folder, security and privacy headers |
 
-## Deploy to Netlify (two minutes)
+## Netlify (done)
 
-1. The code lives on GitHub at `maximilianjaegerprivat-gif/lingling-and-max-wedding`.
-2. Go to [app.netlify.com](https://app.netlify.com) and log in with GitHub.
-3. **Add new site → Import an existing project → GitHub**, pick `lingling-and-max-wedding`.
-4. Leave the build command **empty** and the publish directory as `.` (both are already in `netlify.toml`). Set the project name to `lingling-and-max` and click **Deploy**.
-5. New Netlify projects start **private** (visitors get a login page). On the project overview click **Make public**.
-6. Every later push to `main` deploys automatically.
+The project `lingling-and-max` on Netlify deploys from the `main` branch of `maximilianjaegerprivat-gif/lingling-and-max-wedding` on GitHub. Every push to `main` goes live within a minute.
 
-*Done on 26 October 2026: the project `lingling-and-max` exists, is public and deploys from this repository.*
+If it ever has to be set up again: Netlify → Add new project → Import from GitHub → pick the repository → leave the build command empty and the publish directory as `.` (both are in `netlify.toml`) → Deploy. New projects start **private**; click **Make public** on the project overview. Under **Forms** switch on **Enable form detection** once.
 
-### Setting the site name
+### Forms: RSVP and olive trees
 
-Site configuration → General → Site details → **Change site name** → `lingling-and-max`. The address becomes `https://lingling-and-max.netlify.app`.
+Both forms use Netlify Forms, nothing to host.
 
-### The RSVP form
+- **Where replies are listed:** Netlify → project → **Forms**. `rsvp` holds the replies (name, email, attending, guests, dietary notes, message); `olive-trees` holds the tree reservations (name for the plaque, email, number of trees, chosen payment method). Both can be exported as CSV.
+- **Email notifications:** Forms → **Submission notifications** → **Add notification** → *Email notification*, once per form, with the address that should receive each entry.
+- **Spam:** both forms have a hidden honeypot field and Netlify filters the rest. Flagged entries appear under *Spam*.
+- The free plan includes 100 submissions per month across all forms.
 
-The form uses Netlify Forms. **Forms → Enable form detection** must be switched on once (done), after which every deploy registers the `rsvp` form.
+### Custom domain (optional)
 
-- **Where replies are listed:** Netlify dashboard → your site → **Forms** → `rsvp`. Each submission shows name, email, attending, guests, dietary notes and message. You can export everything as CSV.
-- **Email notifications:** Site configuration → **Notifications** → **Form submission notifications** → **Add notification** → *Email notification* → form `rsvp`, enter the address that should receive each reply.
-- **Spam:** the form has a hidden honeypot field; Netlify also filters spam. Flagged entries appear under *Spam* in the Forms tab.
-- The free plan includes 100 submissions per month, plenty for a wedding.
+Domain management → **Add a domain**. Netlify shows the DNS records for the registrar, or registers the name itself. HTTPS is automatic. Afterwards update the `https://lingling-and-max.netlify.app/` links in `index.html` (canonical URL, Open Graph tags), `js/main.js` (`SITE_URL`) and `lingling-and-max.ics`.
 
-### Custom domain (later)
+## Things to fill in before the link goes out
 
-Domain management → **Add a domain**. Netlify shows the DNS records to add at your registrar (or you can move the DNS to Netlify). HTTPS is set up automatically. Afterwards, update the `https://lingling-and-max.netlify.app/` links in `index.html` (canonical URL, Open Graph tags) and in `js/main.js` (`SITE_URL`).
+Search `index.html` for `PLACEHOLDER`. The important ones:
+
+1. **Bank details** for the olive trees: in the gifts section, the `<dl class="bank">` element carries `data-holder`, `data-iban` and `data-bic` (used for the QR code) and shows the same values as text. Replace all of them.
+2. **PayPal link:** the `data-paypal` and `href` on the PayPal button, `https://paypal.me/PLACEHOLDER`. Create a PayPal.me name at paypal.me and put the full link there. The amount is added automatically (`/280EUR` for two trees).
+3. **The church** for the ceremony, the exact spot for Friday's get-together, dress codes, travel details (shuttles, parking).
+4. **Hotels:** booking code `MAXLING2027`, the hold date, further hotel tips.
+5. **Contact email** in the footer (`hello@example.com`).
+6. **Hero photo:** `images/hero.jpg` was cropped from the invitation card (728 px wide). Drop in the original photo at full resolution under the same name.
+
+## How the olive-tree gift works
+
+Guests choose the number of trees (€140 each), see the total, enter their name for the plaque, pick a payment method and send the small form. Nothing is charged on the website itself:
+
+- **Bank transfer:** shows the account details, a copy button, and a QR code in the European EPC/GiroCode format with the amount and reference pre-filled. Most banking apps in Germany and Austria scan it directly.
+- **PayPal:** opens your PayPal.me page with the amount pre-filled (a link, so no PayPal script is loaded on the site).
+- **Cash:** the red-envelope note from the card.
+
+The form entry tells you who reserved how many trees and how they intend to pay; match it against the bank or PayPal account. The price lives in one place: `data-price="140"` on the form in `index.html` (the texts mention €140 too).
 
 ## Editing the site
 
@@ -57,20 +70,20 @@ Every text exists twice in `index.html`, English and German, right next to each 
 <p lang="de">Ein ganzer Absatz…</p>
 ```
 
-Edit both, keep the `lang` attributes. Form placeholders carry the German version in a `data-placeholder-de` attribute. Spots we still need to confirm are marked with `<!-- PLACEHOLDER -->` comments (booking code, contact email, gallery photos, gift ideas).
+Edit both, keep the `lang` attributes. Form placeholders carry the German version in a `data-placeholder-de` attribute.
 
-> **The German is a draft.** It was written for the first version and should be checked by us before the site goes out. Same for the German event titles in `js/main.js` (used for the calendar file).
+> **The German is a draft** and should be checked by us before the site goes out. Same for the German event titles in `js/main.js` (used for the calendar file).
 
 ### Dates and times
 
-If the date or schedule changes, update it in three places: the texts in `index.html`, the `CEREMONY` and `EVENTS` blocks at the top of `js/main.js` (countdown and calendar download), and `lingling-and-max.ics` (the no-JavaScript calendar file). Times are Europe/Berlin.
+If the schedule changes, update it in three places: the texts in `index.html`, the `CEREMONY` and `EVENTS` blocks at the top of `js/main.js` (countdown and calendar download), and `lingling-and-max.ics` (the no-JavaScript calendar file). Times are Europe/Vienna.
 
 ### Photos
 
-- **Gallery:** replace `images/gallery-1.svg` … `gallery-6.svg` with photos (JPG, roughly 1600 px wide, 4:3 works best) and update the six `<img>`/`<a>` entries in the gallery section of `index.html` (file names, `alt` texts and the `data-caption-en` / `data-caption-de` captions). Add or remove entries as you like.
-- **Hero:** `images/hero.svg` is an illustration. A wide photo (about 1600 × 900) can replace it; keep it calm at the top so the names stay readable.
-- **Social preview:** `images/og-image.png` (1200 × 630) is what WhatsApp, iMessage and the like show when the link is shared. It was rendered from `images/og-image.svg`; on a Mac you can re-render it with `sips -s format png images/og-image.svg --out images/og-image.png`, or simply export a 1200 × 630 PNG from any tool.
-- **Favicon:** `images/favicon.svg`, plus the PNG versions made the same way.
+- **Gallery:** the images sit in the gallery section of `index.html`, each as an `<a>` wrapping an `<img>` with the file name, `alt` text and the `data-caption-en` / `data-caption-de` captions. Add or remove entries as you like; JPGs about 1600 px wide work best. The remaining `gallery-*.svg` files are drawings standing in for photos.
+- **Hero:** `images/hero.jpg`, see above. The page shows the whole photo on phones and crops the top and bottom a little on wide screens.
+- **Social preview:** `images/og-image.png` (1200 × 630) is what WhatsApp, iMessage and the like show when the link is shared. It is rendered from `images/og-image.svg`; on a Mac: `sips -s format png images/og-image.svg --out images/og-image.png`.
+- **Olive tree with the plaque:** `images/olive-tree.svg`, the names are plain text inside the file.
 
 ### Colours and fonts
 
@@ -84,23 +97,17 @@ Any static server works. With Python:
 python3 -m http.server 8787
 ```
 
-Then open http://localhost:8787. The RSVP form only works on Netlify.
+Then open http://localhost:8787. The two forms only work on Netlify.
 
 ## Privacy and headers
 
-`netlify.toml` sends a strict Content-Security-Policy: the browser may only load files from the site itself. If you ever add an embedded map, video or external script, that policy needs extending or the content stays blank.
+`netlify.toml` sends a strict Content-Security-Policy: the browser may only load files from the site itself. If you ever add an embedded map, video or external script (for example PayPal's hosted buttons), that policy needs extending or the content stays blank.
 
-## Version 2 plan: gift registry and admin area
+## Version 2 plan: live tree counter and admin area
 
-Goal: guests can **reserve** a gift idea or **contribute** an amount towards the honeymoon fund, and we can manage everything in a small admin area. Still no third-party requests from the public page.
+Goal: show how many trees have already been planted, let guests reserve trees with a confirmation, and give us a small admin area. Still no third-party requests from the public page.
 
-- **Database:** Supabase (Postgres). Suggested tables: `gifts` (title in both languages, description, type `item` or `fund`, target amount, image, sort order, active), `reservations` (gift, guest name, email, message, status, created at) and `contributions` (gift, guest name, email, amount, message, status, created at). If a `supabase/` folder exists in this project, its schema is the starting point.
-- **Backend:** Netlify Functions in a `netlify/functions/` folder. The browser only talks to `/.netlify/functions/...` on our own domain; the functions talk to Supabase with the service key stored as a Netlify environment variable. Public functions: list gifts, reserve, contribute. Rate-limited and validated server-side.
-- **Admin area:** `admin.html`, protected with Netlify Identity (or a single shared password checked in a function). Lists reservations and contributions, lets us mark gifts as fulfilled, hide ideas, export CSV.
-- **Payments:** contributions are recorded as pledges with our bank details or PayPal link shown afterwards, so the public page still loads no third-party scripts.
-- **Front end:** the gifts section in `index.html` becomes cards with "Reserve" and "Contribute" buttons; without JavaScript it keeps showing the plain list.
-
-## Notes
-
-- Gallery images and the hero are illustrations drawn for the first version; they are meant to be replaced by photographs.
-- The social-preview PNG was rendered on a Mac with the built-in `sips` tool, so no extra software is needed.
+- **Database:** Supabase (Postgres). Suggested tables: `trees` (reservation: guest name, email, number of trees, payment method, status, created at) and `payments` (confirmed amounts). If a `supabase/` folder exists in this project, its schema is the starting point.
+- **Backend:** Netlify Functions in `netlify/functions/`. The browser only talks to `/.netlify/functions/...` on our own domain; the functions talk to Supabase with the service key stored as a Netlify environment variable. Validated and rate-limited server-side.
+- **Admin area:** `admin.html`, protected with Netlify Identity (or a shared password checked in a function). Lists reservations, lets us mark payments as received and plaques as made, exports CSV.
+- **Front end:** the olive-tree form posts to the function instead of Netlify Forms and shows a live counter; without JavaScript it keeps working as today.
