@@ -80,7 +80,7 @@ If the schedule changes, update it in three places: the texts in `index.html`, t
 
 ### Photos
 
-- **Gallery:** the images sit in the gallery section of `index.html`, each as an `<a>` wrapping an `<img>` with the file name, `alt` text and the `data-caption-en` / `data-caption-de` captions. Add or remove entries as you like; JPGs about 1600 px wide work best. The remaining `gallery-*.svg` files are drawings standing in for photos.
+- **Gallery:** twelve photos at the moment: the card photo, six from the Grand Tirolia website (grand-tirolia-kitzbuehel.hommage-hotels.com, one credited to Martin Mathes) and five from Bei Tomschy (beitomschy.at). They are used with the venues' material as a stand-in until our own photos exist; both are credited under the gallery. The images sit in the gallery section of `index.html`, each as an `<a>` wrapping an `<img>` with the file name, `alt` text and the `data-caption-en` / `data-caption-de` captions. Add or remove entries as you like; JPGs about 1600 px wide work best. The remaining `gallery-*.svg` files are drawings standing in for photos.
 - **Hero:** `images/hero.jpg`, see above. The page shows the whole photo on phones and crops the top and bottom a little on wide screens.
 - **Social preview:** `images/og-image.png` (1200 × 630) is what WhatsApp, iMessage and the like show when the link is shared. It is rendered from `images/og-image.svg`; on a Mac: `sips -s format png images/og-image.svg --out images/og-image.png`.
 - **Olive tree with the plaque:** `images/olive-tree.svg`, the names are plain text inside the file.
