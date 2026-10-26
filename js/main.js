@@ -413,7 +413,7 @@
       if (!canvas || !window.LMQR || !bank || !canvas.getContext) { return; }
       var iban = (bank.getAttribute('data-iban') || '').replace(/\s+/g, '').toUpperCase();
       var bic = (bank.getAttribute('data-bic') || '').replace(/\s+/g, '').toUpperCase();
-      var holder = bank.getAttribute('data-holder') || 'Lingling & Max';
+      var holder = bank.getAttribute('data-holder') || 'Maximilian Jaeger';
       // EPC069-12 "SEPA credit transfer" payload (GiroCode), version 002, UTF-8
       var payload = ['BCD', '002', '1', 'SCT', bic, holder, iban, 'EUR' + total.toFixed(2), '', '', reference()].join('\n');
       var qr;

@@ -41,7 +41,7 @@ Domain management → **Add a domain**. Netlify shows the DNS records for the re
 
 Search `index.html` for `PLACEHOLDER`. The important ones:
 
-1. **Bank details** for the olive trees: in the gifts section, the `<dl class="bank">` element carries `data-holder`, `data-iban` and `data-bic` (used for the QR code) and shows the same values as text. The IBAN is in; the BIC `NTSBDEB1XXX` was derived from it (N26) and the account holder still says "Lingling & Max". The holder must be the exact name on the account, because banks now check the payee name against the IBAN.
+1. **Bank details** for the olive trees: in the gifts section, the `<dl class="bank">` element carries `data-holder`, `data-iban` and `data-bic` (used for the QR code) and shows the same values as text. IBAN and account holder (Maximilian Jaeger) are in; the BIC `NTSBDEB1XXX` was derived from the IBAN (N26).
 2. **PayPal link:** the `data-paypal` and `href` on the PayPal button, `https://paypal.me/PLACEHOLDER`. Create a PayPal.me name at paypal.me and put the full link there. The amount is added automatically (`/280EUR` for two trees).
 3. **The church** for the ceremony, the exact spot for Friday's get-together, dress codes, travel details (shuttles, parking).
 4. **Hotels:** booking code `MAXLING2027`, the hold date, further hotel tips.

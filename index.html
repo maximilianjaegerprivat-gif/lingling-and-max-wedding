@@ -364,19 +364,19 @@
         <p class="lead" lang="de">Eure Anwesenheit ist schon unser größtes Geschenk.</p>
         <p class="lead" lang="zh">你们的到来已是我们最大的礼物。</p>
       </div>
-      <!-- PLACEHOLDER: account holder name (data-holder and the visible value; must match the bank account for payee checks), BIC assumed from the IBAN (N26), and the PayPal.me link. -->
+      <!-- PLACEHOLDER: the PayPal.me link below. BIC was derived from the IBAN (N26). -->
       <div class="olive">
         <div class="olive__art">
           <img src="images/olive-tree.svg" alt="An olive tree with a small gold plaque reading Lingling and Max" width="400" height="340" loading="lazy" decoding="async">
         </div>
         <div class="olive__body">
           <h3 class="olive__title"><span lang="en">Plant an olive tree for us</span><span lang="de">Pflanzt einen Olivenbaum für uns</span><span lang="zh">为我们种一棵橄榄树</span></h3>
-          <p lang="en">If you truly would like to bring a gift for us, you can choose to buy olive trees (€ 140 per tree) for our olive farms. Cash in a red bag at the entrance or PayPal is welcome ;-)</p>
-          <p lang="de">Wenn ihr uns wirklich etwas schenken möchtet, könnt ihr Olivenbäume (140 € pro Baum) für unsere Olivenhaine kaufen. Bargeld im roten Umschlag am Eingang oder PayPal – beides ist willkommen ;-)</p>
-          <p lang="zh">如果您真的想送我们一份礼物，可以为我们的橄榄园购买橄榄树（每棵 140 欧元）。在入口处递上红包现金或通过 PayPal 都可以 ;-)</p>
-          <p lang="en">You will get your name on the tree(s) and one bottle of olives for the next year!</p>
-          <p lang="de">Euer Name kommt an den Baum (oder die Bäume), und ihr bekommt eine Flasche Oliven für das nächste Jahr!</p>
-          <p lang="zh">您的名字会挂在树上，明年我们还会送您一瓶橄榄！</p>
+          <p lang="en">If you truly would like to bring a gift for us, you can choose to buy an olive tree or multiple trees for our olive farm.</p>
+          <p lang="de">Wenn ihr uns wirklich etwas schenken möchtet, könnt ihr einen oder mehrere Olivenbäume für unseren Olivenhain kaufen.</p>
+          <p lang="zh">如果您真的想送我们一份礼物，可以为我们的橄榄园购买一棵或多棵橄榄树。</p>
+          <p lang="en">In return you will get your name on the tree(s) in the form of an engraved gold plate, and one bottle of our own olive oil the year after the harvest.</p>
+          <p lang="de">Als Dankeschön kommt euer Name auf ein graviertes Goldschild am Baum – und ihr bekommt im Jahr nach der Ernte eine Flasche unseres eigenen Olivenöls.</p>
+          <p lang="zh">作为回礼，您的名字将刻在金色铭牌上挂在树上，并在收获后的次年收到一瓶我们自产的橄榄油。</p>
 
           <form class="olive-form" name="olive-trees" method="POST" action="/thanks.html" data-netlify="true" netlify-honeypot="bot-field" data-price="140">
             <input type="hidden" name="form-name" value="olive-trees">
@@ -416,8 +416,8 @@
 
             <div class="pay pay--transfer">
               <div class="pay__grid">
-                <dl class="bank" data-holder="Lingling &amp; Max" data-iban="DE51 1001 1001 2755 0619 60" data-bic="NTSBDEB1XXX">
-                  <div class="bank__row"><dt><span lang="en">Account holder</span><span lang="de">Kontoinhaber</span><span lang="zh">收款人</span></dt><dd><span data-copy-value="holder">Lingling &amp; Max</span></dd></div>
+                <dl class="bank" data-holder="Maximilian Jaeger" data-iban="DE51 1001 1001 2755 0619 60" data-bic="NTSBDEB1XXX">
+                  <div class="bank__row"><dt><span lang="en">Account holder</span><span lang="de">Kontoinhaber</span><span lang="zh">收款人</span></dt><dd><span data-copy-value="holder">Maximilian Jaeger</span></dd></div>
                   <div class="bank__row"><dt>IBAN</dt><dd><span data-copy-value="iban">DE51 1001 1001 2755 0619 60</span> <button class="copy js-only" type="button" data-copy="iban"><span class="copy__label"><span lang="en">Copy</span><span lang="de">Kopieren</span><span lang="zh">复制</span></span><span class="copy__done" hidden><span lang="en">Copied</span><span lang="de">Kopiert</span><span lang="zh">已复制</span></span></button></dd></div>
                   <div class="bank__row"><dt>BIC</dt><dd><span data-copy-value="bic">NTSBDEB1XXX</span></dd></div>
                   <div class="bank__row"><dt><span lang="en">Amount</span><span lang="de">Betrag</span><span lang="zh">金额</span></dt><dd><span data-total>€140</span></dd></div>
@@ -439,7 +439,7 @@
 
             <div class="form__actions">
               <button class="btn btn--primary" type="submit"><span lang="en">Reserve my tree(s)</span><span lang="de">Baum/Bäume reservieren</span><span lang="zh">预订我的橄榄树</span></button>
-              <p class="form__hint"><span lang="en">We will note your tree(s), put your name on the plaque and keep a bottle of olives for you.</span><span lang="de">Wir merken uns eure Bäume, setzen euren Namen auf das Schild und legen eine Flasche Oliven für euch zurück.</span><span lang="zh">我们会记下您的橄榄树，把您的名字刻在铭牌上，并为您留一瓶橄榄。</span></p>
+              <p class="form__hint"><span lang="en">We will note your tree(s), engrave your name on the gold plate and keep a bottle of our olive oil for you.</span><span lang="de">Wir merken uns eure Bäume, gravieren euren Namen auf das Goldschild und legen eine Flasche unseres Olivenöls für euch zurück.</span><span lang="zh">我们会记下您的橄榄树，把您的名字刻在金色铭牌上，并为您留一瓶我们的橄榄油。</span></p>
             </div>
           </form>
         </div>
