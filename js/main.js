@@ -23,30 +23,34 @@
       uid: 'friday-welcome-2027@lingling-and-max.netlify.app',
       start: [2027, 7, 9, 19, 0],
       end: [2027, 7, 9, 22, 0],
-      summary: { en: 'Lingling & Max — Welcome Get-Together', de: 'Lingling & Max – Willkommensabend' },
+      summary: { en: 'Lingling & Max — Welcome Get-Together', de: 'Lingling & Max – Willkommensabend', zh: 'Lingling & Max — 欢迎聚会' },
       location: 'Grand Tirolia Kitzbühel, Eichenheim 10, 6370 Kitzbühel, Austria',
       description: {
         en: 'Light bites and drinks. Arrive, relax and enjoy the evening with us!',
-        de: 'Kleine Häppchen und Drinks. Ankommen, entspannen und den Abend mit uns genießen!'
+        de: 'Kleine Häppchen und Drinks. Ankommen, entspannen und den Abend mit uns genießen!',
+        zh: '小食与饮品。抵达、放松，和我们一起享受这个夜晚！'
       }
     },
     {
       uid: 'saturday-wedding-2027@lingling-and-max.netlify.app',
       start: [2027, 7, 10, 11, 30],
       end: [2027, 7, 11, 2, 0],
-      summary: { en: 'Lingling & Max — The Wedding', de: 'Lingling & Max – Die Hochzeit' },
+      summary: { en: 'Lingling & Max — The Wedding', de: 'Lingling & Max – Die Hochzeit', zh: 'Lingling & Max — 婚礼' },
       location: 'Church & Grand Tirolia Kitzbühel, Eichenheim 10, 6370 Kitzbühel, Austria',
       description: {
         en: '11:30 Arrival at the church · 12:00 Church ceremony · 13:30 Coffee & tea on the terrace · 14:00 Group photos & bouquet throw · 17:00 Cocktail reception · 18:30 Dinner · 21:30 Opening dance · 21:40 Party!',
-        de: '11:30 Ankunft an der Kirche · 12:00 Kirchliche Trauung · 13:30 Kaffee & Tee auf der Terrasse · 14:00 Gruppenfotos & Brautstraußwurf · 17:00 Cocktail-Empfang · 18:30 Abendessen · 21:30 Eröffnungstanz · 21:40 Party!'
+        de: '11:30 Ankunft an der Kirche · 12:00 Kirchliche Trauung · 13:30 Kaffee & Tee auf der Terrasse · 14:00 Gruppenfotos & Brautstraußwurf · 17:00 Cocktail-Empfang · 18:30 Abendessen · 21:30 Eröffnungstanz · 21:40 Party!',
+        zh: '11:30 抵达教堂 · 12:00 教堂婚礼仪式 · 13:30 露台咖啡与茶 · 14:00 合影与抛花球 · 17:00 鸡尾酒会 · 18:30 晚宴 · 21:30 开场舞 · 21:40 派对！'
       }
     }
   ];
 
   var TITLES = {
     en: 'Lingling & Max — Wedding 2027',
-    de: 'Lingling & Max — Hochzeit 2027'
+    de: 'Lingling & Max — Hochzeit 2027',
+    zh: 'Lingling & Max — 2027 婚礼'
   };
+  var LANGS = ['en', 'de', 'zh'];
 
   /* ---------------------------------------------------------------
      Time zone helpers (no libraries): convert a Berlin wall-clock
@@ -89,24 +93,25 @@
   var ATTRS = ['placeholder', 'aria-label', 'title'];
 
   function getLang() {
-    return root.getAttribute('data-lang') === 'de' ? 'de' : 'en';
+    var l = root.getAttribute('data-lang');
+    return LANGS.indexOf(l) > 0 ? l : 'en';
   }
 
   function applyAttrTranslations(lang) {
     ATTRS.forEach(function (attr) {
-      var key = 'data-' + attr + '-de';
-      var nodes = doc.querySelectorAll('[' + key + ']');
+      var nodes = doc.querySelectorAll('[data-' + attr + '-de]');
       for (var i = 0; i < nodes.length; i++) {
         var el = nodes[i];
         var enKey = 'data-' + attr + '-en';
         if (!el.hasAttribute(enKey)) { el.setAttribute(enKey, el.getAttribute(attr) || ''); }
-        el.setAttribute(attr, el.getAttribute(lang === 'de' ? key : enKey));
+        var key = 'data-' + attr + '-' + lang;
+        el.setAttribute(attr, el.getAttribute(lang !== 'en' && el.hasAttribute(key) ? key : enKey));
       }
     });
   }
 
   function setLang(lang, persist) {
-    lang = lang === 'de' ? 'de' : 'en';
+    lang = LANGS.indexOf(lang) > 0 ? lang : 'en';
     root.setAttribute('data-lang', lang);
     root.lang = lang;
     doc.title = TITLES[lang];
@@ -199,7 +204,7 @@
       'PRODID:-//Lingling and Max//Wedding 2027//' + lang.toUpperCase(),
       'CALSCALE:GREGORIAN',
       'METHOD:PUBLISH',
-      'X-WR-CALNAME:' + icsText(lang === 'de' ? 'Hochzeit Lingling & Max' : 'Lingling & Max Wedding'),
+      'X-WR-CALNAME:' + icsText(lang === 'de' ? 'Hochzeit Lingling & Max' : lang === 'zh' ? 'Lingling & Max 婚礼' : 'Lingling & Max Wedding'),
       'X-WR-TIMEZONE:' + TIMEZONE,
       'BEGIN:VTIMEZONE',
       'TZID:' + TIMEZONE,
@@ -397,7 +402,8 @@
 
     function money(n) {
       var s = String(Math.round(n));
-      return getLang() === 'de' ? s + ' €' : '€' + s;
+      var l = getLang();
+      return l === 'de' ? s + ' €' : l === 'zh' ? s + ' 欧元' : '€' + s;
     }
     function reference() {
       var n = nameInput ? nameInput.value.replace(/[\r\n]+/g, ' ').trim() : '';

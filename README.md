@@ -1,6 +1,6 @@
 # Lingling & Max — Wedding 2027
 
-The public wedding website for Lingling and Max: one page, English with a German toggle, hosted on Netlify at **https://lingling-and-max.netlify.app**. The wedding is on Saturday 10 July 2027 in Kitzbühel, with a welcome evening on Friday 9 July.
+The public wedding website for Lingling and Max: one page, English with German and Chinese toggles, hosted on Netlify at **https://lingling-and-max.netlify.app**. The wedding is on Saturday 10 July 2027 in Kitzbühel, with a welcome evening on Friday 9 July.
 
 Plain HTML, CSS and vanilla JavaScript. No framework, no build step, no dependencies, no third-party requests (no fonts, analytics, maps, payment scripts or CDN files), so no cookie banner is needed. Everything reads correctly with JavaScript turned off.
 
@@ -62,17 +62,18 @@ The form entry tells you who reserved how many trees and how they intend to pay;
 
 ### Texts
 
-Every text exists twice in `index.html`, English and German, right next to each other:
+Every text exists three times in `index.html`, English, German and Chinese, right next to each other:
 
 ```html
-<span lang="en">Welcome</span><span lang="de">Willkommen</span>
+<span lang="en">Welcome</span><span lang="de">Willkommen</span><span lang="zh">欢迎</span>
 <p lang="en">A whole paragraph…</p>
 <p lang="de">Ein ganzer Absatz…</p>
+<p lang="zh">一整段文字……</p>
 ```
 
-Edit both, keep the `lang` attributes. Form placeholders carry the German version in a `data-placeholder-de` attribute.
+Edit all three, keep the `lang` attributes. Form placeholders carry the other languages in `data-placeholder-de` / `data-placeholder-zh` attributes.
 
-> **The German is a draft** and should be checked by us before the site goes out. Same for the German event titles in `js/main.js` (used for the calendar file).
+> **The German and the Chinese are drafts** and should be checked by us (and Lingling's family) before the site goes out. Same for the event titles in `js/main.js` (used for the calendar file).
 
 ### Dates and times
 

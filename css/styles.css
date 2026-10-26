@@ -143,9 +143,12 @@ a:hover { color: var(--gold-text); text-decoration-color: currentColor; }
 /* ---------- Language switching ----------
    Every text exists twice. German copies are hidden until <html data-lang="de"> is set by JS.
    `display: revert` restores the browser default for the element (block for <p>, inline for <span>…). */
-body [lang="de"] { display: none; }
-html[data-lang="de"] body [lang="en"] { display: none; }
+body [lang="de"], body [lang="zh"] { display: none; }
+html[data-lang="de"] body [lang="en"], html[data-lang="de"] body [lang="zh"] { display: none; }
 html[data-lang="de"] body [lang="de"] { display: revert; }
+html[data-lang="zh"] body [lang="en"], html[data-lang="zh"] body [lang="de"] { display: none; }
+html[data-lang="zh"] body [lang="zh"] { display: revert; }
+html[data-lang="zh"] { --font-serif: Baskerville, Garamond, "Palatino Linotype", "Book Antiqua", Palatino, Georgia, "Songti SC", "Songti TC", "Noto Serif CJK SC", "Source Han Serif SC", SimSun, serif; }
 
 /* ---------- JS availability ---------- */
 .no-js .js-only { display: none !important; }

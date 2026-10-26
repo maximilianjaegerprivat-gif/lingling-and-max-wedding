@@ -4,7 +4,7 @@
   root.className = root.className.replace(/\bno-js\b/, 'js');
   try {
     var saved = localStorage.getItem('lm-lang');
-    if (saved === 'de' || saved === 'en') {
+    if (saved === 'de' || saved === 'en' || saved === 'zh') {
       root.setAttribute('data-lang', saved);
       root.lang = saved;
     }
