@@ -111,7 +111,18 @@ async function resolveDatabase(token, id) {
     }
     cursor = res.has_more ? res.next_cursor : null;
   } while (cursor);
-  throw new Error('no database found inside page ' + id);
+  // The page holds no database yet (a simple table is not one): create "Replies" in it.
+  const properties = { 'Name': { title: {} } };
+  for (const name of Object.keys(COLUMNS)) { properties[name] = { [COLUMNS[name]]: {} }; }
+  const created = await notion(token, 'POST', '/databases', {
+    parent: { type: 'page_id', page_id: id },
+    title: [{ type: 'text', text: { content: 'Replies' } }],
+    properties
+  });
+  const createdId = String(created.id).replace(/-/g, '');
+  console.log('submission-created: created database ' + createdId + ' inside page ' + id);
+  resolved = { id: createdId, db: created };
+  return resolved;
 }
 
 // Make sure the database has every column we write to; add the missing ones.
