@@ -11,9 +11,9 @@
 
   /* ---------------------------------------------------------------
      Event data (single source of truth for countdown + calendar file)
-     Times are local to Europe/Berlin.
+     Times are local to Europe/Vienna (Kitzbühel).
      --------------------------------------------------------------- */
-  var TIMEZONE = 'Europe/Vienna';
+  var TIMEZONE = 'Europe/Vienna'; // Kitzbühel
   var SITE_URL = 'https://lingling-and-max.netlify.app/';
 
   var CEREMONY = { y: 2027, m: 7, d: 10, h: 12, min: 0 };
@@ -53,7 +53,7 @@
   var LANGS = ['en', 'de', 'zh'];
 
   /* ---------------------------------------------------------------
-     Time zone helpers (no libraries): convert a Berlin wall-clock
+     Time zone helpers (no libraries): convert a Europe/Vienna wall-clock
      time to a UTC timestamp using Intl, with a fixed fallback.
      --------------------------------------------------------------- */
   function tzOffsetMs(utcMs, tz) {
@@ -77,7 +77,7 @@
     return utc;
   }
 
-  function berlin(y, m, d, h, min) {
+  function localToUtc(y, m, d, h, min) {
     try {
       if (window.Intl && Intl.DateTimeFormat.prototype.formatToParts) {
         return zonedToUtc(y, m, d, h, min, TIMEZONE);
@@ -88,9 +88,9 @@
   }
 
   /* ---------------------------------------------------------------
-     Language toggle (EN / DE), remembered in localStorage
+     Language toggle (EN / DE / ZH), remembered in localStorage
      --------------------------------------------------------------- */
-  var ATTRS = ['placeholder', 'aria-label', 'title'];
+  var ATTRS = ['placeholder', 'aria-label', 'title', 'alt'];
 
   function getLang() {
     var l = root.getAttribute('data-lang');
@@ -111,10 +111,13 @@
   }
 
   function setLang(lang, persist) {
+    lang = String(lang || 'en').split('-')[0];
     lang = LANGS.indexOf(lang) > 0 ? lang : 'en';
     root.setAttribute('data-lang', lang);
-    root.lang = lang;
-    doc.title = TITLES[lang];
+    root.lang = lang === 'zh' ? 'zh-Hans' : lang;
+    if (doc.body && doc.body.getAttribute('data-page') === 'home') { doc.title = TITLES[lang]; }
+    var langInputs = doc.querySelectorAll('input[name="lang"]');
+    for (var li = 0; li < langInputs.length; li++) { langInputs[li].value = lang; }
     applyAttrTranslations(lang);
     var buttons = doc.querySelectorAll('[data-set-lang]');
     for (var i = 0; i < buttons.length; i++) {
@@ -141,10 +144,10 @@
     if (!box) { return; }
     var today = doc.getElementById('countdown-today');
     var past = doc.getElementById('countdown-past');
-    var target = berlin(CEREMONY.y, CEREMONY.m, CEREMONY.d, CEREMONY.h, CEREMONY.min);
-    var endOfDay = berlin(CEREMONY.y, CEREMONY.m, CEREMONY.d + 1, 0, 0);
+    var target = localToUtc(CEREMONY.y, CEREMONY.m, CEREMONY.d, CEREMONY.h, CEREMONY.min);
+    var endOfDay = localToUtc(CEREMONY.y, CEREMONY.m, CEREMONY.d + 1, 0, 0);
     var fields = {};
-    ['days', 'hours', 'minutes', 'seconds'].forEach(function (u) {
+    ['days', 'hours', 'minutes'].forEach(function (u) {
       fields[u] = box.querySelector('[data-unit="' + u + '"]');
     });
     var timer = null;
@@ -165,22 +168,20 @@
       var days = Math.floor(s / 86400);
       var hours = Math.floor((s % 86400) / 3600);
       var minutes = Math.floor((s % 3600) / 60);
-      var seconds = s % 60;
       fields.days.textContent = String(days);
       fields.hours.textContent = pad(hours);
       fields.minutes.textContent = pad(minutes);
-      fields.seconds.textContent = pad(seconds);
     }
 
     tick();
-    timer = setInterval(tick, 1000);
+    timer = setInterval(tick, 30000);
   })();
 
   /* ---------------------------------------------------------------
      Add to calendar: build an .ics file in the current language
      --------------------------------------------------------------- */
   function icsText(s) {
-    return String(s).replace(/\\/g, '\\\\').replace(/;/g, '\;').replace(/,/g, '\\,').replace(/\r?\n/g, '\\n');
+    return String(s).replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\r?\n/g, '\\n');
   }
   function icsLocal(parts) {
     function p(n) { return n < 10 ? '0' + n : String(n); }
@@ -279,7 +280,6 @@
       a.setAttribute('aria-controls', panels[i].id);
       panels[i].setAttribute('role', 'tabpanel');
       panels[i].setAttribute('aria-labelledby', a.id);
-      panels[i].tabIndex = 0;
     });
 
     function select(i, focus) {
@@ -405,9 +405,17 @@
       var l = getLang();
       return l === 'de' ? s + ' €' : l === 'zh' ? s + ' 欧元' : '€' + s;
     }
+    function sepaText(str) {
+      // SEPA remittance allows a-z A-Z 0-9 / - ? : ( ) . , ' + and space
+      var map = { 'ä': 'ae', 'ö': 'oe', 'ü': 'ue', 'Ä': 'Ae', 'Ö': 'Oe', 'Ü': 'Ue', 'ß': 'ss', 'ø': 'oe', 'Ø': 'Oe', 'æ': 'ae', 'Æ': 'Ae', 'œ': 'oe', 'Œ': 'Oe', 'ł': 'l', 'Ł': 'L', 'ð': 'd', 'Ð': 'D', 'þ': 'th', 'Þ': 'Th', '&': ' and ' };
+      var out = str.replace(/[äöüÄÖÜßøØæÆœŒłŁðÐþÞ&]/g, function (c) { return map[c]; });
+      if (out.normalize) { out = out.normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
+      return out.replace(/[^A-Za-z0-9 \/\-?:().,'+]/g, '').replace(/\s+/g, ' ').trim();
+    }
     function reference() {
-      var n = nameInput ? nameInput.value.replace(/[\r\n]+/g, ' ').trim() : '';
-      return ('Olive tree' + (count > 1 ? 's' : '') + ' for Lingling & Max' + (n ? ' - ' + n : '')).slice(0, 140);
+      var n = nameInput ? sepaText(nameInput.value) : '';
+      if (!/[A-Za-z0-9]/.test(n.replace(/\band\b/g, ''))) { n = ''; } // e.g. a name in Chinese characters only
+      return ('Olive tree' + (count > 1 ? 's' : '') + ' for Lingling and Max' + (n ? ' - ' + n : '')).slice(0, 140);
     }
     function drawQr() {
       if (!canvas || !window.LMQR || !bank || !canvas.getContext) { return; }
@@ -418,9 +426,12 @@
       var payload = ['BCD', '002', '1', 'SCT', bic, holder, iban, 'EUR' + total.toFixed(2), '', '', reference()].join('\n');
       var qr;
       try { qr = window.LMQR.encode(payload); } catch (e) { return; }
-      var quiet = 4, scale = 4, dim = (qr.size + quiet * 2) * scale;
+      var quiet = 4, dpr = window.devicePixelRatio || 1;
+      var scale = Math.max(2, Math.ceil(176 * dpr / (qr.size + quiet * 2)));
+      var dim = (qr.size + quiet * 2) * scale;
       canvas.width = dim;
       canvas.height = dim;
+      canvas.style.width = canvas.style.height = (dim / dpr) + 'px';
       var ctx = canvas.getContext('2d');
       ctx.fillStyle = '#ffffff';
       ctx.fillRect(0, 0, dim, dim);
@@ -435,6 +446,8 @@
       count = parseInt(select.value, 10) || 1;
       total = count * price;
       Array.prototype.forEach.call(totals, function (el) { el.textContent = money(total); });
+      var per = form.querySelector('[data-per-tree]');
+      if (per) { per.hidden = count === 1; }
       Array.prototype.forEach.call(refs, function (el) { el.textContent = reference(); });
       if (paypal) {
         paypal.href = paypal.getAttribute('data-paypal').replace(/\/+$/, '') + '/' + total + 'EUR';
@@ -452,17 +465,58 @@
     Array.prototype.forEach.call(form.querySelectorAll('[data-copy]'), function (btn) {
       btn.addEventListener('click', function () {
         var target = form.querySelector('[data-copy-value="' + btn.getAttribute('data-copy') + '"]');
-        if (!target || !navigator.clipboard) { return; }
+        var status = form.querySelector('[data-copy-status]');
+        var MSG = { copied: { en: 'Copied', de: 'Kopiert', zh: '已复制' }, selected: { en: 'Text selected, press Ctrl or Cmd and C to copy', de: 'Text markiert, mit Strg oder Cmd und C kopieren', zh: '文本已选中，请按 Ctrl 或 Cmd 加 C 复制' } };
+        function say(key) { if (status) { status.textContent = ''; setTimeout(function () { status.textContent = MSG[key][getLang()]; }, 50); } }
+        if (!target) { return; }
+        if (!navigator.clipboard) { var r0 = doc.createRange(); r0.selectNodeContents(target); var s0 = window.getSelection(); s0.removeAllRanges(); s0.addRange(r0); say('selected'); return; }
         navigator.clipboard.writeText(target.textContent.trim()).then(function () {
           var label = btn.querySelector('.copy__label'), done = btn.querySelector('.copy__done');
           if (!label || !done) { return; }
-          label.hidden = true; done.hidden = false;
+          label.hidden = true; done.hidden = false; say('copied');
           setTimeout(function () { label.hidden = false; done.hidden = true; }, 1600);
+        }).catch(function () {
+          say('selected');
+          // Clipboard blocked: select the text so the guest can copy it by hand.
+          var range = doc.createRange(); range.selectNodeContents(target);
+          var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
         });
       });
     });
     doc.addEventListener('langchange', update);
     update();
+  })();
+
+  /* ---------------------------------------------------------------
+     Forms: show that a submission is on its way, prevent double sends
+     --------------------------------------------------------------- */
+  (function submitFeedback() {
+    Array.prototype.forEach.call(doc.querySelectorAll('form[data-netlify]'), function (form) {
+      var btn = form.querySelector('button[type="submit"]');
+      var label = btn && btn.querySelector('.btn__label'), busy = btn && btn.querySelector('.btn__busy');
+      function reset() { if (!btn) { return; } btn.disabled = false; btn.removeAttribute('aria-busy'); if (label && busy) { label.hidden = false; busy.hidden = true; } }
+      form.addEventListener('submit', function () {
+        if (form.checkValidity && !form.checkValidity()) { return; }
+        if (!btn || btn.getAttribute('aria-busy') === 'true') { return; }
+        btn.setAttribute('aria-busy', 'true');
+        if (label && busy) { label.hidden = true; busy.hidden = false; }
+        setTimeout(function () { btn.disabled = true; }, 0);
+        setTimeout(reset, 15000); // network failed or the guest came back: let them try again
+      });
+      window.addEventListener('pageshow', reset);
+    });
+
+    // RSVP: a decline must not submit the attendance details hidden by CSS
+    var rsvp = doc.querySelector('form[name="rsvp"]');
+    if (rsvp) {
+      var no = rsvp.querySelector('#rsvp-no');
+      function syncAttending() {
+        var off = !!(no && no.checked);
+        Array.prototype.forEach.call(rsvp.querySelectorAll('.form__row--attending input, .form__row--attending select, .form__row--attending textarea'), function (el) { el.disabled = off; });
+      }
+      Array.prototype.forEach.call(rsvp.querySelectorAll('input[name="attending"]'), function (r) { r.addEventListener('change', syncAttending); });
+      syncAttending();
+    }
   })();
 
   /* ---------------------------------------------------------------
@@ -507,13 +561,14 @@
       current = id;
       links.forEach(function (a) {
         var on = a.getAttribute('href') === '#' + id;
-        if (on) { a.setAttribute('aria-current', 'true'); } else { a.removeAttribute('aria-current'); }
+        if (on) { a.setAttribute('aria-current', 'location'); } else { a.removeAttribute('aria-current'); }
       });
       // Keep the active link visible in the horizontally scrolling nav on small screens.
       var active = byId[id];
-      if (active && navEl && navEl.scrollWidth > navEl.clientWidth) {
-        var left = active.offsetLeft - (navEl.clientWidth - active.offsetWidth) / 2;
-        navEl.scrollTo({ left: left, behavior: 'smooth' });
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (navEl && navEl.scrollWidth > navEl.clientWidth) {
+        var left = active ? active.offsetLeft - (navEl.clientWidth - active.offsetWidth) / 2 : 0;
+        navEl.scrollTo({ left: left, behavior: reduce ? 'auto' : 'smooth' });
       }
     }
 

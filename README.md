@@ -9,7 +9,8 @@ Plain HTML, CSS and vanilla JavaScript. No framework, no build step, no dependen
 | File | What it is |
 | --- | --- |
 | `index.html` | The whole site: hero, welcome, schedule, venue and travel, hotels, gallery, gifts (olive trees), RSVP, footer |
-| `thanks.html` | The page guests see after sending the RSVP or the olive-tree form |
+| `thanks.html` | The page guests see after sending the RSVP |
+| `thanks-trees.html` | The page after reserving olive trees: repeats the bank details and the PayPal and cash notes |
 | `css/styles.css` | All styling, with the colours and fonts defined at the top |
 | `js/main.js` | Countdown, day tabs, lightbox, EN/DE toggle, calendar download, olive-tree form, sticky-nav highlighting |
 | `js/qr.js` | A small QR-code generator for the bank-transfer code (no library) |
@@ -17,6 +18,7 @@ Plain HTML, CSS and vanilla JavaScript. No framework, no build step, no dependen
 | `images/` | Hero photo, gallery images, olive tree and sprig drawings, favicons, the social-preview image |
 | `lingling-and-max.ics` | Calendar file (used when JavaScript is off; with JS the file is generated in the chosen language) |
 | `netlify.toml` | Netlify settings: publish folder, security and privacy headers |
+| `DESIGN_AUDIT.md`, `DESIGN_SYSTEM.md` | The design audit (scores, guest journeys, open decisions) and the design tokens the stylesheet follows |
 
 ## Netlify (done)
 
@@ -28,10 +30,10 @@ If it ever has to be set up again: Netlify → Add new project → Import from G
 
 Both forms use Netlify Forms, nothing to host.
 
-- **Where replies are listed:** Netlify → project → **Forms**. `rsvp` holds the replies (name, email, attending, guests, dietary notes, message); `olive-trees` holds the tree reservations (name for the plaque, email, number of trees, chosen payment method). Both can be exported as CSV.
+- **Where replies are listed:** Netlify → project → **Forms**. `rsvp` holds the replies (name, email, attending, days, guests, dietary notes, message, lang); `olive-trees` holds the tree reservations (name for the plaque, email, number of trees, chosen payment method, lang). Both can be exported as CSV.
 - **Email notifications:** Forms → **Submission notifications** → **Add notification** → *Email notification*, once per form, with the address that should receive each entry.
 - **Spam:** both forms have a hidden honeypot field and Netlify filters the rest. Flagged entries appear under *Spam*.
-- The free plan includes 100 submissions per month across all forms.
+- The free plan includes 100 submissions per month across both forms. If the invitation goes out to everyone at once, RSVPs plus tree reservations can exceed that in one month: either upgrade Netlify Forms for those months or send the link in waves and watch Forms → Usage.
 
 ### Custom domain (optional)
 
@@ -44,9 +46,10 @@ Search `index.html` for `PLACEHOLDER`. The important ones:
 1. **Bank details** for the olive trees: in the gifts section, the `<dl class="bank">` element carries `data-holder`, `data-iban` and `data-bic` (used for the QR code) and shows the same values as text. IBAN and account holder (Maximilian Jaeger) are in; the BIC `NTSBDEB1XXX` was derived from the IBAN (N26).
 2. **PayPal link:** the `data-paypal` and `href` on the PayPal button, `https://paypal.me/PLACEHOLDER`. Create a PayPal.me name at paypal.me and put the full link there. The amount is added automatically (`/280EUR` for two trees).
 3. **The church** for the ceremony, the exact spot for Friday's get-together, dress codes, travel details (shuttles, parking).
-4. **Hotels:** booking code `MAXLING2027`, the hold date, further hotel tips.
-5. **Contact email** in the footer (`hello@example.com`).
-6. **Hero photo:** `images/hero.jpg` was cropped from the invitation card (728 px wide). Drop in the original photo at full resolution under the same name.
+4. **Hotels:** booking code `MAXLING2027`, the hold date, how to book (phone, email or link), further hotel tips.
+5. **RSVP deadline**, the church-to-hotel transfer after the ceremony, what happens on Sunday, arrival advice for guests from abroad (visa invitation letters), and a day-of contact number. The audit lists all open points in `DESIGN_AUDIT.md`, section 10.
+6. **Contact email** in the footer (`hello@example.com`).
+7. **Hero photo:** `images/hero.jpg` was cropped from the invitation card (728 px wide). Drop in the original photo at full resolution under the same name.
 
 ## How the olive-tree gift works
 
@@ -71,7 +74,9 @@ Every text exists three times in `index.html`, English, German and Chinese, righ
 <p lang="zh">一整段文字……</p>
 ```
 
-Edit all three, keep the `lang` attributes. Form placeholders carry the other languages in `data-placeholder-de` / `data-placeholder-zh` attributes.
+Edit all three, keep the `lang` attributes (Chinese is tagged `zh-Hans`). Form placeholders, labels for screen readers and image descriptions carry the other languages in `data-placeholder-de` / `data-placeholder-zh`, `data-aria-label-…` and `data-alt-…` attributes.
+
+To send guests straight to a language, add it to the link: `https://lingling-and-max.netlify.app/?lang=zh` or `?lang=de`. The choice is remembered on their device.
 
 > **The German and the Chinese are drafts** and should be checked by us (and Lingling's family) before the site goes out. Same for the event titles in `js/main.js` (used for the calendar file).
 
@@ -83,12 +88,14 @@ If the schedule changes, update it in three places: the texts in `index.html`, t
 
 - **Gallery:** empty on purpose for now. To fill it, add list items inside `<ul class="gallery">` in the gallery section of `index.html`, each an `<a>` wrapping an `<img>` with the file name, `alt` text and `data-caption-en` / `data-caption-de` captions; the lightbox picks them up automatically. JPGs about 1600 px wide work best. Candidate photos from the Grand Tirolia and Bei Tomschy websites are in the git history (commit 0a662ba) if we want them back.
 - **Hero:** `images/hero.jpg`, see above. The page shows the whole photo on phones and crops the top and bottom a little on wide screens.
-- **Social preview:** `images/og-image.png` (1200 × 630) is what WhatsApp, iMessage and the like show when the link is shared. It is rendered from `images/og-image.svg`; on a Mac: `sips -s format png images/og-image.svg --out images/og-image.png`.
+- **Social preview:** `images/og-image.jpg` (1200 × 630) is what WhatsApp, iMessage and the like show when the link is shared. It is rendered from `images/og-image.svg`; on a Mac: `sips -s format jpeg -s formatOptions 85 images/og-image.svg --out images/og-image.jpg`.
 - **Olive tree with the plaque:** `images/olive-tree.svg`, the names are plain text inside the file.
 
 ### Colours and fonts
 
-Defined at the top of `css/styles.css` as variables (`--green`, `--gold`, `--ivory`, …). The typeface is the system serif stack (Baskerville on Apple devices, Garamond or Palatino Linotype on Windows, Noto Serif on Android), so nothing is downloaded.
+Defined at the top of `css/styles.css` as variables and documented in `DESIGN_SYSTEM.md`: white paper (`--paper`), a faint green-grey band (`--paper-tint`), the sage RSVP band (`--paper-sage`), forest-green ink (`--green`, `--green-body`, `--green-muted`), one gold for the ampersand and ornaments (`--gold`) and a darker gold for small capitals (`--gold-text`), neutral hairlines (`--line`, `--line-strong`). The typeface is the system serif stack (Baskerville on Apple devices, Palatino Linotype or Garamond on Windows, Noto Serif on Android; Songti or SimSun for Chinese), so nothing is downloaded.
+
+If you ever replace a photo under the same file name, add `?v=2` to its `src` (and to the `og:image` URL), because `netlify.toml` lets browsers cache images for a week.
 
 ## Running it locally
 

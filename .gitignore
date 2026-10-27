@@ -12,3 +12,6 @@
 # Never commit secrets (version 2 will use environment variables on Netlify)
 .env
 .env.*
+
+# local comparison image, not part of the site
+restyle-before-after.jpg
