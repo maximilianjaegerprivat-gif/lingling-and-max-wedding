@@ -25,28 +25,27 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:friday-welcome-2027@lingling-and-max.netlify.app
 DTSTAMP:20261026T190000Z
-DTSTART;TZID=Europe/Vienna:20270709T190000
-DTEND;TZID=Europe/Vienna:20270709T220000
-SUMMARY:Lingling & Max — Welcome Get-Together
-LOCATION:Grandhotel Kitzbühel\, Malinggasse 12\, 6370 Kitzbühel\, Au
- stria
-DESCRIPTION:Light bites and drinks. Arrive\, relax and enjoy the eveni
- ng with us!\nhttps://lingling-and-max.netlify.app/
+DTSTART;TZID=Europe/Vienna:20270709T180000
+DTEND;TZID=Europe/Vienna:20270709T230000
+SUMMARY:Lingling & Max — Welcome evening
+LOCATION:Grandhotel Kitzbühel\, Malinggasse 12\, 6370 Kitzbühel\, Austria
+DESCRIPTION:18:00 Welcome drinks at the hotel bar · 19:00 Tyrolean buffet 
+ · later: the bar. Arrive\, relax and enjoy the evening with us!
 URL:https://lingling-and-max.netlify.app/
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
 UID:saturday-wedding-2027@lingling-and-max.netlify.app
 DTSTAMP:20261026T190000Z
-DTSTART;TZID=Europe/Vienna:20270710T113000
+DTSTART;TZID=Europe/Vienna:20270710T110000
 DTEND;TZID=Europe/Vienna:20270711T020000
 SUMMARY:Lingling & Max — The Wedding
-LOCATION:Church & Grandhotel Kitzbühel\, Malinggasse 12\, 6370 Kitzb
- ühel\, Austria
-DESCRIPTION:11:30 Arrival at the church · 12:00 Church ceremony · 13:3
- 0 Coffee & tea on the terrace · 14:00 Group photos & bouquet throw · 
- 17:00 Cocktail reception · 18:30 Dinner · 21:30 Opening dance · 21:40
-  Party!\nhttps://lingling-and-max.netlify.app/
+LOCATION:Church & Grandhotel Kitzbühel\, Malinggasse 12\, 6370 Kitzbühel\
+ , Austria
+DESCRIPTION:Before 12:00 transfer from the hotel to the church · 12:00 Chu
+ rch ceremony · 14:00–16:00 optional coffee and cake at Hochkitzbühel 
+ · 18:00 Reception · 19:00 Dinner in the ballroom · speeches\, cake\, fi
+ rst dance · 21:30 Dancing · 22:30 Party
 URL:https://lingling-and-max.netlify.app/
 STATUS:CONFIRMED
 END:VEVENT
@@ -57,8 +56,8 @@ DTSTART;TZID=Europe/Vienna:20270711T100000
 DTEND;TZID=Europe/Vienna:20270711T130000
 SUMMARY:Lingling & Max — Farewell Breakfast
 LOCATION:Grandhotel Kitzbühel\, Malinggasse 12\, 6370 Kitzbühel\, Austria
-DESCRIPTION:Coffee\, pretzels\, and one last morning together before every
- one travels home.\nhttps://lingling-and-max.netlify.app/
+DESCRIPTION:Coffee\, pretzels\, and one last morning together before everyo
+ ne travels home.\nhttps://lingling-and-max.netlify.app/
 URL:https://lingling-and-max.netlify.app/
 STATUS:CONFIRMED
 END:VEVENT

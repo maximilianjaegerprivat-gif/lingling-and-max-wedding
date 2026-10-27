@@ -353,6 +353,7 @@ html[data-lang="zh"] .hero__date { letter-spacing: .15em; padding-left: .15em; }
 .timeline__icon svg { width: 1.35rem; height: 1.35rem; }
 .timeline__time { font-size: 1.2rem; line-height: 1.4; font-variant-numeric: tabular-nums; color: var(--green); text-align: right; }
 .timeline__when { display: flex; flex-direction: column; align-items: flex-end; }
+.timeline .timeline__time--word { display: block; font-size: var(--label-s); letter-spacing: var(--track-s); text-transform: uppercase; color: var(--gold-text); line-height: 1.35; padding-top: .45rem; max-width: 6.5rem; }
 .timeline__until { font-size: var(--label-m); color: var(--green-muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .timeline__body { min-width: 0; padding-top: .2rem; }
 .timeline__title { margin-bottom: .1rem; font-size: var(--fs-4); }

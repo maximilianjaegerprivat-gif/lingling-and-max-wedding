@@ -31,6 +31,25 @@ const COLUMNS = {
   'Netlify ID': 'rich_text'
 };
 
+// Columns that may already exist under another name (same type) and are used instead.
+const ALIASES = {
+  'Guests': ['Amount of people', 'Number of guests', 'People', 'Personen', 'Gäste'],
+  'Email': ['Email address', 'E-Mail', 'E-mail', 'Mail'],
+  'Message': ['Comments', 'Comment', 'Note', 'Notes', 'Nachricht']
+};
+
+// Write a value into a plain-text column when the existing column is text, not the type we expect.
+function asText(value) {
+  let s = '';
+  if (value.email != null) s = value.email;
+  else if (value.select) s = value.select.name;
+  else if (value.multi_select) s = value.multi_select.map(o => o.name).join(', ');
+  else if (value.number != null) s = String(value.number);
+  else if (value.date) s = value.date.start;
+  else if (value.rich_text) return value;
+  return text(s);
+}
+
 function text(value) {
   const s = String(value == null ? '' : value).slice(0, 1900);
   return { rich_text: s ? [{ text: { content: s } }] : [] };
@@ -75,35 +94,46 @@ async function ensureColumns(token, databaseId) {
   for (const name of Object.keys(existing)) {
     if (existing[name].type === 'title') { titleName = name; }
   }
+  const names = {};
+  const types = {};
   const missing = {};
+  const usable = (col, type) => existing[col] && (existing[col].type === type || existing[col].type === 'rich_text');
   for (const name of Object.keys(COLUMNS)) {
+    const col = usable(name, COLUMNS[name]) ? name : (ALIASES[name] || []).find(a => usable(a, COLUMNS[name]));
+    if (col) { names[name] = col; types[name] = existing[col].type; continue; }
+    names[name] = name;
+    types[name] = COLUMNS[name];
     if (!existing[name]) { missing[name] = { [COLUMNS[name]]: {} }; }
   }
   if (Object.keys(missing).length) {
     await notion(token, 'PATCH', '/databases/' + databaseId, { properties: missing });
   }
-  return titleName;
+  return { titleName, names, types };
 }
 
-function buildProperties(titleName, payload) {
+function buildProperties(columns, payload) {
   const d = payload.data || {};
   const form = payload.form_name || '';
   const props = {};
-  props[titleName] = { title: [{ text: { content: String(d.name || payload.name || 'Unnamed').slice(0, 200) } }] };
-  props['Form'] = select(form, { 'rsvp': 'RSVP', 'olive-trees': 'Olive tree' });
-  props['Email'] = { email: d.email ? String(d.email).slice(0, 200) : null };
-  props['Language'] = select(d.lang, { en: 'English', de: 'Deutsch', zh: '中文' });
-  props['Submitted'] = { date: { start: payload.created_at || new Date().toISOString() } };
-  props['Netlify ID'] = text(payload.id || payload.number || '');
+  const set = (name, value) => {
+    const col = columns.names[name] || name;
+    props[col] = columns.types[name] === COLUMNS[name] ? value : asText(value);
+  };
+  props[columns.titleName] = { title: [{ text: { content: String(d.name || payload.name || 'Unnamed').slice(0, 200) } }] };
+  set('Form', select(form, { 'rsvp': 'RSVP', 'olive-trees': 'Olive tree' }));
+  set('Email', { email: d.email ? String(d.email).slice(0, 200) : null });
+  set('Language', select(d.lang, { en: 'English', de: 'Deutsch', zh: '中文' }));
+  set('Submitted', { date: { start: payload.created_at || new Date().toISOString() } });
+  set('Netlify ID', text(payload.id || payload.number || ''));
   if (form === 'rsvp') {
-    props['Attending'] = select(d.attending, { yes: 'Yes', no: 'No' });
-    props['Days'] = multi(d.days, { friday: 'Friday', saturday: 'Saturday' });
-    props['Guests'] = number(d.guests);
-    props['Dietary'] = text(d.dietary);
-    props['Message'] = text(d.message);
+    set('Attending', select(d.attending, { yes: 'Yes', no: 'No' }));
+    set('Days', multi(d.days, { friday: 'Friday', saturday: 'Saturday' }));
+    set('Guests', number(d.guests));
+    set('Dietary', text(d.dietary));
+    set('Message', text(d.message));
   } else if (form === 'olive-trees') {
-    props['Trees'] = number(d.trees);
-    props['Payment'] = select(d.payment, { 'bank-transfer': 'Bank transfer', 'paypal': 'PayPal', 'cash': 'Cash' });
+    set('Trees', number(d.trees));
+    set('Payment', select(d.payment, { 'bank-transfer': 'Bank transfer', 'paypal': 'PayPal', 'cash': 'Cash' }));
   }
   return props;
 }
@@ -125,10 +155,10 @@ exports.handler = async function (event) {
     return { statusCode: 400, body: 'no submission payload' };
   }
   try {
-    const titleName = await ensureColumns(token, databaseId);
+    const columns = await ensureColumns(token, databaseId);
     const page = await notion(token, 'POST', '/pages', {
       parent: { database_id: databaseId },
-      properties: buildProperties(titleName, payload)
+      properties: buildProperties(columns, payload)
     });
     console.log('submission-created: stored in Notion as', page.id);
     return { statusCode: 200, body: 'stored' };
