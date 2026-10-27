@@ -38,16 +38,17 @@ Both forms use Netlify Forms, nothing to host.
 
 ### Replies in Notion (automatic copy)
 
-`netlify/functions/submission-created.js` runs on Netlify after every form submission and adds a row to a Notion database, so RSVPs and olive-tree reservations also appear in Notion. It needs two values, set once:
+`netlify/functions/submission-created.js` runs on Netlify after every form submission and adds a row to the Notion database **Wedding RSVP** (under LIFE → Max and Lingling → Wedding Kitzbühel), so RSVPs and olive-tree reservations also appear in Notion. Netlify's own Forms list keeps every entry regardless.
 
-1. In the Notion workspace that holds the wedding page: **Settings → Connections → Develop or manage integrations → New integration**. Name it "Wedding site", type *Internal*, give it read and insert content capabilities, then copy its secret (starts with `ntn_` or `secret_`).
-2. Under the wedding page add a **database** (Table, full page or inline), for example "Replies". Any single column is enough; the function adds the columns it needs (Form, Email, Attending, Days, Guests, Dietary, Message, Trees, Payment, Language, Submitted, Netlify ID) on the first submission.
-3. Open the database as a page, click the **···** menu → **Connections** → add "Wedding site".
-4. Copy the database ID from its URL: the 32-character block before `?v=` (dashes optional).
-5. Netlify → project → **Site configuration → Environment variables** → add `NOTION_TOKEN` (the secret, mark it secret) and `NOTION_DATABASE_ID`. Then **Deploys → Trigger deploy** once so the function picks them up.
-6. Send one test reply from the website and check the database. Netlify's own Forms list keeps every entry regardless, and the function's log is under **Logs → Functions** if something is off.
+What is already set up (October 2026):
 
-Without the two variables the function does nothing.
+- Notion connection **Wedding site** (Developer tools → Connections) with content access to the Wedding RSVP database.
+- Netlify environment variable `NOTION_DATABASE_ID` = `895bc95144ae4d8f93927d77224e4d65` (the 32 characters at the end of the database URL).
+- The function reuses the columns that already exist in the database (Name, Amount of people, Email address, Comments) and adds the ones it still needs on the first submission (Form, Attending, Days, Dietary, Trees, Payment, Language, Submitted, Netlify ID). "Rooms needed" is not filled by the website.
+
+Still needed once: the connection's secret token. Open the connection in Notion, copy the **API token** (Configuration tab), then in Netlify → project → **Project configuration → Environment variables** add `NOTION_TOKEN` with that value (tick "Contains secret values" and paste it into the Production field). Then **Deploys → Trigger deploy** once so the function picks it up, send one test reply from the website and check the database. The function's log is under **Logs → Functions** if something is off.
+
+Without `NOTION_TOKEN` the function does nothing; the website and Netlify Forms work the same either way.
 
 ### Custom domain (optional)
 
