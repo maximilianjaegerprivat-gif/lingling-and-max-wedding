@@ -401,6 +401,7 @@ html[data-lang="zh"] .hero__date { letter-spacing: .15em; padding-left: .15em; }
 @media (min-width: 50em) {
   .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .cards--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 54rem; margin-inline: auto; }
+  .cards--1 { grid-template-columns: 1fr; max-width: 30rem; margin-inline: auto; }
 }
 
 /* ---------- Gallery ---------- */
@@ -437,9 +438,6 @@ html[data-lang="zh"] .hero__date { letter-spacing: .15em; padding-left: .15em; }
 .olive__art { display: grid; place-items: center; }
 .olive__art img { width: min(100%, 20rem); }
 .olive__title { margin-bottom: var(--s3); font-size: var(--fs-3); }
-.olive__steps { list-style: none; margin: var(--s5) 0 0; padding: var(--s4) 0 0; border-top: 1px solid var(--line); display: grid; gap: var(--s2); color: var(--green-muted); font-size: .98rem; }
-.olive__steps li { display: grid; grid-template-columns: 1.6rem 1fr; gap: var(--s2); align-items: baseline; }
-.olive__steps b { font-weight: 400; color: var(--gold-text); font-variant-numeric: tabular-nums; }
 @media (min-width: 50em) {
   .olive { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: var(--s7); align-items: start; }
   .olive__art { position: sticky; top: 6rem; }

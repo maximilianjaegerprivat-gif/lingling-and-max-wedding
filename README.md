@@ -1,6 +1,6 @@
 # Lingling & Max — Wedding 2027
 
-The public wedding website for Lingling and Max: one page, English with German and Chinese toggles, hosted on Netlify at **https://lingling-and-max.netlify.app**. The wedding is on Saturday 10 July 2027 in Kitzbühel, with a welcome evening on Friday 9 July.
+The public wedding website for Lingling and Max: one page, English with German and Chinese toggles, hosted on Netlify at **https://lingling-and-max.netlify.app**. The wedding is on Saturday 10 July 2027 at the Grandhotel Kitzbühel (Malinggasse 12, 6370 Kitzbühel), with a welcome evening on Friday 9 July.
 
 Plain HTML, CSS and vanilla JavaScript. No framework, no build step, no dependencies, no third-party requests (no fonts, analytics, maps, payment scripts or CDN files), so no cookie banner is needed. Everything reads correctly with JavaScript turned off.
 
@@ -46,7 +46,7 @@ Search `index.html` for `PLACEHOLDER`. The important ones:
 1. **Bank details** for the olive trees: in the gifts section, the `<dl class="bank">` element carries `data-holder`, `data-iban` and `data-bic` (used for the QR code) and shows the same values as text. IBAN and account holder (Maximilian Jaeger) are in; the BIC `NTSBDEB1XXX` was derived from the IBAN (N26).
 2. **PayPal link:** the `data-paypal` and `href` on the PayPal button, `https://paypal.me/PLACEHOLDER`. Create a PayPal.me name at paypal.me and put the full link there. The amount is added automatically (`/280EUR` for two trees).
 3. **The church** for the ceremony, the exact spot for Friday's get-together, dress codes, travel details (shuttles, parking).
-4. **Hotels:** booking code `MAXLING2027`, the hold date, how to book (phone, email or link), further hotel tips.
+4. **Hotels:** everyone stays at the Grandhotel Kitzbühel; how the rooms are booked still needs a sentence.
 5. **RSVP deadline**, the church-to-hotel transfer after the ceremony, what happens on Sunday, arrival advice for guests from abroad (visa invitation letters), and a day-of contact number. The audit lists all open points in `DESIGN_AUDIT.md`, section 10.
 6. **Contact email** in the footer (`hello@example.com`).
 7. **Hero photo:** `images/hero.jpg` was cropped from the invitation card (728 px wide). Drop in the original photo at full resolution under the same name.
@@ -86,7 +86,7 @@ If the schedule changes, update it in three places: the texts in `index.html`, t
 
 ### Photos
 
-- **Gallery:** empty on purpose for now. To fill it, add list items inside `<ul class="gallery">` in the gallery section of `index.html`, each an `<a>` wrapping an `<img>` with the file name, `alt` text and `data-caption-en` / `data-caption-de` captions; the lightbox picks them up automatically. JPGs about 1600 px wide work best. Candidate photos from the Grand Tirolia and Bei Tomschy websites are in the git history (commit 0a662ba) if we want them back.
+- **Gallery:** empty on purpose for now. To fill it, add list items inside `<ul class="gallery">` in the gallery section of `index.html`, each an `<a>` wrapping an `<img>` with the file name, `alt` text and `data-caption-en` / `data-caption-de` captions; the lightbox picks them up automatically. JPGs about 1600 px wide work best. Candidate photos from the Grandhotel and Bei Tomschy websites are in the git history (commit 0a662ba) if we want them back.
 - **Hero:** `images/hero.jpg`, see above. The page shows the whole photo on phones and crops the top and bottom a little on wide screens.
 - **Social preview:** `images/og-image.jpg` (1200 × 630) is what WhatsApp, iMessage and the like show when the link is shared. It is rendered from `images/og-image.svg`; on a Mac: `sips -s format jpeg -s formatOptions 85 images/og-image.svg --out images/og-image.jpg`.
 - **Olive tree with the plaque:** `images/olive-tree.svg`, the names are plain text inside the file.

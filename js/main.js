@@ -24,7 +24,7 @@
       start: [2027, 7, 9, 19, 0],
       end: [2027, 7, 9, 22, 0],
       summary: { en: 'Lingling & Max — Welcome Get-Together', de: 'Lingling & Max – Willkommensabend', zh: 'Lingling & Max — 欢迎聚会' },
-      location: 'Grand Tirolia Kitzbühel, Eichenheim 10, 6370 Kitzbühel, Austria',
+      location: 'Grandhotel Kitzbühel, Malinggasse 12, 6370 Kitzbühel, Austria',
       description: {
         en: 'Light bites and drinks. Arrive, relax and enjoy the evening with us!',
         de: 'Kleine Häppchen und Drinks. Ankommen, entspannen und den Abend mit uns genießen!',
@@ -36,7 +36,7 @@
       start: [2027, 7, 10, 11, 30],
       end: [2027, 7, 11, 2, 0],
       summary: { en: 'Lingling & Max — The Wedding', de: 'Lingling & Max – Die Hochzeit', zh: 'Lingling & Max — 婚礼' },
-      location: 'Church & Grand Tirolia Kitzbühel, Eichenheim 10, 6370 Kitzbühel, Austria',
+      location: 'Church & Grandhotel Kitzbühel, Malinggasse 12, 6370 Kitzbühel, Austria',
       description: {
         en: '11:30 Arrival at the church · 12:00 Church ceremony · 13:30 Coffee & tea on the terrace · 14:00 Group photos & bouquet throw · 17:00 Cocktail reception · 18:30 Dinner · 21:30 Opening dance · 21:40 Party!',
         de: '11:30 Ankunft an der Kirche · 12:00 Kirchliche Trauung · 13:30 Kaffee & Tee auf der Terrasse · 14:00 Gruppenfotos & Brautstraußwurf · 17:00 Cocktail-Empfang · 18:30 Abendessen · 21:30 Eröffnungstanz · 21:40 Party!',
