@@ -50,4 +50,16 @@ DESCRIPTION:11:30 Arrival at the church · 12:00 Church ceremony · 13:3
 URL:https://lingling-and-max.netlify.app/
 STATUS:CONFIRMED
 END:VEVENT
+BEGIN:VEVENT
+UID:sunday-breakfast-2027@lingling-and-max.netlify.app
+DTSTAMP:20261027T120000Z
+DTSTART;TZID=Europe/Vienna:20270711T100000
+DTEND;TZID=Europe/Vienna:20270711T130000
+SUMMARY:Lingling & Max — Farewell Breakfast
+LOCATION:Grandhotel Kitzbühel\, Malinggasse 12\, 6370 Kitzbühel\, Austria
+DESCRIPTION:Coffee\, pretzels\, and one last morning together before every
+ one travels home.\nhttps://lingling-and-max.netlify.app/
+URL:https://lingling-and-max.netlify.app/
+STATUS:CONFIRMED
+END:VEVENT
 END:VCALENDAR

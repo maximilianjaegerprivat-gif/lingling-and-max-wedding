@@ -1,6 +1,6 @@
 # Lingling & Max — Wedding 2027
 
-The public wedding website for Lingling and Max: one page, English with German and Chinese toggles, hosted on Netlify at **https://lingling-and-max.netlify.app**. The wedding is on Saturday 10 July 2027 at the Grandhotel Kitzbühel (Malinggasse 12, 6370 Kitzbühel), with a welcome evening on Friday 9 July.
+The public wedding website for Lingling and Max: one page, English with German and Chinese toggles, hosted on Netlify at **https://lingling-and-max.netlify.app**. The wedding is on Saturday 10 July 2027 at the Grandhotel Kitzbühel (Malinggasse 12, 6370 Kitzbühel), with a welcome evening on Friday 9 July and a farewell breakfast on Sunday 11 July.
 
 Plain HTML, CSS and vanilla JavaScript. No framework, no build step, no dependencies, no third-party requests (no fonts, analytics, maps, payment scripts or CDN files), so no cookie banner is needed. Everything reads correctly with JavaScript turned off.
 
@@ -12,7 +12,7 @@ Plain HTML, CSS and vanilla JavaScript. No framework, no build step, no dependen
 | `thanks.html` | The page guests see after sending the RSVP |
 | `thanks-trees.html` | The page after reserving olive trees: repeats the bank details and the PayPal and cash notes |
 | `css/styles.css` | All styling, with the colours and fonts defined at the top |
-| `js/main.js` | Countdown, day tabs, lightbox, EN/DE toggle, calendar download, olive-tree form, sticky-nav highlighting |
+| `js/main.js` | Countdown, lightbox, language toggle, calendar download, olive-tree form, sticky-nav highlighting |
 | `js/qr.js` | A small QR-code generator for the bank-transfer code (no library) |
 | `js/head.js` | Tiny script that restores the saved language before the page paints |
 | `images/` | Hero photo, gallery images, olive tree and sprig drawings, favicons, the social-preview image |
@@ -61,7 +61,7 @@ Search `index.html` for `PLACEHOLDER`. The important ones:
 2. **PayPal link:** the `data-paypal` and `href` on the PayPal button, `https://paypal.me/PLACEHOLDER`. Create a PayPal.me name at paypal.me and put the full link there. The amount is added automatically (`/280EUR` for two trees).
 3. **The church** for the ceremony, the exact spot for Friday's get-together, dress codes, travel details (shuttles, parking).
 4. **Hotels:** everyone stays at the Grandhotel Kitzbühel; how the rooms are booked still needs a sentence.
-5. **RSVP deadline**, the church-to-hotel transfer after the ceremony, what happens on Sunday, arrival advice for guests from abroad (visa invitation letters), and a day-of contact number. The audit lists all open points in `DESIGN_AUDIT.md`, section 10.
+5. **RSVP deadline**, the church-to-hotel transfer after the ceremony, the time of the Sunday breakfast, arrival advice for guests from abroad (visa invitation letters), and a day-of contact number. The audit lists all open points in `DESIGN_AUDIT.md`, section 10.
 6. **Contact email** in the footer (`hello@example.com`).
 7. **Hero photo:** `images/hero.jpg` was cropped from the invitation card (728 px wide). Drop in the original photo at full resolution under the same name.
 

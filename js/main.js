@@ -32,6 +32,18 @@
       }
     },
     {
+      uid: 'sunday-breakfast-2027@lingling-and-max.netlify.app',
+      start: [2027, 7, 11, 10, 0],
+      end: [2027, 7, 11, 13, 0],
+      summary: { en: 'Lingling & Max — Farewell Breakfast', de: 'Lingling & Max – Abschiedsfrühstück', zh: 'Lingling & Max — 告别早餐' },
+      location: 'Grandhotel Kitzbühel, Malinggasse 12, 6370 Kitzbühel, Austria',
+      description: {
+        en: 'Coffee, pretzels, and one last morning together before everyone travels home.',
+        de: 'Kaffee, Brezen und ein letzter gemeinsamer Morgen, bevor alle nach Hause fahren.',
+        zh: '咖啡、碱水面包，以及大家各自踏上归途前最后一个共度的早晨。'
+      }
+    },
+    {
       uid: 'saturday-wedding-2027@lingling-and-max.netlify.app',
       start: [2027, 7, 10, 11, 30],
       end: [2027, 7, 11, 2, 0],
@@ -269,6 +281,7 @@
     var wrap = doc.getElementById('schedule-tabs');
     if (!wrap) { return; }
     var list = wrap.querySelector('.tabs__list');
+    if (!list) { return; }
     var links = Array.prototype.slice.call(list.querySelectorAll('.tabs__tab'));
     var panels = links.map(function (a) { return doc.getElementById(a.getAttribute('href').slice(1)); });
     if (panels.some(function (p) { return !p; })) { return; }

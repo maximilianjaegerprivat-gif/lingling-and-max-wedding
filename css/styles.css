@@ -327,22 +327,9 @@ html[data-lang="zh"] .hero__date { letter-spacing: .15em; padding-left: .15em; }
 .welcome__text { max-width: var(--measure); margin-inline: auto; }
 .welcome__sign { margin-top: var(--s5); font-style: italic; color: var(--green); }
 
-/* ---------- Schedule tabs ---------- */
-.tabs__list { display: flex; gap: var(--s1); margin: 0 auto var(--s6); max-width: 40rem; border-bottom: 1px solid var(--line); }
-.tabs__tab {
-  flex: 1 1 0; display: flex; flex-direction: column; align-items: center; gap: .15rem;
-  padding: .85rem .5rem 1rem; text-decoration: none; color: var(--green-muted);
-  border-bottom: 2px solid transparent; margin-bottom: -1px;
-  transition: color .2s var(--ease), border-color .2s var(--ease);
-}
-.tabs__tab:hover { color: var(--green); }
-.tabs__day { font-size: clamp(1.15rem, 1rem + .7vw, 1.5rem); line-height: 1.2; }
-.tabs__date { font-size: var(--label-s); letter-spacing: var(--track-s); text-transform: uppercase; }
-.tabs__tab[aria-selected="true"] { color: var(--gold-text); border-bottom-color: var(--green); }
-.tabs__tab[aria-selected="true"] .tabs__day { color: var(--green); }
-
+/* ---------- Schedule: all days stacked ---------- */
 .day { max-width: var(--narrow); margin-inline: auto; }
-.no-js .day + .day { margin-top: var(--s8); }
+.day + .day { margin-top: var(--s7); padding-top: var(--s7); border-top: 1px solid var(--line); }
 .day__head { margin-bottom: var(--s6); text-align: center; }
 .day__title { font-size: var(--fs-2); margin-bottom: var(--s2); }
 .day__meta { display: flex; flex-wrap: wrap; justify-content: center; gap: .25rem 1rem; color: var(--green-muted); margin-bottom: var(--s3); }
