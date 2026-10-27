@@ -50,3 +50,14 @@
   to = "/404"
   status = 404
   force = true
+
+# Functions (the Notion copy of each form submission)
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/netlify/*"
+  to = "/404"
+  status = 404
+  force = true

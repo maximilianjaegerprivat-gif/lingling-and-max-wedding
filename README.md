@@ -17,7 +17,8 @@ Plain HTML, CSS and vanilla JavaScript. No framework, no build step, no dependen
 | `js/head.js` | Tiny script that restores the saved language before the page paints |
 | `images/` | Hero photo, gallery images, olive tree and sprig drawings, favicons, the social-preview image |
 | `lingling-and-max.ics` | Calendar file (used when JavaScript is off; with JS the file is generated in the chosen language) |
-| `netlify.toml` | Netlify settings: publish folder, security and privacy headers |
+| `netlify.toml` | Netlify settings: publish folder, security and privacy headers, functions |
+| `netlify/functions/submission-created.js` | Copies every form submission into a Notion database (see below) |
 | `DESIGN_AUDIT.md`, `DESIGN_SYSTEM.md` | The design audit (scores, guest journeys, open decisions) and the design tokens the stylesheet follows |
 
 ## Netlify (done)
@@ -34,6 +35,19 @@ Both forms use Netlify Forms, nothing to host.
 - **Email notifications:** Forms → **Submission notifications** → **Add notification** → *Email notification*, once per form, with the address that should receive each entry.
 - **Spam:** both forms have a hidden honeypot field and Netlify filters the rest. Flagged entries appear under *Spam*.
 - The free plan includes 100 submissions per month across both forms. If the invitation goes out to everyone at once, RSVPs plus tree reservations can exceed that in one month: either upgrade Netlify Forms for those months or send the link in waves and watch Forms → Usage.
+
+### Replies in Notion (automatic copy)
+
+`netlify/functions/submission-created.js` runs on Netlify after every form submission and adds a row to a Notion database, so RSVPs and olive-tree reservations also appear in Notion. It needs two values, set once:
+
+1. In the Notion workspace that holds the wedding page: **Settings → Connections → Develop or manage integrations → New integration**. Name it "Wedding site", type *Internal*, give it read and insert content capabilities, then copy its secret (starts with `ntn_` or `secret_`).
+2. Under the wedding page add a **database** (Table, full page or inline), for example "Replies". Any single column is enough; the function adds the columns it needs (Form, Email, Attending, Days, Guests, Dietary, Message, Trees, Payment, Language, Submitted, Netlify ID) on the first submission.
+3. Open the database as a page, click the **···** menu → **Connections** → add "Wedding site".
+4. Copy the database ID from its URL: the 32-character block before `?v=` (dashes optional).
+5. Netlify → project → **Site configuration → Environment variables** → add `NOTION_TOKEN` (the secret, mark it secret) and `NOTION_DATABASE_ID`. Then **Deploys → Trigger deploy** once so the function picks them up.
+6. Send one test reply from the website and check the database. Netlify's own Forms list keeps every entry regardless, and the function's log is under **Logs → Functions** if something is off.
+
+Without the two variables the function does nothing.
 
 ### Custom domain (optional)
 
