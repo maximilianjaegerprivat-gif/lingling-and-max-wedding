@@ -86,9 +86,36 @@ async function notion(token, method, path, body) {
   return json;
 }
 
+// NOTION_DATABASE_ID may point at the database itself or at a page that holds
+// one inline (the ID in the page URL). Find the database either way.
+let resolved = null;
+async function resolveDatabase(token, id) {
+  if (resolved) return resolved;
+  try {
+    const db = await notion(token, 'GET', '/databases/' + id);
+    resolved = { id, db };
+    return resolved;
+  } catch (err) {
+    if (!/is a page/i.test(err.message)) throw err;
+  }
+  let cursor = null;
+  do {
+    const res = await notion(token, 'GET', '/blocks/' + id + '/children?page_size=100' + (cursor ? '&start_cursor=' + cursor : ''));
+    const child = (res.results || []).find(b => b.type === 'child_database');
+    if (child) {
+      const dbId = String(child.id).replace(/-/g, '');
+      const db = await notion(token, 'GET', '/databases/' + dbId);
+      console.log('submission-created: using database ' + dbId + ' inside page ' + id);
+      resolved = { id: dbId, db };
+      return resolved;
+    }
+    cursor = res.has_more ? res.next_cursor : null;
+  } while (cursor);
+  throw new Error('no database found inside page ' + id);
+}
+
 // Make sure the database has every column we write to; add the missing ones.
-async function ensureColumns(token, databaseId) {
-  const db = await notion(token, 'GET', '/databases/' + databaseId);
+async function ensureColumns(token, databaseId, db) {
   const existing = db.properties || {};
   let titleName = 'Name';
   for (const name of Object.keys(existing)) {
@@ -155,15 +182,17 @@ exports.handler = async function (event) {
     return { statusCode: 400, body: 'no submission payload' };
   }
   try {
-    const columns = await ensureColumns(token, databaseId);
+    const target = await resolveDatabase(token, databaseId);
+    const columns = await ensureColumns(token, target.id, target.db);
     const page = await notion(token, 'POST', '/pages', {
-      parent: { database_id: databaseId },
+      parent: { database_id: target.id },
       properties: buildProperties(columns, payload)
     });
     console.log('submission-created: stored in Notion as', page.id);
     return { statusCode: 200, body: 'stored' };
   } catch (err) {
     // The submission itself is already saved by Netlify Forms; just report.
+    resolved = null;
     console.error('submission-created: ' + err.message);
     return { statusCode: 500, body: err.message };
   }
