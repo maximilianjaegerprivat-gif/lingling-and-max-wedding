@@ -16,19 +16,20 @@
   var TIMEZONE = 'Europe/Vienna'; // Kitzbühel
   var SITE_URL = 'https://lingling-and-max.netlify.app/';
 
+  // PLACEHOLDER: the church still has to confirm 11:00 or 12:00; the countdown targets the later time.
   var CEREMONY = { y: 2027, m: 7, d: 10, h: 12, min: 0 };
 
   var EVENTS = [
     {
       uid: 'friday-welcome-2027@lingling-and-max.netlify.app',
-      start: [2027, 7, 9, 18, 0],
-      end: [2027, 7, 9, 23, 0],
-      summary: { en: 'Lingling & Max — Welcome evening', de: 'Lingling & Max – Willkommensabend', zh: 'Lingling & Max — 欢迎之夜' },
+      start: [2027, 7, 9, 19, 0],
+      end: [2027, 7, 9, 22, 0],
+      summary: { en: 'Lingling & Max — Welcome get-together', de: 'Lingling & Max – Willkommensabend', zh: 'Lingling & Max — 欢迎聚会' },
       location: 'Grandhotel Kitzbühel, Malinggasse 12, 6370 Kitzbühel, Austria',
       description: {
-        en: '18:00 Welcome drinks at the hotel bar · 19:00 Tyrolean buffet · later: the bar. Arrive, relax and enjoy the evening with us!',
-        de: '18:00 Willkommensdrinks an der Hotelbar · 19:00 Tiroler Buffet · später: Bar. Ankommen, entspannen und den Abend mit uns genießen!',
-        zh: '18:00 酒店酒吧欢迎酒会 · 19:00 蒂罗尔自助晚餐 · 之后：酒吧。抵达、放松，和我们一起享受这个夜晚！'
+        en: '19:00–22:00 Welcome get-together at the Grandhotel Kitzbühel. Arrive, relax and enjoy the evening with us!',
+        de: '19:00–22:00 Get-together zur Begrüßung im Grandhotel Kitzbühel. Ankommen, entspannen und den Abend mit uns genießen!',
+        zh: '19:00–22:00 在 Grandhotel Kitzbühel 举行欢迎聚会。抵达、放松，和我们一起享受这个夜晚！'
       }
     },
     {
@@ -50,9 +51,9 @@
       summary: { en: 'Lingling & Max — The Wedding', de: 'Lingling & Max – Die Hochzeit', zh: 'Lingling & Max — 婚礼' },
       location: 'Church & Grandhotel Kitzbühel, Malinggasse 12, 6370 Kitzbühel, Austria',
       description: {
-        en: 'Before 12:00 transfer from the hotel to the church · 12:00 Church ceremony · 14:00–16:00 optional coffee and cake at Hochkitzbühel · 18:00 Reception · 19:00 Dinner in the ballroom · speeches, cake, first dance · 21:30 Dancing · 22:30 Party',
-        de: 'Vor 12:00 Transfer vom Hotel zur Kirche · 12:00 Kirchliche Trauung · 14:00–16:00 optional Kaffee und Kuchen am Hochkitzbühel · 18:00 Empfang · 19:00 Abendessen im Ballsaal · Reden, Torte, erster Tanz · 21:30 Tanz · 22:30 Party',
-        zh: '12:00 前从酒店前往教堂 · 12:00 教堂婚礼仪式 · 14:00–16:00 Hochkitzbühel 咖啡与蛋糕（自选） · 18:00 酒会 · 19:00 宴会厅晚宴 · 致辞、蛋糕、第一支舞 · 21:30 舞会 · 22:30 派对'
+        en: '11:00 or 12:00 (to be confirmed) Church ceremony · Group photo · 13:00–15:00 Coffee and tea · 15:00–17:00 Free time · 17:00–18:30 Cocktail reception · 18:30–21:30 Wedding dinner · 21:30 Opening dance · 21:45 Party until late. Children are warmly welcome: guests under 16 have their own dinner, games and fun in a separate room during dinner.',
+        de: '11:00 oder 12:00 Uhr (wird noch bestätigt) Kirchliche Trauung · Gruppenfoto · 13:00–15:00 Kaffee und Tee · 15:00–17:00 Freie Zeit · 17:00–18:30 Cocktailempfang · 18:30–21:30 Hochzeitsessen · 21:30 Eröffnungstanz · 21:45 Party bis spät. Kinder sind herzlich willkommen: Gäste unter 16 bekommen während des Essens ihr eigenes Abendessen, Spiele und Spaß in einem separaten Raum.',
+        zh: '11:00 或 12:00（待确认）教堂婚礼仪式 · 合影 · 13:00–15:00 咖啡与茶 · 15:00–17:00 自由活动 · 17:00–18:30 鸡尾酒会 · 18:30–21:30 婚宴 · 21:30 开场舞 · 21:45 派对直到深夜。热烈欢迎孩子们：16 岁以下的小宾客在晚宴期间将在单独的房间享用自己的晚餐、游戏和乐趣。'
       }
     }
   ];

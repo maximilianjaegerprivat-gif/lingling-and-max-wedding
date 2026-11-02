@@ -60,8 +60,8 @@ Search `index.html` for `PLACEHOLDER`. The important ones:
 
 1. **Bank details** for the olive trees: in the gifts section, the `<dl class="bank">` element carries `data-holder`, `data-iban` and `data-bic` (used for the QR code) and shows the same values as text. IBAN and account holder (Maximilian Jaeger) are in; the BIC `NTSBDEB1XXX` was derived from the IBAN (N26).
 2. **PayPal link:** the `data-paypal` and `href` on the PayPal button, `https://paypal.me/PLACEHOLDER`. Create a PayPal.me name at paypal.me and put the full link there. The amount is added automatically (`/280EUR` for two trees).
-3. **The church** for the ceremony, the exact spot for Friday's get-together, dress codes, travel details (shuttles, parking).
-4. **Hotels:** everyone stays at the Grandhotel Kitzbühel; how the rooms are booked still needs a sentence.
+3. **The church** for the ceremony and whether it starts at 11:00 or 12:00 (the page says "to be confirmed"; the countdown in `js/main.js` targets 12:00 until then), where Saturday's coffee and tea takes place, dress codes, travel details (shuttles, parking).
+4. **Hotels:** done. Guests book directly with the Grandhotel Kitzbühel (email, phone, keyword "Hochzeit Max & Lingling", €239 per room and night, cancellation terms). If the hotel changes the rate or the terms, edit the accommodation section in `index.html`.
 5. **RSVP deadline**, the church-to-hotel transfer after the ceremony, the time of the Sunday breakfast, arrival advice for guests from abroad (visa invitation letters), and a day-of contact number. The audit lists all open points in `DESIGN_AUDIT.md`, section 10.
 6. **Contact email** in the footer (`hello@example.com`).
 7. **Hero photo:** `images/hero.jpg` was cropped from the invitation card (728 px wide). Drop in the original photo at full resolution under the same name.

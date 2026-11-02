@@ -392,6 +392,33 @@ html[data-lang="zh"] .hero__date { letter-spacing: .15em; padding-left: .15em; }
   .cards--1 { grid-template-columns: 1fr; max-width: 30rem; margin-inline: auto; }
 }
 
+/* ---------- Where to stay ---------- */
+.stay { display: grid; gap: var(--s5); max-width: var(--narrow); margin-inline: auto; }
+.stay__title { font-size: var(--fs-3); margin-bottom: var(--s3); }
+.stay__code {
+  color: var(--green); letter-spacing: .06em; background: var(--paper-sage); border: 1px solid var(--line);
+  border-radius: var(--radius-s); padding: .1em .45em; -webkit-box-decoration-break: clone; box-decoration-break: clone;
+}
+.stay__list { margin: var(--s4) 0 0; display: grid; gap: .7rem; }
+.stay__row { display: grid; gap: .1rem; }
+.stay__row dt { font-size: var(--label-s); letter-spacing: var(--track-s); text-transform: uppercase; color: var(--gold-text); }
+.stay__row dd { margin: 0; color: var(--green); overflow-wrap: anywhere; }
+.stay__book .note, .stay__book .btn { margin-top: var(--s4); }
+.stay__price { display: flex; flex-wrap: wrap; align-items: baseline; gap: .35rem .6rem; margin-bottom: var(--s3); }
+.stay__amount { font-size: var(--fs-2); line-height: 1; color: var(--green); font-weight: 400; font-variant-numeric: tabular-nums; }
+.stay__per { color: var(--green-muted); }
+.stay__included { list-style: none; margin: 0 0 var(--s3); padding: 0; display: grid; gap: .3rem; }
+.stay__included li { position: relative; padding-left: 1.4rem; }
+.stay__included li::before { content: ""; position: absolute; left: 0; top: .8em; width: .7rem; height: 1px; background: var(--gold); }
+.stay__capacity { color: var(--green-muted); font-size: .98rem; }
+.stay__subtitle { margin: var(--s6) 0 0; }
+.stay__policy dd { color: var(--green-body); }
+.stay__closing { margin-top: var(--s5); font-style: italic; color: var(--green); }
+html[data-lang="zh"] .stay__closing { font-style: normal; }
+@media (min-width: 50em) {
+  .stay { max-width: none; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(2rem, 2rem + 2vw, 4rem); align-items: start; }
+}
+
 /* ---------- Gallery ---------- */
 .gallery { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s3); }
 .gallery__link { display: block; border-radius: var(--radius); overflow: hidden; background: var(--paper-tint); aspect-ratio: 4 / 3; border: 1px solid var(--line); padding: 4px; }
