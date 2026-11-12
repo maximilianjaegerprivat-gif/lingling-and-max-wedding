@@ -71,7 +71,7 @@ Search `index.html` for `PLACEHOLDER`. The important ones:
 Guests choose either a number of trees (€150 each) or an amount of their own in whole euros, see the total, enter their name, pick a payment method and send the small form. Nothing is charged on the website itself:
 
 - **Bank transfer:** shows the account details, a copy button, and a QR code in the European EPC/GiroCode format with the amount and reference pre-filled. Most banking apps in Germany and Austria scan it directly.
-- **PayPal:** opens your PayPal.me page with the amount pre-filled (a link, so no PayPal script is loaded on the site). The thank-you page repeats the link, again with the amount. On wider screens the panel also shows your PayPal QR code (`images/paypal-qr.png`, exported from the PayPal app); it opens the PayPal app without an amount, so guests type the amount there.
+- **PayPal:** opens your PayPal.me page with the amount pre-filled (a link, so no PayPal script is loaded on the site). The thank-you page repeats the link, again with the amount. The panel also shows your PayPal QR code (`images/paypal-qr.png`, exported from the PayPal app); it opens the PayPal app without an amount, so guests type the amount there.
 - **Cash:** the red-envelope note from the card.
 
 The form entry tells you who gave what (trees or an own amount, plus the total in euros) and how they intend to pay; match it against the bank or PayPal account. The price lives in one place: `data-price="150"` on the form in `index.html` (the texts mention €150 too, in `index.html` and `thanks-trees.html`).
@@ -106,7 +106,7 @@ If the schedule changes, update it in three places: the texts in `index.html`, t
 - **Gallery:** empty on purpose for now. To fill it, add list items inside `<ul class="gallery">` in the gallery section of `index.html`, each an `<a>` wrapping an `<img>` with the file name, `alt` text and `data-caption-en` / `data-caption-de` captions; the lightbox picks them up automatically. JPGs about 1600 px wide work best. Candidate photos from the Grandhotel and Bei Tomschy websites are in the git history (commit 0a662ba) if we want them back.
 - **Hero:** `images/hero.jpg`, see above. The page shows the whole photo on phones and crops the top and bottom a little on wide screens.
 - **Social preview:** `images/og-image.jpg` (1200 × 630) is what WhatsApp, iMessage and the like show when the link is shared. It is rendered from `images/og-image.svg`; on a Mac: `sips -s format jpeg -s formatOptions 85 images/og-image.svg --out images/og-image.jpg`.
-- **Olive tree with the plaque:** `images/olive-tree.svg`, the names are plain text inside the file.
+- **Olive tree with the plaque:** the photo `images/olive-gift.jpg` at the top of the gifts section (1280 px wide; replace the file to change it). The earlier drawing `images/olive-tree.svg` is still in the folder but no longer used.
 
 ### Colours and fonts
 

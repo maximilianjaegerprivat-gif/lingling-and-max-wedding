@@ -449,13 +449,13 @@ html[data-lang="zh"] .stay__closing { font-style: normal; }
 @media (min-width: 66em) { .lightbox__close { top: 1.25rem; right: 1.25rem; } .lightbox__prev { left: 1.5rem; } .lightbox__next { right: 1.5rem; } }
 
 /* ---------- Gifts: olive trees ---------- */
-.olive { display: grid; gap: var(--s5); max-width: 60rem; margin-inline: auto; }
-.olive__art { display: grid; place-items: center; }
-.olive__art img { width: min(100%, 20rem); }
+/* The photo of the tree with the plaque sits above the text as a framed band */
+.olive { display: grid; gap: var(--s6); max-width: 60rem; margin-inline: auto; }
+.olive__art img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; object-position: 50% 46%; border: 1px solid var(--line); border-radius: var(--radius); padding: 4px; background: var(--paper); }
+.olive__body { width: 100%; max-width: var(--narrow); margin-inline: auto; }
 .olive__title { margin-bottom: var(--s3); font-size: var(--fs-3); }
 @media (min-width: 50em) {
-  .olive { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: var(--s7); align-items: start; }
-  .olive__art { position: sticky; top: 6rem; }
+  .olive__art img { aspect-ratio: 2 / 1; }
 }
 
 .olive-form { margin-top: var(--s5); padding-top: var(--s5); border-top: 1px solid var(--line); display: grid; gap: var(--s5); }
@@ -487,7 +487,8 @@ html[data-lang="zh"] .stay__closing { font-style: normal; }
 .bank__qr { margin: 0; display: grid; justify-items: center; gap: .5rem; text-align: center; max-width: 12.5rem; }
 .bank__qr canvas { image-rendering: pixelated; border: 6px solid var(--paper); outline: 1px solid var(--line); }
 .bank__qr figcaption { font-size: .85rem; color: var(--green-muted); }
-@media (max-width: 49.99em) { .bank__qr { display: none; } }
+/* The transfer QR code is for scanning from a computer screen; the PayPal code shows everywhere */
+@media (max-width: 49.99em) { .bank__qr:not(.pay__qr) { display: none; } }
 .pay__hint { color: var(--green-muted); font-size: .98rem; margin: 0; }
 .pay--paypal .btn { margin-bottom: var(--s3); }
 @supports selector(:has(a)) {
