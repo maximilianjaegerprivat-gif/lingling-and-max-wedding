@@ -416,12 +416,12 @@
     var totalField = form.querySelector('input[name="total"]');
     var count = 1, total = price, mode = 'trees';
 
-    // Own amount: whole euros only; anything else counts as "not entered yet"
+    // Own amount: whole euros only, read the way the browser validates the field
+    // (50.00 counts as 50); anything else counts as "not entered yet"
     function ownAmount() {
       var v = amountInput ? String(amountInput.value).trim() : '';
-      if (!/^\d{1,6}$/.test(v)) { return 0; }
-      var n = parseInt(v, 10);
-      return n >= 1 && n <= 100000 ? n : 0;
+      var n = v === '' ? NaN : Number(v);
+      return n >= 1 && n <= 100000 && Math.floor(n) === n ? n : 0;
     }
 
     function money(n) {
@@ -485,20 +485,34 @@
         paypal.href = paypal.getAttribute('data-paypal').replace(/\/+$/, '') + (total > 0 ? '/' + total + 'EUR' : '');
       }
       if (totalField) { totalField.value = total > 0 ? String(total) : ''; }
+      var pre = form.querySelector('[data-prefilled]'); // "the amount is pre-filled": only true with an amount
+      if (pre) { pre.hidden = !(total > 0); }
       drawQr();
     }
     select.addEventListener('change', update);
-    if (amountInput) { amountInput.addEventListener('input', update); }
+    if (amountInput) {
+      amountInput.addEventListener('input', update);
+      // Scrolling the page with the pointer over the focused field must not change the amount
+      amountInput.addEventListener('wheel', function () { amountInput.blur(); }, { passive: true });
+    }
+    // No focus jump on change: arrowing between the two radios has to stay inside the group
     Array.prototype.forEach.call(form.querySelectorAll('input[name="gift"]'), function (radio) {
-      radio.addEventListener('change', function () {
-        update();
-        if (mode === 'amount' && radio.checked && amountInput) { amountInput.focus(); }
-      });
+      radio.addEventListener('change', update);
     });
+    if (paypal) {
+      // Own amount not entered yet: ask for it instead of opening PayPal without an amount
+      paypal.addEventListener('click', function (e) {
+        if (mode === 'amount' && !total && amountInput) {
+          e.preventDefault();
+          amountInput.focus();
+          if (amountInput.reportValidity) { amountInput.reportValidity(); }
+        }
+      });
+    }
     // Remember the gift for the thank-you page, which pre-fills its PayPal link with the amount
     form.addEventListener('submit', function () {
       var pay = form.querySelector('input[name="payment"]:checked');
-      try { sessionStorage.setItem('lm-gift', JSON.stringify({ total: total, payment: pay ? pay.value : '' })); } catch (e) { /* storage blocked: the plain link still works */ }
+      try { sessionStorage.setItem('lm-gift', JSON.stringify({ total: total, payment: pay ? pay.value : '', reference: reference() })); } catch (e) { /* storage blocked: the plain link still works */ }
     });
     window.addEventListener('pageshow', update); // the browser may restore the form after "back"
     if (nameInput) { nameInput.addEventListener('input', update); }
@@ -535,18 +549,26 @@
 
   /* ---------------------------------------------------------------
      Thank-you page for gifts: pre-fill its PayPal link with the amount
-     the guest has just chosen (kept in sessionStorage by the form)
+     the guest has just chosen and show their transfer reference (both
+     kept in sessionStorage by the form)
      --------------------------------------------------------------- */
   (function giftThanks() {
     if (doc.querySelector('.olive-form')) { return; }
     var links = doc.querySelectorAll('a[data-paypal]');
     if (!links.length) { return; }
-    var total = 0;
-    try { total = parseInt(JSON.parse(sessionStorage.getItem('lm-gift') || '{}').total, 10) || 0; } catch (e) { total = 0; }
-    if (total < 1 || total > 100000) { return; }
-    Array.prototype.forEach.call(links, function (a) {
-      a.href = a.getAttribute('data-paypal').replace(/\/+$/, '') + '/' + total + 'EUR';
-    });
+    var gift = null;
+    try { gift = JSON.parse(sessionStorage.getItem('lm-gift') || 'null'); } catch (e) { gift = null; }
+    if (!gift || typeof gift !== 'object') { return; }
+    var total = Number(gift.total);
+    if (total >= 1 && total <= 100000 && Math.floor(total) === total) {
+      Array.prototype.forEach.call(links, function (a) {
+        a.href = a.getAttribute('data-paypal').replace(/\/+$/, '') + '/' + total + 'EUR';
+      });
+    }
+    var ref = doc.querySelector('[data-reference]');
+    if (ref && typeof gift.reference === 'string' && /^Olive (trees?|grove gift) for Lingling and Max/.test(gift.reference)) {
+      ref.textContent = gift.reference.slice(0, 140);
+    }
   })();
 
   /* ---------------------------------------------------------------

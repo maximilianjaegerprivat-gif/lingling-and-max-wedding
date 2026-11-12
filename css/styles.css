@@ -541,6 +541,9 @@ select.form__input { max-width: 8rem; }
   .no-js .olive-form:has(#gift-amount:checked) .gift--trees,
   .no-js .olive-form:has(#gift-amount:checked) .gift-text--trees { display: none; }
   .no-js .olive-form:has(#gift-amount:checked) .gift-text--amount { display: inline; }
+  /* Without the script the total cannot follow an own amount: hide it rather than show the tree price */
+  .no-js .olive-form:has(#gift-amount:checked) .olive-form__total,
+  .no-js .olive-form:has(#gift-amount:checked) .bank__row:has([data-total]) { display: none; }
 }
 .amount { display: inline-flex; align-items: stretch; border: 1px solid var(--line-strong); border-radius: var(--radius-s); background: var(--paper); }
 .amount__unit { display: grid; place-items: center; width: 2.75rem; font-size: 1.15rem; color: var(--green-muted); border-right: 1px solid var(--line-strong); }
@@ -548,6 +551,8 @@ select.form__input { max-width: 8rem; }
 .amount .amount__input:focus-visible { outline: var(--focus-ring); outline-offset: -2px; }
 .pay__alt { margin-top: var(--s3); display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .6rem; }
 .pay__email { color: var(--green); overflow-wrap: anywhere; }
+.pay__main { min-width: 0; }
+.pay__qr img { width: 11rem; height: 11rem; background: #fff; border: 6px solid var(--paper); outline: 1px solid var(--line); }
 
 .form__actions { display: grid; gap: var(--s3); justify-items: start; margin-top: var(--s1); }
 .form__hint { font-size: .95rem; color: var(--green-muted); }

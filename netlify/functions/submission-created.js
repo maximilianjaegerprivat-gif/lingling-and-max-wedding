@@ -74,6 +74,12 @@ function number(value) {
   const n = parseInt(value, 10);
   return { number: Number.isFinite(n) ? n : null };
 }
+// A euro amount as the page shows it: a whole number from 1 to 100000 ("50.00" is 50), otherwise empty.
+function euros(value) {
+  const s = String(value == null ? '' : value).trim();
+  const n = s === '' ? NaN : Number(s);
+  return { number: Number.isInteger(n) && n >= 1 && n <= 100000 ? n : null };
+}
 
 async function notion(token, method, path, body) {
   const res = await fetch(NOTION_API + path, {
@@ -183,7 +189,7 @@ function buildProperties(columns, payload) {
     const own = d.gift === 'amount';
     if (own) { set('Form', { select: { name: 'Own amount' } }); }
     set('Trees', number(own ? '' : d.trees));
-    set('Amount', number(own ? (d.amount || d.total) : d.total));
+    set('Amount', euros(own ? (d.total || d.amount) : d.total));
     set('Payment', select(d.payment, { 'bank-transfer': 'Bank transfer', 'paypal': 'PayPal', 'cash': 'Cash' }));
   }
   return props;

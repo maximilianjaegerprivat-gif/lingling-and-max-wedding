@@ -31,7 +31,7 @@ If it ever has to be set up again: Netlify → Add new project → Import from G
 
 Both forms use Netlify Forms, nothing to host.
 
-- **Where replies are listed:** Netlify → project → **Forms**. `rsvp` holds the replies (name, email, attending, days, guests, dietary notes, message, lang); `olive-trees` holds the tree reservations (name for the plaque, email, number of trees, chosen payment method, lang). Both can be exported as CSV.
+- **Where replies are listed:** Netlify → project → **Forms**. `rsvp` holds the replies (name, email, attending, days, guests, dietary notes, message, lang); `olive-trees` holds the gifts (name, email, gift = trees or amount, the number of trees or the own amount, total in euros, chosen payment method, lang). Both can be exported as CSV.
 - **Email notifications:** Forms → **Submission notifications** → **Add notification** → *Email notification*, once per form, with the address that should receive each entry.
 - **Spam:** both forms have a hidden honeypot field and Netlify filters the rest. Flagged entries appear under *Spam*.
 - The free plan includes 100 submissions per month across both forms. If the invitation goes out to everyone at once, RSVPs plus tree reservations can exceed that in one month: either upgrade Netlify Forms for those months or send the link in waves and watch Forms → Usage.
@@ -71,12 +71,12 @@ Search `index.html` for `PLACEHOLDER`. The important ones:
 Guests choose either a number of trees (€150 each) or an amount of their own in whole euros, see the total, enter their name, pick a payment method and send the small form. Nothing is charged on the website itself:
 
 - **Bank transfer:** shows the account details, a copy button, and a QR code in the European EPC/GiroCode format with the amount and reference pre-filled. Most banking apps in Germany and Austria scan it directly.
-- **PayPal:** opens your PayPal.me page with the amount pre-filled (a link, so no PayPal script is loaded on the site). The thank-you page repeats the link, again with the amount.
+- **PayPal:** opens your PayPal.me page with the amount pre-filled (a link, so no PayPal script is loaded on the site). The thank-you page repeats the link, again with the amount. On wider screens the panel also shows your PayPal QR code (`images/paypal-qr.png`, exported from the PayPal app); it opens the PayPal app without an amount, so guests type the amount there.
 - **Cash:** the red-envelope note from the card.
 
 The form entry tells you who gave what (trees or an own amount, plus the total in euros) and how they intend to pay; match it against the bank or PayPal account. The price lives in one place: `data-price="150"` on the form in `index.html` (the texts mention €150 too, in `index.html` and `thanks-trees.html`).
 
-To test the whole path without spending €150, pick "My own amount", enter 1, choose PayPal and send the form: PayPal opens with €1, and the entry appears under Netlify Forms and in the Notion table.
+To test the whole path without spending €150, pick "My own amount", enter 1, choose PayPal and click "Pay with PayPal": PayPal opens in a new tab with €1. Pay from a PayPal account other than the receiving one, because PayPal does not let an account pay itself. Then send the form: the entry appears under Netlify Forms and in the Notion table, and the thank-you page repeats the PayPal link with €1.
 
 ## Editing the site
 
