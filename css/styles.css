@@ -495,6 +495,7 @@ html[data-lang="zh"] .stay__closing { font-style: normal; }
   .pay { display: none; }
   .olive-form:has(#pay-transfer:checked) .pay--transfer,
   .olive-form:has(#pay-paypal:checked) .pay--paypal,
+  .olive-form:has(#pay-wechat:checked) .pay--wechat,
   .olive-form:has(#pay-cash:checked) .pay--cash { display: block; }
   .form:has(#rsvp-no:checked) .form__row--attending { display: none; }
 }
@@ -554,6 +555,7 @@ select.form__input { max-width: 8rem; }
 .pay__email { color: var(--green); overflow-wrap: anywhere; }
 .pay__main { min-width: 0; }
 .pay__qr img { width: 11rem; height: 11rem; background: #fff; border: 6px solid var(--paper); outline: 1px solid var(--line); }
+.pay__qr--wechat img { width: 12rem; height: auto; aspect-ratio: 468 / 500; }
 
 .form__actions { display: grid; gap: var(--s3); justify-items: start; margin-top: var(--s1); }
 .form__hint { font-size: .95rem; color: var(--green-muted); }

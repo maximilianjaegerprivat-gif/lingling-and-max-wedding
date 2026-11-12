@@ -594,8 +594,11 @@
     var rsvp = doc.querySelector('form[name="rsvp"]');
     if (rsvp) {
       var no = rsvp.querySelector('#rsvp-no');
+      var rooms = rsvp.querySelector('#rsvp-rooms');
       function syncAttending() {
         var off = !!(no && no.checked);
+        // Guests who come are asked for their rooms (0 is an answer); without JavaScript it stays optional
+        if (rooms) { rooms.required = !off; }
         Array.prototype.forEach.call(rsvp.querySelectorAll('.form__row--attending input, .form__row--attending select, .form__row--attending textarea'), function (el) { el.disabled = off; });
       }
       Array.prototype.forEach.call(rsvp.querySelectorAll('input[name="attending"]'), function (r) { r.addEventListener('change', syncAttending); });

@@ -22,6 +22,7 @@ const COLUMNS = {
   'Attending': 'select',
   'Days': 'multi_select',
   'Guests': 'number',
+  'Rooms': 'number',
   'Dietary': 'rich_text',
   'Message': 'rich_text',
   'Trees': 'number',
@@ -40,6 +41,7 @@ const COLUMN_OPTIONS = {
 // Columns that may already exist under another name (same type) and are used instead.
 const ALIASES = {
   'Guests': ['Amount of people', 'Number of guests', 'People', 'Personen', 'Gäste'],
+  'Rooms': ['Rooms booked', 'Rooms needed', 'Zimmer'],
   'Email': ['Email address', 'E-Mail', 'E-mail', 'Mail'],
   'Message': ['Comments', 'Comment', 'Note', 'Notes', 'Nachricht']
 };
@@ -181,6 +183,7 @@ function buildProperties(columns, payload) {
     set('Attending', select(d.attending, { yes: 'Yes', no: 'No' }));
     set('Days', multi(d.days, { friday: 'Friday', saturday: 'Saturday' }));
     set('Guests', number(d.guests));
+    set('Rooms', number(d.rooms)); // empty when the guest did not answer
     set('Dietary', text(d.dietary));
     set('Message', text(d.message));
   } else if (form === 'olive-trees') {
@@ -190,7 +193,7 @@ function buildProperties(columns, payload) {
     if (own) { set('Form', { select: { name: 'Own amount' } }); }
     set('Trees', number(own ? '' : d.trees));
     set('Amount', euros(own ? (d.total || d.amount) : d.total));
-    set('Payment', select(d.payment, { 'bank-transfer': 'Bank transfer', 'paypal': 'PayPal', 'cash': 'Cash' }));
+    set('Payment', select(d.payment, { 'bank-transfer': 'Bank transfer', 'paypal': 'PayPal', 'wechat': 'WeChat Pay', 'cash': 'Cash' }));
   }
   return props;
 }

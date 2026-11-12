@@ -482,6 +482,20 @@
         </div>
 
         <div class="form__row form__row--attending">
+          <label class="form__label" for="rsvp-rooms"><span lang="en">How many rooms have you booked at the Grandhotel?</span><span lang="de">Wie viele Zimmer habt ihr im Grandhotel gebucht?</span><span lang="zh-Hans">您在 Grandhotel 预订了几间房？</span></label>
+          <select class="form__input" id="rsvp-rooms" name="rooms">
+            <option value="" selected>–</option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <p class="form__hint"><span lang="en">Choose 0 if you have not booked yet or are staying elsewhere.</span><span lang="de">Wählt 0, wenn ihr noch nicht gebucht habt oder woanders übernachtet.</span><span lang="zh-Hans">如果尚未预订或住在别处，请选择 0。</span></p>
+        </div>
+
+        <div class="form__row form__row--attending">
           <label class="form__label" for="rsvp-dietary"><span lang="en">Dietary notes</span><span lang="de">Ernährung &amp; Unverträglichkeiten</span><span lang="zh-Hans">饮食需求</span> <span class="form__optional"><span lang="en">optional</span><span lang="de">optional</span><span lang="zh-Hans">选填</span></span></label>
           <textarea class="form__input" id="rsvp-dietary" name="dietary" rows="2" placeholder="Vegetarian, allergies, …" data-placeholder-de="Vegetarisch, Allergien, …" data-placeholder-zh="素食、过敏等……"></textarea>
         </div>
@@ -569,6 +583,7 @@
               <div class="form__choices">
                 <label class="choice"><input type="radio" name="payment" value="bank-transfer" id="pay-transfer" checked><span class="choice__text"><span lang="en">Bank transfer</span><span lang="de">Überweisung</span><span lang="zh-Hans">银行转账</span></span></label>
                 <label class="choice"><input type="radio" name="payment" value="paypal" id="pay-paypal"><span class="choice__text">PayPal</span></label>
+                <label class="choice"><input type="radio" name="payment" value="wechat" id="pay-wechat"><span class="choice__text"><span lang="en">WeChat Pay</span><span lang="de">WeChat Pay</span><span lang="zh-Hans">微信支付</span></span></label>
                 <label class="choice"><input type="radio" name="payment" value="cash" id="pay-cash"><span class="choice__text"><span lang="en">Cash at the wedding</span><span lang="de">Bar auf der Hochzeit</span><span lang="zh-Hans">婚礼当天现金</span></span></label>
               </div>
             </fieldset>
@@ -598,6 +613,17 @@
                 <figure class="bank__qr pay__qr">
                   <img src="images/paypal-qr.png" alt="QR code that opens the PayPal of Lingling and Max" data-alt-de="QR-Code, der das PayPal von Lingling und Max öffnet" data-alt-zh="打开 Lingling 和 Max 的 PayPal 的二维码" width="176" height="176" loading="lazy" decoding="async">
                   <figcaption><span lang="en">Or scan this code with the PayPal app or a phone camera and enter the amount there.</span><span lang="de">Oder diesen Code mit der PayPal-App oder der Handykamera scannen und den Betrag dort eingeben.</span><span lang="zh-Hans">或用 PayPal App 或手机相机扫描此二维码，然后在那里输入金额。</span></figcaption>
+                </figure>
+              </div>
+            </div>
+            <div class="pay pay--wechat">
+              <div class="pay__grid">
+                <div class="pay__main">
+                  <p class="pay__hint"><span lang="en">Scan the code with WeChat and send the equivalent of the total in yuan (RMB). Please add “<span class="gift-text--trees">Olive tree</span><span class="gift-text--amount">Olive grove gift</span> – your name” as the note.</span><span lang="de">Scannt den Code mit WeChat und sendet den Gegenwert des Betrags in Yuan (RMB). Bitte „<span class="gift-text--trees">Olivenbaum</span><span class="gift-text--amount">Olivenhain</span> – euer Name“ als Nachricht angeben.</span><span lang="zh-Hans">请用微信扫一扫，支付与合计金额等值的人民币，并在备注中写上“<span class="gift-text--trees">橄榄树</span><span class="gift-text--amount">橄榄园</span> – 您的名字”。</span></p>
+                </div>
+                <figure class="bank__qr pay__qr pay__qr--wechat">
+                  <img src="images/wechat-pay-qr.jpg" alt="WeChat Pay QR code of Lingling" data-alt-de="WeChat-Pay-QR-Code von Lingling" data-alt-zh="Lingling 的微信收款码" width="468" height="500" loading="lazy" decoding="async">
+                  <figcaption><span lang="en">WeChat Pay · Lingling</span><span lang="de">WeChat Pay · Lingling</span><span lang="zh-Hans">微信支付 · Lingling</span></figcaption>
                 </figure>
               </div>
             </div>
