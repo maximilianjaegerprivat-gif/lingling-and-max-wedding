@@ -10,7 +10,7 @@ Plain HTML, CSS and vanilla JavaScript. No framework, no build step, no dependen
 | --- | --- |
 | `index.html` | The whole site: hero, welcome, schedule, venue and travel, hotels, gallery, gifts (olive trees), RSVP, footer |
 | `thanks.html` | The page guests see after sending the RSVP |
-| `thanks-trees.html` | The page after reserving olive trees: repeats the bank details and the PayPal and cash notes |
+| `thanks-trees.html` | The page after reserving olive trees: repeats the bank details and the PayPal, WeChat and cash notes, and shows the WeChat code to guests who chose WeChat Pay |
 | `css/styles.css` | All styling, with the colours and fonts defined at the top |
 | `js/main.js` | Countdown, lightbox, language toggle, calendar download, olive-tree form, sticky-nav highlighting |
 | `js/qr.js` | A small QR-code generator for the bank-transfer code (no library) |
@@ -75,7 +75,7 @@ Guests choose either a number of trees (€150 each) or an amount of their own i
 - **WeChat Pay:** shows Lingling's WeChat Pay code (`images/wechat-pay-qr.jpg`, cropped from the image exported in WeChat). WeChat pays in yuan, so the note asks for the equivalent of the euro total.
 - **Cash:** the red-envelope note from the card.
 
-The form entry tells you who gave what (trees or an own amount, plus the total in euros) and how they intend to pay; match it against the bank or PayPal account. The price lives in one place: `data-price="150"` on the form in `index.html` (the texts mention €150 too, in `index.html` and `thanks-trees.html`).
+The form entry tells you who gave what (trees or an own amount, plus the total in euros) and how they intend to pay; match it against the bank account, the PayPal account or Lingling's WeChat wallet (WeChat gifts arrive in yuan; the Amount column stays in euros). The price lives in one place: `data-price="150"` on the form in `index.html` (the texts mention €150 too, in `index.html` and `thanks-trees.html`).
 
 To test the whole path without spending €150, pick "My own amount", enter 1, choose PayPal and click "Pay with PayPal": PayPal opens in a new tab with €1. Pay from a PayPal account other than the receiving one, because PayPal does not let an account pay itself. Then send the form: the entry appears under Netlify Forms and in the Notion table, and the thank-you page repeats the PayPal link with €1.
 

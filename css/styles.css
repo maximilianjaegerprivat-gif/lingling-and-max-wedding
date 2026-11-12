@@ -554,8 +554,9 @@ select.form__input { max-width: 8rem; }
 .pay__alt { margin-top: var(--s3); display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .6rem; }
 .pay__email { color: var(--green); overflow-wrap: anywhere; }
 .pay__main { min-width: 0; }
-.pay__qr img { width: 11rem; height: 11rem; background: #fff; border: 6px solid var(--paper); outline: 1px solid var(--line); }
-.pay__qr--wechat img { width: 12rem; height: auto; aspect-ratio: 468 / 500; }
+.pay__qr img { width: 11rem; height: auto; aspect-ratio: 1; background: #fff; border: 6px solid var(--paper); outline: 1px solid var(--line); }
+.pay__qr--wechat img { width: 12rem; aspect-ratio: 468 / 500; }
+.page__card .pay__qr { margin: var(--s5) auto 0; } /* the WeChat code on the gift thank-you page */
 
 .form__actions { display: grid; gap: var(--s3); justify-items: start; margin-top: var(--s1); }
 .form__hint { font-size: .95rem; color: var(--green-muted); }

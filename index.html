@@ -483,7 +483,7 @@
 
         <div class="form__row form__row--attending">
           <label class="form__label" for="rsvp-rooms"><span lang="en">How many rooms have you booked at the Grandhotel?</span><span lang="de">Wie viele Zimmer habt ihr im Grandhotel gebucht?</span><span lang="zh-Hans">您在 Grandhotel 预订了几间房？</span></label>
-          <select class="form__input" id="rsvp-rooms" name="rooms">
+          <select class="form__input" id="rsvp-rooms" name="rooms" aria-describedby="rsvp-rooms-hint">
             <option value="" selected>–</option>
             <option value="0">0</option>
             <option value="1">1</option>
@@ -492,7 +492,7 @@
             <option value="4">4</option>
             <option value="5">5</option>
           </select>
-          <p class="form__hint"><span lang="en">Choose 0 if you have not booked yet or are staying elsewhere.</span><span lang="de">Wählt 0, wenn ihr noch nicht gebucht habt oder woanders übernachtet.</span><span lang="zh-Hans">如果尚未预订或住在别处，请选择 0。</span></p>
+          <p class="form__hint" id="rsvp-rooms-hint"><span lang="en">Choose 0 if you have not booked yet or are staying elsewhere.</span><span lang="de">Wählt 0, wenn ihr noch nicht gebucht habt oder woanders übernachtet.</span><span lang="zh-Hans">如果尚未预订或住在别处，请选择 0。</span></p>
         </div>
 
         <div class="form__row form__row--attending">
@@ -619,7 +619,7 @@
             <div class="pay pay--wechat">
               <div class="pay__grid">
                 <div class="pay__main">
-                  <p class="pay__hint"><span lang="en">Scan the code with WeChat and send the equivalent of the total in yuan (RMB). Please add “<span class="gift-text--trees">Olive tree</span><span class="gift-text--amount">Olive grove gift</span> – your name” as the note.</span><span lang="de">Scannt den Code mit WeChat und sendet den Gegenwert des Betrags in Yuan (RMB). Bitte „<span class="gift-text--trees">Olivenbaum</span><span class="gift-text--amount">Olivenhain</span> – euer Name“ als Nachricht angeben.</span><span lang="zh-Hans">请用微信扫一扫，支付与合计金额等值的人民币，并在备注中写上“<span class="gift-text--trees">橄榄树</span><span class="gift-text--amount">橄榄园</span> – 您的名字”。</span></p>
+                  <p class="pay__hint"><span lang="en">Scan the code with WeChat and send the equivalent of the total in yuan (RMB). Please add “<span class="gift-text--trees">Olive tree</span><span class="gift-text--amount">Olive grove gift</span> – your name” as the note. Reading this on your phone, or WeChat declines the amount? Then send it to Lingling as a transfer in WeChat instead.</span><span lang="de">Scannt den Code mit WeChat und sendet den Gegenwert des Betrags in Yuan (RMB). Bitte „<span class="gift-text--trees">Olivenbaum</span><span class="gift-text--amount">Olivenhain</span> – euer Name“ als Nachricht angeben. Ihr lest das am Handy, oder WeChat lehnt den Betrag ab? Dann sendet ihn bitte per WeChat-Überweisung direkt an Lingling.</span><span lang="zh-Hans">请用微信扫一扫，支付与合计金额等值的人民币，并在备注中写上“<span class="gift-text--trees">橄榄树</span><span class="gift-text--amount">橄榄园</span> – 您的名字”。如果您正在用手机浏览，或微信提示超出限额，请直接在微信里转账给 Lingling。</span></p>
                 </div>
                 <figure class="bank__qr pay__qr pay__qr--wechat">
                   <img src="images/wechat-pay-qr.jpg" alt="WeChat Pay QR code of Lingling" data-alt-de="WeChat-Pay-QR-Code von Lingling" data-alt-zh="Lingling 的微信收款码" width="468" height="500" loading="lazy" decoding="async">

@@ -565,6 +565,9 @@
         a.href = a.getAttribute('data-paypal').replace(/\/+$/, '') + '/' + total + 'EUR';
       });
     }
+    // A guest who chose WeChat Pay gets the code right here
+    var code = doc.querySelector('[data-wechat-code]');
+    if (code && gift.payment === 'wechat') { code.hidden = false; }
     var ref = doc.querySelector('[data-reference]');
     if (ref && typeof gift.reference === 'string' && /^Olive (trees?|grove gift) for Lingling and Max/.test(gift.reference)) {
       ref.textContent = gift.reference.slice(0, 140);
@@ -602,6 +605,7 @@
         Array.prototype.forEach.call(rsvp.querySelectorAll('.form__row--attending input, .form__row--attending select, .form__row--attending textarea'), function (el) { el.disabled = off; });
       }
       Array.prototype.forEach.call(rsvp.querySelectorAll('input[name="attending"]'), function (r) { r.addEventListener('change', syncAttending); });
+      window.addEventListener('pageshow', syncAttending); // the browser may restore "Sadly not" after "back" without a change event
       syncAttending();
     }
   })();
