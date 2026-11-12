@@ -404,7 +404,7 @@
   (function oliveTrees() {
     var form = doc.querySelector('.olive-form');
     if (!form) { return; }
-    var price = parseFloat(form.getAttribute('data-price')) || 140;
+    var price = parseFloat(form.getAttribute('data-price')) || 150;
     var select = form.querySelector('#tree-count');
     var nameInput = form.querySelector('#tree-name');
     var totals = form.querySelectorAll('[data-total]');
@@ -412,7 +412,17 @@
     var paypal = form.querySelector('[data-paypal]');
     var bank = form.querySelector('.bank');
     var canvas = doc.getElementById('epc-qr');
-    var count = 1, total = price;
+    var amountInput = form.querySelector('#gift-value');
+    var totalField = form.querySelector('input[name="total"]');
+    var count = 1, total = price, mode = 'trees';
+
+    // Own amount: whole euros only; anything else counts as "not entered yet"
+    function ownAmount() {
+      var v = amountInput ? String(amountInput.value).trim() : '';
+      if (!/^\d{1,6}$/.test(v)) { return 0; }
+      var n = parseInt(v, 10);
+      return n >= 1 && n <= 100000 ? n : 0;
+    }
 
     function money(n) {
       var s = String(Math.round(n));
@@ -429,7 +439,8 @@
     function reference() {
       var n = nameInput ? sepaText(nameInput.value) : '';
       if (!/[A-Za-z0-9]/.test(n.replace(/\band\b/g, ''))) { n = ''; } // e.g. a name in Chinese characters only
-      return ('Olive tree' + (count > 1 ? 's' : '') + ' for Lingling and Max' + (n ? ' - ' + n : '')).slice(0, 140);
+      var what = mode === 'amount' ? 'Olive grove gift' : 'Olive tree' + (count > 1 ? 's' : '');
+      return (what + ' for Lingling and Max' + (n ? ' - ' + n : '')).slice(0, 140);
     }
     function drawQr() {
       if (!canvas || !window.LMQR || !bank || !canvas.getContext) { return; }
@@ -437,7 +448,8 @@
       var bic = (bank.getAttribute('data-bic') || '').replace(/\s+/g, '').toUpperCase();
       var holder = bank.getAttribute('data-holder') || 'Maximilian Jaeger';
       // EPC069-12 "SEPA credit transfer" payload (GiroCode), version 002, UTF-8
-      var payload = ['BCD', '002', '1', 'SCT', bic, holder, iban, 'EUR' + total.toFixed(2), '', '', reference()].join('\n');
+      // The amount line may stay empty (own amount not entered yet): the banking app then asks for it
+      var payload = ['BCD', '002', '1', 'SCT', bic, holder, iban, total > 0 ? 'EUR' + total.toFixed(2) : '', '', '', reference()].join('\n');
       var qr;
       try { qr = window.LMQR.encode(payload); } catch (e) { return; }
       var quiet = 4, dpr = window.devicePixelRatio || 1;
@@ -457,18 +469,38 @@
       }
     }
     function update() {
+      var picked = form.querySelector('input[name="gift"]:checked');
+      mode = picked && picked.value === 'amount' && amountInput ? 'amount' : 'trees';
+      form.setAttribute('data-gift', mode);
+      // Only the field of the chosen kind is sent, and only that one is required
+      select.disabled = mode === 'amount';
+      if (amountInput) { amountInput.disabled = mode !== 'amount'; amountInput.required = mode === 'amount'; }
       count = parseInt(select.value, 10) || 1;
-      total = count * price;
-      Array.prototype.forEach.call(totals, function (el) { el.textContent = money(total); });
+      total = mode === 'amount' ? ownAmount() : count * price;
+      Array.prototype.forEach.call(totals, function (el) { el.textContent = total > 0 ? money(total) : '—'; });
       var per = form.querySelector('[data-per-tree]');
-      if (per) { per.hidden = count === 1; }
+      if (per) { per.hidden = mode === 'amount' || count === 1; }
       Array.prototype.forEach.call(refs, function (el) { el.textContent = reference(); });
       if (paypal) {
-        paypal.href = paypal.getAttribute('data-paypal').replace(/\/+$/, '') + '/' + total + 'EUR';
+        paypal.href = paypal.getAttribute('data-paypal').replace(/\/+$/, '') + (total > 0 ? '/' + total + 'EUR' : '');
       }
+      if (totalField) { totalField.value = total > 0 ? String(total) : ''; }
       drawQr();
     }
     select.addEventListener('change', update);
+    if (amountInput) { amountInput.addEventListener('input', update); }
+    Array.prototype.forEach.call(form.querySelectorAll('input[name="gift"]'), function (radio) {
+      radio.addEventListener('change', function () {
+        update();
+        if (mode === 'amount' && radio.checked && amountInput) { amountInput.focus(); }
+      });
+    });
+    // Remember the gift for the thank-you page, which pre-fills its PayPal link with the amount
+    form.addEventListener('submit', function () {
+      var pay = form.querySelector('input[name="payment"]:checked');
+      try { sessionStorage.setItem('lm-gift', JSON.stringify({ total: total, payment: pay ? pay.value : '' })); } catch (e) { /* storage blocked: the plain link still works */ }
+    });
+    window.addEventListener('pageshow', update); // the browser may restore the form after "back"
     if (nameInput) { nameInput.addEventListener('input', update); }
     Array.prototype.forEach.call(form.querySelectorAll('[data-step]'), function (btn) {
       btn.addEventListener('click', function () {
@@ -499,6 +531,22 @@
     });
     doc.addEventListener('langchange', update);
     update();
+  })();
+
+  /* ---------------------------------------------------------------
+     Thank-you page for gifts: pre-fill its PayPal link with the amount
+     the guest has just chosen (kept in sessionStorage by the form)
+     --------------------------------------------------------------- */
+  (function giftThanks() {
+    if (doc.querySelector('.olive-form')) { return; }
+    var links = doc.querySelectorAll('a[data-paypal]');
+    if (!links.length) { return; }
+    var total = 0;
+    try { total = parseInt(JSON.parse(sessionStorage.getItem('lm-gift') || '{}').total, 10) || 0; } catch (e) { total = 0; }
+    if (total < 1 || total > 100000) { return; }
+    Array.prototype.forEach.call(links, function (a) {
+      a.href = a.getAttribute('data-paypal').replace(/\/+$/, '') + '/' + total + 'EUR';
+    });
   })();
 
   /* ---------------------------------------------------------------

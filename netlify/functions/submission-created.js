@@ -25,10 +25,16 @@ const COLUMNS = {
   'Dietary': 'rich_text',
   'Message': 'rich_text',
   'Trees': 'number',
+  'Amount': 'number',
   'Payment': 'select',
   'Language': 'select',
   'Submitted': 'date',
   'Netlify ID': 'rich_text'
+};
+
+// How a column is set up when the function has to create it (the amount shows as euros).
+const COLUMN_OPTIONS = {
+  'Amount': { format: 'euro' }
 };
 
 // Columns that may already exist under another name (same type) and are used instead.
@@ -113,7 +119,7 @@ async function resolveDatabase(token, id) {
   } while (cursor);
   // The page holds no database yet (a simple table is not one): create "Replies" in it.
   const properties = { 'Name': { title: {} } };
-  for (const name of Object.keys(COLUMNS)) { properties[name] = { [COLUMNS[name]]: {} }; }
+  for (const name of Object.keys(COLUMNS)) { properties[name] = { [COLUMNS[name]]: COLUMN_OPTIONS[name] || {} }; }
   const created = await notion(token, 'POST', '/databases', {
     parent: { type: 'page_id', page_id: id },
     title: [{ type: 'text', text: { content: 'Replies' } }],
@@ -141,10 +147,12 @@ async function ensureColumns(token, databaseId, db) {
     if (col) { names[name] = col; types[name] = existing[col].type; continue; }
     names[name] = name;
     types[name] = COLUMNS[name];
-    if (!existing[name]) { missing[name] = { [COLUMNS[name]]: {} }; }
+    if (!existing[name]) { missing[name] = { [COLUMNS[name]]: COLUMN_OPTIONS[name] || {} }; }
   }
   if (Object.keys(missing).length) {
-    await notion(token, 'PATCH', '/databases/' + databaseId, { properties: missing });
+    const updated = await notion(token, 'PATCH', '/databases/' + databaseId, { properties: missing });
+    // Keep the cached copy current, so a warm function does not add the columns again.
+    if (updated && updated.properties) { db.properties = updated.properties; }
   }
   return { titleName, names, types };
 }
@@ -170,7 +178,12 @@ function buildProperties(columns, payload) {
     set('Dietary', text(d.dietary));
     set('Message', text(d.message));
   } else if (form === 'olive-trees') {
-    set('Trees', number(d.trees));
+    // Either whole trees or an own amount. "total" is filled in by the page's script:
+    // trees × price, or the own amount; without JavaScript only the own amount is known.
+    const own = d.gift === 'amount';
+    if (own) { set('Form', { select: { name: 'Own amount' } }); }
+    set('Trees', number(own ? '' : d.trees));
+    set('Amount', number(own ? (d.amount || d.total) : d.total));
     set('Payment', select(d.payment, { 'bank-transfer': 'Bank transfer', 'paypal': 'PayPal', 'cash': 'Cash' }));
   }
   return props;

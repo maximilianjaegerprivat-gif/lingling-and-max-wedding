@@ -507,7 +507,7 @@
         <p class="lead lead--quote" lang="de">Eure Anwesenheit ist schon unser größtes Geschenk.</p>
         <p class="lead lead--quote" lang="zh-Hans">你们的到来已是我们最大的礼物。</p>
       </div>
-      <!-- PLACEHOLDER: the PayPal.me link below. BIC was derived from the IBAN (N26). -->
+      <!-- The BIC was derived from the IBAN (N26). PayPal: paypal.me/maxandlingling, the profile shows "Maximilian Jaeger". -->
       <div class="olive">
         <div class="olive__art">
           <img src="images/olive-tree.svg" alt="An olive tree with a small gold plaque reading Lingling and Max" data-alt-de="Ein Olivenbaum mit einem kleinen goldenen Schild mit der Aufschrift Lingling und Max" data-alt-zh="一棵橄榄树，挂着写有 Lingling 和 Max 的金色小铭牌" width="400" height="340" loading="lazy" decoding="async">
@@ -521,7 +521,7 @@
           <p lang="de">Als Dankeschön kommt euer Name auf ein graviertes Goldschild am Baum – und ihr bekommt im Jahr nach der Ernte eine Flasche unseres eigenen Olivenöls.</p>
           <p lang="zh-Hans">作为回礼，您的名字将刻在金色铭牌上挂在树上，并在收获后的次年收到一瓶我们自产的橄榄油。</p>
 
-          <form class="olive-form" name="olive-trees" method="POST" action="/thanks-trees.html" data-netlify="true" netlify-honeypot="bot-field" data-price="140">
+          <form class="olive-form" name="olive-trees" method="POST" action="/thanks-trees.html" data-netlify="true" netlify-honeypot="bot-field" data-price="150" data-gift="trees">
             <input type="hidden" name="form-name" value="olive-trees">
             <span class="visually-hidden" role="status" data-copy-status></span>
             <input type="hidden" name="lang" value="en">
@@ -529,8 +529,16 @@
               <label>Leave this field empty: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
             </p>
 
+            <fieldset class="form__row form__fieldset">
+              <legend class="form__label"><span lang="en">What would you like to give?</span><span lang="de">Was möchtet ihr schenken?</span><span lang="zh-Hans">您想送什么？</span></legend>
+              <div class="form__choices">
+                <label class="choice"><input type="radio" name="gift" value="trees" id="gift-trees" checked><span class="choice__text"><span lang="en">Olive trees</span><span lang="de">Olivenbäume</span><span lang="zh-Hans">橄榄树</span></span></label>
+                <label class="choice"><input type="radio" name="gift" value="amount" id="gift-amount"><span class="choice__text"><span lang="en">My own amount</span><span lang="de">Eigener Betrag</span><span lang="zh-Hans">自选金额</span></span></label>
+              </div>
+            </fieldset>
+
             <div class="olive-form__pick">
-              <div class="form__row">
+              <div class="form__row gift--trees">
                 <label class="form__label" for="tree-count"><span lang="en">Number of trees</span><span lang="de">Anzahl Bäume</span><span lang="zh-Hans">树的数量</span></label>
                 <div class="stepper">
                   <button class="stepper__btn js-only" type="button" data-step="-1" aria-label="One tree fewer" data-aria-label-de="Ein Baum weniger" data-aria-label-zh="少一棵树">−</button>
@@ -538,11 +546,17 @@
                   <button class="stepper__btn js-only" type="button" data-step="1" aria-label="One tree more" data-aria-label-de="Ein Baum mehr" data-aria-label-zh="多一棵树">+</button>
                 </div>
               </div>
-              <p class="olive-form__total" role="status"><span class="olive-form__total-label"><span lang="en">Total</span><span lang="de">Gesamt</span><span lang="zh-Hans">合计</span></span> <strong data-total>€140</strong> <span class="olive-form__per" data-per-tree><span lang="en">€140 per tree</span><span lang="de">140 € pro Baum</span><span lang="zh-Hans">每棵 140 欧元</span></span></p>
+              <div class="form__row gift--amount">
+                <label class="form__label" for="gift-value"><span lang="en">Your amount in euros</span><span lang="de">Euer Betrag in Euro</span><span lang="zh-Hans">金额（欧元）</span></label>
+                <div class="amount"><span class="amount__unit" aria-hidden="true">€</span><input class="form__input amount__input" id="gift-value" name="amount" type="number" inputmode="numeric" min="1" max="100000" step="1" placeholder="50" autocomplete="off"></div>
+              </div>
+              <p class="olive-form__total" role="status"><span class="olive-form__total-label"><span lang="en">Total</span><span lang="de">Gesamt</span><span lang="zh-Hans">合计</span></span> <strong data-total>€150</strong> <span class="olive-form__per" data-per-tree><span lang="en">€150 per tree</span><span lang="de">150 € pro Baum</span><span lang="zh-Hans">每棵 150 欧元</span></span></p>
             </div>
+            <p class="form__hint gift--amount"><span lang="en">Every amount is welcome and goes towards our olive grove.</span><span lang="de">Jeder Betrag ist willkommen und fließt in unseren Olivenhain.</span><span lang="zh-Hans">任何金额我们都心怀感激，并将全部用于我们的橄榄园。</span></p>
+            <input type="hidden" name="total" value="">
 
             <div class="form__row">
-              <label class="form__label" for="tree-name"><span lang="en">Your name for the plaque</span><span lang="de">Euer Name für das Schild</span><span lang="zh-Hans">刻在铭牌上的名字</span></label>
+              <label class="form__label" for="tree-name"><span lang="en"><span class="gift-text--trees">Your name for the plaque</span><span class="gift-text--amount">Your name</span></span><span lang="de"><span class="gift-text--trees">Euer Name für das Schild</span><span class="gift-text--amount">Euer Name</span></span><span lang="zh-Hans"><span class="gift-text--trees">刻在铭牌上的名字</span><span class="gift-text--amount">您的名字</span></span></label>
               <input class="form__input" id="tree-name" name="name" type="text" required autocomplete="name" autocapitalize="words" spellcheck="false" placeholder="Jane &amp; John Doe" data-placeholder-de="Erika &amp; Max Mustermann" data-placeholder-zh="张三 &amp; 李四">
             </div>
             <div class="form__row">
@@ -565,7 +579,7 @@
                   <div class="bank__row"><dt><span lang="en">Account holder</span><span lang="de">Kontoinhaber</span><span lang="zh-Hans">收款人</span></dt><dd><span data-copy-value="holder">Maximilian Jaeger</span></dd></div>
                   <div class="bank__row"><dt>IBAN</dt><dd><span data-copy-value="iban">DE51 1001 1001 2755 0619 60</span> <button class="copy js-only" type="button" data-copy="iban"><span class="copy__label"><span lang="en">Copy</span><span lang="de">Kopieren</span><span lang="zh-Hans">复制</span></span><span class="copy__done" hidden><span lang="en">Copied</span><span lang="de">Kopiert</span><span lang="zh-Hans">已复制</span></span></button></dd></div>
                   <div class="bank__row"><dt>BIC</dt><dd><span data-copy-value="bic">NTSBDEB1XXX</span></dd></div>
-                  <div class="bank__row"><dt><span lang="en">Amount</span><span lang="de">Betrag</span><span lang="zh-Hans">金额</span></dt><dd><span data-total>€140</span></dd></div>
+                  <div class="bank__row"><dt><span lang="en">Amount</span><span lang="de">Betrag</span><span lang="zh-Hans">金额</span></dt><dd><span data-total>€150</span></dd></div>
                   <div class="bank__row"><dt><span lang="en">Reference</span><span lang="de">Verwendungszweck</span><span lang="zh-Hans">转账附言</span></dt><dd><span data-copy-value="reference" data-reference>Olive tree for Lingling &amp; Max</span> <button class="copy js-only" type="button" data-copy="reference"><span class="copy__label"><span lang="en">Copy</span><span lang="de">Kopieren</span><span lang="zh-Hans">复制</span></span><span class="copy__done" hidden><span lang="en">Copied</span><span lang="de">Kopiert</span><span lang="zh-Hans">已复制</span></span></button></dd></div>
                 </dl>
                 <figure class="bank__qr js-only">
@@ -575,16 +589,18 @@
               </div>
             </div>
             <div class="pay pay--paypal">
-              <a class="btn btn--primary" data-paypal="https://paypal.me/PLACEHOLDER" href="https://paypal.me/PLACEHOLDER" target="_blank" rel="noopener"><span lang="en">Pay with PayPal</span><span lang="de">Mit PayPal bezahlen</span><span lang="zh-Hans">用 PayPal 支付</span></a>
+              <a class="btn btn--primary" data-paypal="https://paypal.me/maxandlingling" href="https://paypal.me/maxandlingling" target="_blank" rel="noopener"><span lang="en">Pay with PayPal</span><span lang="de">Mit PayPal bezahlen</span><span lang="zh-Hans">用 PayPal 支付</span></a>
               <p class="pay__hint"><span lang="en">The amount is pre-filled when you open the link. Please add “Olive tree – your name” as the note.</span><span lang="de">Der Betrag ist vorausgefüllt. Bitte „Olivenbaum – euer Name“ als Nachricht angeben.</span><span lang="zh-Hans">金额已预先填好。请在备注中写上“Olive tree – 您的名字”。</span></p>
+              <p class="pay__hint pay__alt"><span lang="en">Or send it in the PayPal app to</span><span lang="de">Oder sendet es in der PayPal-App an</span><span lang="zh-Hans">或在 PayPal App 中付款至</span> <span class="pay__email" data-copy-value="paypal-email">maxandlingling@gmail.com</span> <button class="copy js-only" type="button" data-copy="paypal-email"><span class="copy__label"><span lang="en">Copy</span><span lang="de">Kopieren</span><span lang="zh-Hans">复制</span></span><span class="copy__done" hidden><span lang="en">Copied</span><span lang="de">Kopiert</span><span lang="zh-Hans">已复制</span></span></button></p>
             </div>
             <div class="pay pay--cash">
               <p class="pay__hint"><span lang="en">Bring the amount in a red envelope, as is the custom at Chinese weddings, to the entrance on the wedding day — a basket will be waiting.</span><span lang="de">Bringt den Betrag im roten Umschlag – wie es bei chinesischen Hochzeiten Brauch ist – am Hochzeitstag zum Eingang mit; dort wartet ein Körbchen.</span><span lang="zh-Hans">婚礼当天请将现金装在红包里带到入口处——那里会有一个小篮子等着您。</span></p>
             </div>
 
             <div class="form__actions">
-              <button class="btn btn--primary" type="submit"><span class="btn__label"><span lang="en">Reserve my tree</span><span lang="de">Meinen Baum reservieren</span><span lang="zh-Hans">预订我的橄榄树</span></span><span class="btn__busy" hidden><span lang="en">Sending…</span><span lang="de">Wird gesendet…</span><span lang="zh-Hans">发送中……</span></span></button>
-              <p class="form__hint"><span lang="en">We will note your tree, engrave your name on the gold plate and keep a bottle of our olive oil for you.</span><span lang="de">Wir merken uns euren Baum, gravieren euren Namen auf das Goldschild und legen eine Flasche unseres Olivenöls für euch zurück.</span><span lang="zh-Hans">我们会记下您的橄榄树，把您的名字刻在金色铭牌上，并为您留一瓶我们的橄榄油。</span></p>
+              <button class="btn btn--primary" type="submit"><span class="btn__label"><span lang="en"><span class="gift-text--trees">Reserve my tree</span><span class="gift-text--amount">Register my gift</span></span><span lang="de"><span class="gift-text--trees">Meinen Baum reservieren</span><span class="gift-text--amount">Mein Geschenk eintragen</span></span><span lang="zh-Hans"><span class="gift-text--trees">预订我的橄榄树</span><span class="gift-text--amount">登记我的心意</span></span></span><span class="btn__busy" hidden><span lang="en">Sending…</span><span lang="de">Wird gesendet…</span><span lang="zh-Hans">发送中……</span></span></button>
+              <p class="form__hint gift--trees"><span lang="en">We will note your tree, engrave your name on the gold plate and keep a bottle of our olive oil for you.</span><span lang="de">Wir merken uns euren Baum, gravieren euren Namen auf das Goldschild und legen eine Flasche unseres Olivenöls für euch zurück.</span><span lang="zh-Hans">我们会记下您的橄榄树，把您的名字刻在金色铭牌上，并为您留一瓶我们的橄榄油。</span></p>
+              <p class="form__hint gift--amount"><span lang="en">We will note your gift. Thank you for helping our olive grove grow.</span><span lang="de">Wir notieren euer Geschenk. Danke, dass ihr unseren Olivenhain wachsen lasst.</span><span lang="zh-Hans">我们会记下您的心意，感谢您帮助我们的橄榄园成长。</span></p>
             </div>
           </form>
         </div>

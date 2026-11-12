@@ -44,7 +44,7 @@ What is already set up (October 2026):
 
 - Notion connection **Wedding site** (Developer tools → Connections) with content access to the Wedding RSVP database.
 - Netlify environment variable `NOTION_DATABASE_ID` = `895bc95144ae4d8f93927d77224e4d65` (the 32 characters at the end of the Wedding RSVP page URL). The function writes into the first database inside that page: the inline table **Replies**, which it created on the first submission (if the page ever has no database, it creates one again).
-- Columns: Name, Form (RSVP or Olive tree), Email, Attending, Days, Guests, Dietary, Message, Trees, Payment, Language, Submitted, Netlify ID. Columns you add by hand are left alone; if you rename one, the function adds the original name back on the next submission.
+- Columns: Name, Form (RSVP, Olive tree, or Own amount), Email, Attending, Days, Guests, Dietary, Message, Trees, Amount (in euros: trees × price, or the guest's own amount), Payment, Language, Submitted, Netlify ID. Columns you add by hand are left alone; if you rename one, the function adds the original name back on the next submission.
 
 Still needed once: the connection's secret token. Open the connection in Notion, copy the **API token** (Configuration tab), then in Netlify → project → **Project configuration → Environment variables** add `NOTION_TOKEN` with that value (tick "Contains secret values" and paste it into the Production field). Then **Deploys → Trigger deploy** once so the function picks it up, send one test reply from the website and check the database. The function's log is under **Logs → Functions** if something is off.
 
@@ -59,7 +59,7 @@ Domain management → **Add a domain**. Netlify shows the DNS records for the re
 Search `index.html` for `PLACEHOLDER`. The important ones:
 
 1. **Bank details** for the olive trees: in the gifts section, the `<dl class="bank">` element carries `data-holder`, `data-iban` and `data-bic` (used for the QR code) and shows the same values as text. IBAN and account holder (Maximilian Jaeger) are in; the BIC `NTSBDEB1XXX` was derived from the IBAN (N26).
-2. **PayPal link:** the `data-paypal` and `href` on the PayPal button, `https://paypal.me/PLACEHOLDER`. Create a PayPal.me name at paypal.me and put the full link there. The amount is added automatically (`/280EUR` for two trees).
+2. **PayPal link:** done. The PayPal button in the gifts section and the link on `thanks-trees.html` point to `https://paypal.me/maxandlingling` (attributes `data-paypal` and `href`; the profile shows "Maximilian Jaeger"). The amount is added automatically (`/300EUR` for two trees, `/50EUR` for an own amount of 50). The PayPal address `maxandlingling@gmail.com` is shown next to it for guests who prefer to send from the PayPal app.
 3. **The church** for the ceremony and whether it starts at 11:00 or 12:00 (the page says "to be confirmed"; the countdown in `js/main.js` targets 12:00 until then), where Saturday's coffee and tea takes place, dress codes, travel details (shuttles, parking).
 4. **Hotels:** done. Guests book directly with the Grandhotel Kitzbühel (email, phone, keyword "Hochzeit Max & Lingling", €239 per room and night, cancellation terms). If the hotel changes the rate or the terms, edit the accommodation section in `index.html`.
 5. **RSVP deadline**, the church-to-hotel transfer after the ceremony, the time of the Sunday breakfast, arrival advice for guests from abroad (visa invitation letters), and a day-of contact number. The audit lists all open points in `DESIGN_AUDIT.md`, section 10.
@@ -68,13 +68,15 @@ Search `index.html` for `PLACEHOLDER`. The important ones:
 
 ## How the olive-tree gift works
 
-Guests choose the number of trees (€140 each), see the total, enter their name for the plaque, pick a payment method and send the small form. Nothing is charged on the website itself:
+Guests choose either a number of trees (€150 each) or an amount of their own in whole euros, see the total, enter their name, pick a payment method and send the small form. Nothing is charged on the website itself:
 
 - **Bank transfer:** shows the account details, a copy button, and a QR code in the European EPC/GiroCode format with the amount and reference pre-filled. Most banking apps in Germany and Austria scan it directly.
-- **PayPal:** opens your PayPal.me page with the amount pre-filled (a link, so no PayPal script is loaded on the site).
+- **PayPal:** opens your PayPal.me page with the amount pre-filled (a link, so no PayPal script is loaded on the site). The thank-you page repeats the link, again with the amount.
 - **Cash:** the red-envelope note from the card.
 
-The form entry tells you who reserved how many trees and how they intend to pay; match it against the bank or PayPal account. The price lives in one place: `data-price="140"` on the form in `index.html` (the texts mention €140 too).
+The form entry tells you who gave what (trees or an own amount, plus the total in euros) and how they intend to pay; match it against the bank or PayPal account. The price lives in one place: `data-price="150"` on the form in `index.html` (the texts mention €150 too, in `index.html` and `thanks-trees.html`).
+
+To test the whole path without spending €150, pick "My own amount", enter 1, choose PayPal and send the form: PayPal opens with €1, and the entry appears under Netlify Forms and in the Notion table.
 
 ## Editing the site
 

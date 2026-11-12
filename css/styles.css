@@ -529,6 +529,26 @@ select.form__input { max-width: 8rem; }
 .choice input:focus-visible { outline: none; }
 .choice:has(input:focus-visible) { outline: 2px solid var(--gold-text); outline-offset: 2px; }
 
+/* Gift: whole trees or an own amount. With JavaScript the form carries data-gift;
+   without it :has() reads the radio; with neither, both fields simply show. */
+.js .olive-form[data-gift="trees"] .gift--amount,
+.js .olive-form[data-gift="amount"] .gift--trees,
+.js .olive-form[data-gift="amount"] .gift-text--trees { display: none; }
+.gift-text--amount { display: none; }
+.js .olive-form[data-gift="amount"] .gift-text--amount { display: inline; }
+@supports selector(:has(a)) {
+  .no-js .olive-form:has(#gift-trees:checked) .gift--amount,
+  .no-js .olive-form:has(#gift-amount:checked) .gift--trees,
+  .no-js .olive-form:has(#gift-amount:checked) .gift-text--trees { display: none; }
+  .no-js .olive-form:has(#gift-amount:checked) .gift-text--amount { display: inline; }
+}
+.amount { display: inline-flex; align-items: stretch; border: 1px solid var(--line-strong); border-radius: var(--radius-s); background: var(--paper); }
+.amount__unit { display: grid; place-items: center; width: 2.75rem; font-size: 1.15rem; color: var(--green-muted); border-right: 1px solid var(--line-strong); }
+.amount .amount__input { border: 0; border-radius: 0; width: 7.5rem; min-height: 2.75rem; background: transparent; font-variant-numeric: tabular-nums; }
+.amount .amount__input:focus-visible { outline: var(--focus-ring); outline-offset: -2px; }
+.pay__alt { margin-top: var(--s3); display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .6rem; }
+.pay__email { color: var(--green); overflow-wrap: anywhere; }
+
 .form__actions { display: grid; gap: var(--s3); justify-items: start; margin-top: var(--s1); }
 .form__hint { font-size: .95rem; color: var(--green-muted); }
 
