@@ -63,7 +63,7 @@ Search `index.html` for `PLACEHOLDER`. The important ones:
 3. **The church** for the ceremony and whether it starts at 11:00 or 12:00 (the page says "to be confirmed"; the countdown in `js/main.js` targets 12:00 until then), where Saturday's coffee and tea takes place, dress codes, travel details (shuttles, parking).
 4. **Hotels:** done. Guests book directly with the Grandhotel Kitzbühel (email, phone, keyword "Hochzeit Max & Lingling", €239 per room and night, cancellation terms). If the hotel changes the rate or the terms, edit the accommodation section in `index.html`.
 5. **RSVP deadline**, the church-to-hotel transfer after the ceremony, the time of the Sunday breakfast, arrival advice for guests from abroad (visa invitation letters), and a day-of contact number. The audit lists all open points in `DESIGN_AUDIT.md`, section 10.
-6. **Contact email** in the footer (`hello@example.com`).
+6. **Contact email:** done. The footer of `index.html`, `thanks.html` and `thanks-trees.html` shows `maxandlingling@gmail.com`.
 7. **Hero photo:** `images/hero.jpg` was cropped from the invitation card (728 px wide). Drop in the original photo at full resolution under the same name.
 
 ## How the olive-tree gift works
