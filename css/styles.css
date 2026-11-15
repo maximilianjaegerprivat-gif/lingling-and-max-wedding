@@ -383,17 +383,15 @@ html[data-lang="zh"] .dress { column-gap: 0; }
 }
 
 /* ---------- Venue & travel ---------- */
-.venue { display: grid; gap: var(--s5); }
-.venue__card .btn { margin-top: var(--s4); }
+.venue { display: grid; gap: var(--s6); max-width: var(--narrow); margin-inline: auto; } /* one column: the venue card above "Getting there" */
+.venue__links { display: flex; flex-wrap: wrap; gap: .25rem 1.75rem; margin-top: var(--s4); } /* Google Maps and the hotel website side by side */
+.venue__links .btn { padding-inline: 0; } /* text-style buttons, aligned with the card text */
 .venue__name { font-size: var(--fs-2); }
 .travel__title { margin-bottom: var(--s5); font-size: var(--fs-3); }
 .travel__list { margin: 0; display: grid; gap: var(--s5); }
 .travel__item dt { display: flex; align-items: center; gap: .6rem; color: var(--green); font-size: 1.125rem; font-weight: 600; margin-bottom: .2rem; }
 .travel__icon { color: var(--sage); flex: none; }
 .travel__item dd { margin: 0; color: var(--green-body); padding-left: calc(22px + .6rem); }
-@media (min-width: 50em) {
-  .venue { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(2rem, 2rem + 2vw, 4rem); align-items: start; }
-}
 
 /* ---------- Cards (hotels) ---------- */
 .cards { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s5); }
