@@ -12,7 +12,7 @@ Plain HTML, CSS and vanilla JavaScript. No framework, no build step, no dependen
 | `thanks.html` | The page guests see after sending the RSVP |
 | `thanks-trees.html` | The page after reserving olive trees: repeats the bank details and the PayPal, WeChat and cash notes, and shows the WeChat code to guests who chose WeChat Pay |
 | `css/styles.css` | All styling, with the colours and fonts defined at the top |
-| `js/main.js` | Countdown, lightbox, language toggle, calendar download, olive-tree form, sticky-nav highlighting |
+| `js/main.js` | Lightbox, language toggle, calendar download, olive-tree form, sticky-nav highlighting |
 | `js/qr.js` | A small QR-code generator for the bank-transfer code (no library) |
 | `js/head.js` | Tiny script that restores the saved language before the page paints |
 | `images/` | Hero photo, gallery images, olive tree and sprig drawings, favicons, the social-preview image |
@@ -44,7 +44,7 @@ What is already set up (October 2026):
 
 - Notion connection **Wedding site** (Developer tools → Connections) with content access to the Wedding RSVP database.
 - Netlify environment variable `NOTION_DATABASE_ID` = `895bc95144ae4d8f93927d77224e4d65` (the 32 characters at the end of the Wedding RSVP page URL). The function writes into the first database inside that page: the inline table **Replies**, which it created on the first submission (if the page ever has no database, it creates one again).
-- Columns: Name, Form (RSVP, Olive tree, or Own amount), Email, Attending, Days, Guests, Rooms (rooms booked at the hotel; empty if not answered), Dietary, Message, Trees, Amount (in euros: trees × price, or the guest's own amount), Payment, Language, Submitted, Netlify ID. Columns you add by hand are left alone; if you rename one, the function adds the original name back on the next submission.
+- Columns: Name, Form (RSVP or Olive tree; entries from before 15 November 2026 may say Own amount), Email, Attending, Days, Guests, Rooms (rooms booked at the hotel; empty if not answered), Dietary, Message, Trees, Amount (in euros: trees × price), Payment, Language, Submitted, Netlify ID. Columns you add by hand are left alone; if you rename one, the function adds the original name back on the next submission.
 
 Still needed once: the connection's secret token. Open the connection in Notion, copy the **API token** (Configuration tab), then in Netlify → project → **Project configuration → Environment variables** add `NOTION_TOKEN` with that value (tick "Contains secret values" and paste it into the Production field). Then **Deploys → Trigger deploy** once so the function picks it up, send one test reply from the website and check the database. The function's log is under **Logs → Functions** if something is off.
 
@@ -60,7 +60,7 @@ Search `index.html` for `PLACEHOLDER`. The important ones:
 
 1. **Bank details** for the olive trees: in the gifts section, the `<dl class="bank">` element carries `data-holder`, `data-iban` and `data-bic` (used for the QR code) and shows the same values as text. IBAN and account holder (Maximilian Jaeger) are in; the BIC `NTSBDEB1XXX` was derived from the IBAN (N26).
 2. **PayPal link:** done. The PayPal button in the gifts section and the link on `thanks-trees.html` point to `https://paypal.me/maxandlingling` (attributes `data-paypal` and `href`; the profile shows "Maximilian Jaeger"). The amount is added automatically (`/300EUR` for two trees, `/50EUR` for an own amount of 50). The PayPal address `maxandlingling@gmail.com` is shown next to it for guests who prefer to send from the PayPal app.
-3. **The church** for the ceremony and whether it starts at 11:00 or 12:00 (the page says "to be confirmed"; the countdown in `js/main.js` targets 12:00 until then), where Saturday's coffee and tea takes place, dress codes, travel details (shuttles, parking).
+3. **The church** for the ceremony and whether it starts at 11:00 or 12:00 (the page says "to be confirmed"), where Saturday's coffee and tea takes place, travel details (parking).
 4. **Hotels:** done. Guests book directly with the Grandhotel Kitzbühel (email, phone, keyword "Hochzeit Max & Lingling", €239 per room and night, cancellation terms). If the hotel changes the rate or the terms, edit the accommodation section in `index.html`.
 5. **RSVP deadline**, the church-to-hotel transfer after the ceremony, the time of the Sunday breakfast, arrival advice for guests from abroad (visa invitation letters), and a day-of contact number. The audit lists all open points in `DESIGN_AUDIT.md`, section 10.
 6. **Contact email:** done. The footer of `index.html`, `thanks.html` and `thanks-trees.html` shows `maxandlingling@gmail.com`.
@@ -68,16 +68,16 @@ Search `index.html` for `PLACEHOLDER`. The important ones:
 
 ## How the olive-tree gift works
 
-Guests choose either a number of trees (€150 each) or an amount of their own in whole euros, see the total, enter their name, pick a payment method and send the small form. Nothing is charged on the website itself:
+Guests choose a number of trees (€150 each), see the total, enter their name for the plaque, pick a payment method and send the small form. The payment methods are listed as the couple wants them: cash at the wedding (preselected), PayPal, bank transfer, WeChat Pay. Nothing is charged on the website itself:
 
 - **Bank transfer:** shows the account details, a copy button, and a QR code in the European EPC/GiroCode format with the amount and reference pre-filled. Most banking apps in Germany and Austria scan it directly.
 - **PayPal:** opens your PayPal.me page with the amount pre-filled (a link, so no PayPal script is loaded on the site). The thank-you page repeats the link, again with the amount. The panel also shows your PayPal QR code (`images/paypal-qr.png`, exported from the PayPal app); it opens the PayPal app without an amount, so guests type the amount there.
 - **WeChat Pay:** shows Lingling's WeChat Pay code (`images/wechat-pay-qr.jpg`, cropped from the image exported in WeChat). WeChat pays in yuan, so the note asks for the equivalent of the euro total.
-- **Cash:** the red-envelope note from the card.
+- **Cash:** "Cash in a red envelope", with the footnote that red envelopes are provided at the venue, and a picture of the red envelope box (`images/red-envelope.jpg`).
 
-The form entry tells you who gave what (trees or an own amount, plus the total in euros) and how they intend to pay; match it against the bank account, the PayPal account or Lingling's WeChat wallet (WeChat gifts arrive in yuan; the Amount column stays in euros). The price lives in one place: `data-price="150"` on the form in `index.html` (the texts mention €150 too, in `index.html` and `thanks-trees.html`).
+The form entry tells you who gave how many trees (plus the total in euros) and how they intend to pay; match it against the bank account, the PayPal account or Lingling's WeChat wallet (WeChat gifts arrive in yuan; the Amount column stays in euros). The price lives in one place: `data-price="150"` on the form in `index.html` (the texts mention €150 too, in `index.html` and `thanks-trees.html`).
 
-To test the whole path without spending €150, pick "My own amount", enter 1, choose PayPal and click "Pay with PayPal": PayPal opens in a new tab with €1. Pay from a PayPal account other than the receiving one, because PayPal does not let an account pay itself. Then send the form: the entry appears under Netlify Forms and in the Notion table, and the thank-you page repeats the PayPal link with €1.
+To test the form, send it with one tree and choose cash: nothing is charged, and the entry appears under Netlify Forms and in the Notion table. To test a payment without spending €150, open `https://paypal.me/maxandlingling/1EUR` directly and pay €1 from a PayPal account other than the receiving one (PayPal does not let an account pay itself). The "My own amount" option was removed on 15 November 2026 at the couple's request.
 
 ## Editing the site
 
@@ -100,7 +100,7 @@ To send guests straight to a language, add it to the link: `https://lingling-and
 
 ### Dates and times
 
-If the schedule changes, update it in three places: the texts in `index.html`, the `CEREMONY` and `EVENTS` blocks at the top of `js/main.js` (countdown and calendar download), and `lingling-and-max.ics` (the no-JavaScript calendar file). Times are Europe/Vienna.
+If the schedule changes, update it in three places: the texts in `index.html`, the `EVENTS` block at the top of `js/main.js` (calendar download), and `lingling-and-max.ics` (the no-JavaScript calendar file). Times are Europe/Vienna.
 
 ### Photos
 
@@ -111,7 +111,7 @@ If the schedule changes, update it in three places: the texts in `index.html`, t
 
 ### Colours and fonts
 
-Defined at the top of `css/styles.css` as variables and documented in `DESIGN_SYSTEM.md`: white paper (`--paper`), a faint green-grey band (`--paper-tint`), the sage RSVP band (`--paper-sage`), forest-green ink (`--green`, `--green-body`, `--green-muted`), one gold for the ampersand and ornaments (`--gold`) and a darker gold for small capitals (`--gold-text`), neutral hairlines (`--line`, `--line-strong`). The typeface is the system serif stack (Baskerville on Apple devices, Palatino Linotype or Garamond on Windows, Noto Serif on Android; Songti or SimSun for Chinese), so nothing is downloaded.
+Defined at the top of `css/styles.css` as variables and documented in `DESIGN_SYSTEM.md`: white paper (`--paper`), a faint green-grey band (`--paper-tint`), the sage RSVP band (`--paper-sage`), forest-green ink (`--green`, `--green-body`, `--green-muted`), one gold for the ampersand and ornaments (`--gold`) and a darker gold for small capitals (`--gold-text`), neutral hairlines (`--line`, `--line-strong`). There are two typefaces, both already on the guest's device so nothing is downloaded: a serif for headings and names (Baskerville on Apple devices, Palatino Linotype on Windows; Songti for Chinese) and a clean sans for all other text (San Francisco on Apple, Segoe UI on Windows, Roboto on Android; PingFang or Microsoft YaHei for Chinese). Sizes are set so everything reads at 100 % zoom.
 
 If you ever replace a photo under the same file name, add `?v=2` to its `src` (and to the `og:image` URL), because `netlify.toml` lets browsers cache images for a week.
 

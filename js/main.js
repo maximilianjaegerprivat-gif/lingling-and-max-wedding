@@ -10,26 +10,23 @@
   var root = doc.documentElement;
 
   /* ---------------------------------------------------------------
-     Event data (single source of truth for countdown + calendar file)
+     Event data (single source of truth for the calendar file)
      Times are local to Europe/Vienna (Kitzbühel).
      --------------------------------------------------------------- */
   var TIMEZONE = 'Europe/Vienna'; // Kitzbühel
   var SITE_URL = 'https://lingling-and-max.netlify.app/';
 
-  // PLACEHOLDER: the church still has to confirm 11:00 or 12:00; the countdown targets the later time.
-  var CEREMONY = { y: 2027, m: 7, d: 10, h: 12, min: 0 };
-
   var EVENTS = [
     {
       uid: 'friday-welcome-2027@lingling-and-max.netlify.app',
-      start: [2027, 7, 9, 19, 0],
+      start: [2027, 7, 9, 18, 0],
       end: [2027, 7, 9, 22, 0],
       summary: { en: 'Lingling & Max — Welcome get-together', de: 'Lingling & Max – Willkommensabend', zh: 'Lingling & Max — 欢迎聚会' },
       location: 'Grandhotel Kitzbühel, Malinggasse 12, 6370 Kitzbühel, Austria',
       description: {
-        en: '19:00–22:00 Welcome get-together at the Grandhotel Kitzbühel. Arrive, relax and enjoy the evening with us!',
-        de: '19:00–22:00 Get-together zur Begrüßung im Grandhotel Kitzbühel. Ankommen, entspannen und den Abend mit uns genießen!',
-        zh: '19:00–22:00 在 Grandhotel Kitzbühel 举行欢迎聚会。抵达、放松，和我们一起享受这个夜晚！'
+        en: '18:00–22:00 Welcome get-together at the Grandhotel Kitzbühel. A relaxed evening to arrive and say hello, with a Tyrolean buffet, cold cuts and drinks in the cosy Stube',
+        de: '18:00–22:00 Get-together zur Begrüßung im Grandhotel Kitzbühel. Ein entspannter Abend zum Ankommen und Hallo sagen, mit Tiroler Buffet, Aufschnitt und Getränken in der gemütlichen Stube',
+        zh: '18:00–22:00 在 Grandhotel Kitzbühel 举行欢迎聚会。轻松的夜晚，抵达后互相问候，在温馨的传统木屋餐厅（Stube）享用蒂罗尔自助餐、冷切肉和饮品'
       }
     },
     {
@@ -39,9 +36,9 @@
       summary: { en: 'Lingling & Max — Farewell Breakfast', de: 'Lingling & Max – Abschiedsfrühstück', zh: 'Lingling & Max — 告别早餐' },
       location: 'Grandhotel Kitzbühel, Malinggasse 12, 6370 Kitzbühel, Austria',
       description: {
-        en: 'Coffee, pretzels, and one last morning together before everyone travels home.',
-        de: 'Kaffee, Brezen und ein letzter gemeinsamer Morgen, bevor alle nach Hause fahren.',
-        zh: '咖啡、碱水面包，以及大家各自踏上归途前最后一个共度的早晨。'
+        en: 'Coffee, pretzels, and one last morning together before everyone travels home',
+        de: 'Kaffee, Brezen und ein letzter gemeinsamer Morgen, bevor alle nach Hause fahren',
+        zh: '咖啡、碱水面包，以及大家各自踏上归途前最后一个共度的早晨'
       }
     },
     {
@@ -51,9 +48,9 @@
       summary: { en: 'Lingling & Max — The Wedding', de: 'Lingling & Max – Die Hochzeit', zh: 'Lingling & Max — 婚礼' },
       location: 'Church & Grandhotel Kitzbühel, Malinggasse 12, 6370 Kitzbühel, Austria',
       description: {
-        en: '11:00 or 12:00 (to be confirmed) Church ceremony · Group photo · 13:00–15:00 Coffee and tea · 15:00–17:00 Free time · 17:00–18:30 Cocktail reception · 18:30–21:30 Wedding dinner · 21:30 Opening dance · 21:45 Party until late. Children are warmly welcome: guests under 16 have their own dinner, games and fun in a separate room during dinner.',
-        de: '11:00 oder 12:00 Uhr (wird noch bestätigt) Kirchliche Trauung · Gruppenfoto · 13:00–15:00 Kaffee und Tee · 15:00–17:00 Freie Zeit · 17:00–18:30 Cocktailempfang · 18:30–21:30 Hochzeitsessen · 21:30 Eröffnungstanz · 21:45 Party bis spät. Kinder sind herzlich willkommen: Gäste unter 16 bekommen während des Essens ihr eigenes Abendessen, Spiele und Spaß in einem separaten Raum.',
-        zh: '11:00 或 12:00（待确认）教堂婚礼仪式 · 合影 · 13:00–15:00 咖啡与茶 · 15:00–17:00 自由活动 · 17:00–18:30 鸡尾酒会 · 18:30–21:30 婚宴 · 21:30 开场舞 · 21:45 派对直到深夜。热烈欢迎孩子们：16 岁以下的小宾客在晚宴期间将在单独的房间享用自己的晚餐、游戏和乐趣。'
+        en: '11:00 or 12:00 (to be confirmed) Church ceremony · Group photo · 13:00–15:00 Reception with coffee & tea · 15:00–17:00 Free time · 17:00–18:00 Cocktail reception · 18:00–21:30 Wedding dinner, a four-course menu with speeches · 21:30 Opening dance · 21:45 Party until late. Children are warmly welcome: guests under 16 have their own dinner, games and fun in a separate room during dinner',
+        de: '11:00 oder 12:00 Uhr (wird noch bestätigt) Kirchliche Trauung · Gruppenfoto · 13:00–15:00 Empfang mit Kaffee & Tee · 15:00–17:00 Freie Zeit · 17:00–18:00 Cocktailempfang · 18:00–21:30 Hochzeitsessen, ein Vier-Gänge-Menü mit Reden · 21:30 Eröffnungstanz · 21:45 Party bis spät. Kinder sind herzlich willkommen: Gäste unter 16 bekommen während des Essens ihr eigenes Abendessen, Spiele und Spaß in einem separaten Raum',
+        zh: '11:00 或 12:00（待确认）教堂婚礼仪式 · 合影 · 13:00–15:00 咖啡与茶招待会 · 15:00–17:00 自由活动 · 17:00–18:00 鸡尾酒会 · 18:00–21:30 婚宴（四道菜，席间有致辞） · 21:30 开场舞 · 21:45 派对直到深夜。热烈欢迎孩子们：16 岁以下的小宾客在晚宴期间将在单独的房间享用自己的晚餐、游戏和乐趣'
       }
     }
   ];
@@ -64,41 +61,6 @@
     zh: 'Lingling & Max — 2027 婚礼'
   };
   var LANGS = ['en', 'de', 'zh'];
-
-  /* ---------------------------------------------------------------
-     Time zone helpers (no libraries): convert a Europe/Vienna wall-clock
-     time to a UTC timestamp using Intl, with a fixed fallback.
-     --------------------------------------------------------------- */
-  function tzOffsetMs(utcMs, tz) {
-    var dtf = new Intl.DateTimeFormat('en-US', {
-      timeZone: tz, hourCycle: 'h23',
-      year: 'numeric', month: 'numeric', day: 'numeric',
-      hour: 'numeric', minute: 'numeric', second: 'numeric'
-    });
-    var map = {};
-    dtf.formatToParts(new Date(utcMs)).forEach(function (p) { map[p.type] = p.value; });
-    var asUtc = Date.UTC(+map.year, +map.month - 1, +map.day, +map.hour % 24, +map.minute, +map.second);
-    return asUtc - utcMs;
-  }
-
-  function zonedToUtc(y, m, d, h, min, tz) {
-    var guess = Date.UTC(y, m - 1, d, h, min, 0);
-    var offset = tzOffsetMs(guess, tz);
-    var utc = guess - offset;
-    var check = tzOffsetMs(utc, tz);
-    if (check !== offset) { utc = guess - check; }
-    return utc;
-  }
-
-  function localToUtc(y, m, d, h, min) {
-    try {
-      if (window.Intl && Intl.DateTimeFormat.prototype.formatToParts) {
-        return zonedToUtc(y, m, d, h, min, TIMEZONE);
-      }
-    } catch (e) { /* fall through */ }
-    // Fallback: Central European Summer Time (UTC+2) applies in July.
-    return Date.UTC(y, m - 1, d, h - 2, min, 0);
-  }
 
   /* ---------------------------------------------------------------
      Language toggle (EN / DE / ZH), remembered in localStorage
@@ -148,47 +110,6 @@
   });
 
   setLang(getLang(), false);
-
-  /* ---------------------------------------------------------------
-     Countdown to the ceremony
-     --------------------------------------------------------------- */
-  (function countdown() {
-    var box = doc.getElementById('countdown');
-    if (!box) { return; }
-    var today = doc.getElementById('countdown-today');
-    var past = doc.getElementById('countdown-past');
-    var target = localToUtc(CEREMONY.y, CEREMONY.m, CEREMONY.d, CEREMONY.h, CEREMONY.min);
-    var endOfDay = localToUtc(CEREMONY.y, CEREMONY.m, CEREMONY.d + 1, 0, 0);
-    var fields = {};
-    ['days', 'hours', 'minutes'].forEach(function (u) {
-      fields[u] = box.querySelector('[data-unit="' + u + '"]');
-    });
-    var timer = null;
-
-    function pad(n) { return n < 10 ? '0' + n : String(n); }
-
-    function tick() {
-      var now = Date.now();
-      var diff = target - now;
-      if (diff <= 0) {
-        box.hidden = true;
-        if (now < endOfDay) { today.hidden = false; past.hidden = true; }
-        else { past.hidden = false; today.hidden = true; }
-        if (timer) { clearInterval(timer); }
-        return;
-      }
-      var s = Math.floor(diff / 1000);
-      var days = Math.floor(s / 86400);
-      var hours = Math.floor((s % 86400) / 3600);
-      var minutes = Math.floor((s % 3600) / 60);
-      fields.days.textContent = String(days);
-      fields.hours.textContent = pad(hours);
-      fields.minutes.textContent = pad(minutes);
-    }
-
-    tick();
-    timer = setInterval(tick, 30000);
-  })();
 
   /* ---------------------------------------------------------------
      Add to calendar: build an .ics file in the current language
@@ -412,17 +333,8 @@
     var paypal = form.querySelector('[data-paypal]');
     var bank = form.querySelector('.bank');
     var canvas = doc.getElementById('epc-qr');
-    var amountInput = form.querySelector('#gift-value');
     var totalField = form.querySelector('input[name="total"]');
-    var count = 1, total = price, mode = 'trees';
-
-    // Own amount: whole euros only, read the way the browser validates the field
-    // (50.00 counts as 50); anything else counts as "not entered yet"
-    function ownAmount() {
-      var v = amountInput ? String(amountInput.value).trim() : '';
-      var n = v === '' ? NaN : Number(v);
-      return n >= 1 && n <= 100000 && Math.floor(n) === n ? n : 0;
-    }
+    var count = 1, total = price;
 
     function money(n) {
       var s = String(Math.round(n));
@@ -439,8 +351,7 @@
     function reference() {
       var n = nameInput ? sepaText(nameInput.value) : '';
       if (!/[A-Za-z0-9]/.test(n.replace(/\band\b/g, ''))) { n = ''; } // e.g. a name in Chinese characters only
-      var what = mode === 'amount' ? 'Olive grove gift' : 'Olive tree' + (count > 1 ? 's' : '');
-      return (what + ' for Lingling and Max' + (n ? ' - ' + n : '')).slice(0, 140);
+      return ('Olive tree' + (count > 1 ? 's' : '') + ' for Lingling and Max' + (n ? ' - ' + n : '')).slice(0, 140);
     }
     function drawQr() {
       if (!canvas || !window.LMQR || !bank || !canvas.getContext) { return; }
@@ -448,8 +359,7 @@
       var bic = (bank.getAttribute('data-bic') || '').replace(/\s+/g, '').toUpperCase();
       var holder = bank.getAttribute('data-holder') || 'Maximilian Jaeger';
       // EPC069-12 "SEPA credit transfer" payload (GiroCode), version 002, UTF-8
-      // The amount line may stay empty (own amount not entered yet): the banking app then asks for it
-      var payload = ['BCD', '002', '1', 'SCT', bic, holder, iban, total > 0 ? 'EUR' + total.toFixed(2) : '', '', '', reference()].join('\n');
+      var payload = ['BCD', '002', '1', 'SCT', bic, holder, iban, 'EUR' + total.toFixed(2), '', '', reference()].join('\n');
       var qr;
       try { qr = window.LMQR.encode(payload); } catch (e) { return; }
       var quiet = 4, dpr = window.devicePixelRatio || 1;
@@ -469,46 +379,19 @@
       }
     }
     function update() {
-      var picked = form.querySelector('input[name="gift"]:checked');
-      mode = picked && picked.value === 'amount' && amountInput ? 'amount' : 'trees';
-      form.setAttribute('data-gift', mode);
-      // Only the field of the chosen kind is sent, and only that one is required
-      select.disabled = mode === 'amount';
-      if (amountInput) { amountInput.disabled = mode !== 'amount'; amountInput.required = mode === 'amount'; }
       count = parseInt(select.value, 10) || 1;
-      total = mode === 'amount' ? ownAmount() : count * price;
-      Array.prototype.forEach.call(totals, function (el) { el.textContent = total > 0 ? money(total) : '—'; });
+      total = count * price;
+      Array.prototype.forEach.call(totals, function (el) { el.textContent = money(total); });
       var per = form.querySelector('[data-per-tree]');
-      if (per) { per.hidden = mode === 'amount' || count === 1; }
+      if (per) { per.hidden = count === 1; }
       Array.prototype.forEach.call(refs, function (el) { el.textContent = reference(); });
       if (paypal) {
-        paypal.href = paypal.getAttribute('data-paypal').replace(/\/+$/, '') + (total > 0 ? '/' + total + 'EUR' : '');
+        paypal.href = paypal.getAttribute('data-paypal').replace(/\/+$/, '') + '/' + total + 'EUR';
       }
-      if (totalField) { totalField.value = total > 0 ? String(total) : ''; }
-      var pre = form.querySelector('[data-prefilled]'); // "the amount is pre-filled": only true with an amount
-      if (pre) { pre.hidden = !(total > 0); }
+      if (totalField) { totalField.value = String(total); }
       drawQr();
     }
     select.addEventListener('change', update);
-    if (amountInput) {
-      amountInput.addEventListener('input', update);
-      // Scrolling the page with the pointer over the focused field must not change the amount
-      amountInput.addEventListener('wheel', function () { amountInput.blur(); }, { passive: true });
-    }
-    // No focus jump on change: arrowing between the two radios has to stay inside the group
-    Array.prototype.forEach.call(form.querySelectorAll('input[name="gift"]'), function (radio) {
-      radio.addEventListener('change', update);
-    });
-    if (paypal) {
-      // Own amount not entered yet: ask for it instead of opening PayPal without an amount
-      paypal.addEventListener('click', function (e) {
-        if (mode === 'amount' && !total && amountInput) {
-          e.preventDefault();
-          amountInput.focus();
-          if (amountInput.reportValidity) { amountInput.reportValidity(); }
-        }
-      });
-    }
     // Remember the gift for the thank-you page, which pre-fills its PayPal link with the amount
     form.addEventListener('submit', function () {
       var pay = form.querySelector('input[name="payment"]:checked');
@@ -569,7 +452,7 @@
     var code = doc.querySelector('[data-wechat-code]');
     if (code && gift.payment === 'wechat') { code.hidden = false; }
     var ref = doc.querySelector('[data-reference]');
-    if (ref && typeof gift.reference === 'string' && /^Olive (trees?|grove gift) for Lingling and Max/.test(gift.reference)) {
+    if (ref && typeof gift.reference === 'string' && /^Olive trees? for Lingling and Max/.test(gift.reference)) {
       ref.textContent = gift.reference.slice(0, 140);
     }
   })();

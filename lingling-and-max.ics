@@ -24,43 +24,44 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:friday-welcome-2027@lingling-and-max.netlify.app
-DTSTAMP:20261102T120000Z
-DTSTART;TZID=Europe/Vienna:20270709T190000
+DTSTAMP:20261115T120000Z
+DTSTART;TZID=Europe/Vienna:20270709T180000
 DTEND;TZID=Europe/Vienna:20270709T220000
 SUMMARY:Lingling & Max — Welcome get-together
 LOCATION:Grandhotel Kitzbühel\, Malinggasse 12\, 6370 Kitzbühel\, Austria
-DESCRIPTION:19:00–22:00 Welcome get-together at the Grandhotel Kitzbühel
- . Arrive\, relax and enjoy the evening with us!\nhttps://lingling-and-max.
- netlify.app/
+DESCRIPTION:18:00–22:00 Welcome get-together at the Grandhotel Kitzbühel
+ . A relaxed evening to arrive and say hello\, with a Tyrolean buffet\, col
+ d cuts and drinks in the cosy Stube\nhttps://lingling-and-max.netlify.app/
 URL:https://lingling-and-max.netlify.app/
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
 UID:saturday-wedding-2027@lingling-and-max.netlify.app
-DTSTAMP:20261102T120000Z
+DTSTAMP:20261115T120000Z
 DTSTART;TZID=Europe/Vienna:20270710T110000
 DTEND;TZID=Europe/Vienna:20270711T020000
 SUMMARY:Lingling & Max — The Wedding
 LOCATION:Church & Grandhotel Kitzbühel\, Malinggasse 12\, 6370 Kitzbühel\
  , Austria
 DESCRIPTION:11:00 or 12:00 (to be confirmed) Church ceremony · Group photo
-  · 13:00–15:00 Coffee and tea · 15:00–17:00 Free time · 17:00–18:
- 30 Cocktail reception · 18:30–21:30 Wedding dinner · 21:30 Opening dan
- ce · 21:45 Party until late. Children are warmly welcome: guests under 16
-  have their own dinner\, games and fun in a separate room during dinner.\n
- https://lingling-and-max.netlify.app/
+  · 13:00–15:00 Reception with coffee & tea · 15:00–17:00 Free time 
+ · 17:00–18:00 Cocktail reception · 18:00–21:30 Wedding dinner\, a fo
+ ur-course menu with speeches · 21:30 Opening dance · 21:45 Party until l
+ ate. Children are warmly welcome: guests under 16 have their own dinner\, 
+ games and fun in a separate room during dinner\nhttps://lingling-and-max.n
+ etlify.app/
 URL:https://lingling-and-max.netlify.app/
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
 UID:sunday-breakfast-2027@lingling-and-max.netlify.app
-DTSTAMP:20261027T120000Z
+DTSTAMP:20261115T120000Z
 DTSTART;TZID=Europe/Vienna:20270711T100000
 DTEND;TZID=Europe/Vienna:20270711T130000
 SUMMARY:Lingling & Max — Farewell Breakfast
 LOCATION:Grandhotel Kitzbühel\, Malinggasse 12\, 6370 Kitzbühel\, Austria
 DESCRIPTION:Coffee\, pretzels\, and one last morning together before everyo
- ne travels home.\nhttps://lingling-and-max.netlify.app/
+ ne travels home\nhttps://lingling-and-max.netlify.app/
 URL:https://lingling-and-max.netlify.app/
 STATUS:CONFIRMED
 END:VEVENT

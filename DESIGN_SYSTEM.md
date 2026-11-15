@@ -1,5 +1,7 @@
 # Design system — Lingling & Max, Wedding 2027 (proposed)
 
+> **Update 15 November 2026 (typography).** At the couple's request the site now uses exactly two typefaces: the serif stack (`--font-serif`) for headings, the names and the welcome signature, and a clean system sans (`--font-sans`: San Francisco on Apple, Segoe UI on Windows, Roboto on Android, PingFang / Microsoft YaHei for Chinese) for all other text. Labels are 14–15 px with light tracking, schedule dates are large and in normal case, and the only italic left is the ampersand. Where the tables below say "serif" for body, notes, captions or caps, `css/styles.css` is now the reference.
+
 This documents the **proposed** system for the "white and pristine" direction described in DESIGN_AUDIT.md. It is written to be implemented as plain CSS custom properties in css/styles.css with no build step, no web fonts, no third-party requests and no inline styles (the CSP stays as it is). Every token whose value changes from today's css/styles.css is marked **(was …)**; unmarked tokens are unchanged. Contrast ratios use the WCAG 2.x relative-luminance formula and were computed for this document.
 
 Constraints honoured: system fonts only (Baskerville on Apple, Palatino/Garamond on Windows, Songti/Noto Serif for Chinese); three languages as sibling elements toggled by `html[data-lang]`; the page must read without JavaScript; the gallery stays empty; no logistics invented.
