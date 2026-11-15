@@ -73,7 +73,7 @@ Guests choose a number of trees (€150 each), see the total, enter their name f
 - **Bank transfer:** shows the account details, a copy button, and a QR code in the European EPC/GiroCode format with the amount and reference pre-filled. Most banking apps in Germany and Austria scan it directly.
 - **PayPal:** opens your PayPal.me page with the amount pre-filled (a link, so no PayPal script is loaded on the site). The thank-you page repeats the link, again with the amount. The panel also shows your PayPal QR code (`images/paypal-qr.png`, exported from the PayPal app); it opens the PayPal app without an amount, so guests type the amount there.
 - **WeChat Pay:** shows Lingling's WeChat Pay code (`images/wechat-pay-qr.jpg`, cropped from the image exported in WeChat). WeChat pays in yuan, so the note asks for the equivalent of the euro total.
-- **Cash:** "Cash in a red envelope", with the footnote that red envelopes are provided at the venue, and a picture of the red envelope box (`images/red-envelope.jpg`).
+- **Cash in a red envelope** (the option's name): "Red envelopes in which you can put the money will be provided for you", with a picture of the red envelope box (`images/red-envelope.jpg`).
 
 The form entry tells you who gave how many trees (plus the total in euros) and how they intend to pay; match it against the bank account, the PayPal account or Lingling's WeChat wallet (WeChat gifts arrive in yuan; the Amount column stays in euros). The price lives in one place: `data-price="150"` on the form in `index.html` (the texts mention €150 too, in `index.html` and `thanks-trees.html`).
 
