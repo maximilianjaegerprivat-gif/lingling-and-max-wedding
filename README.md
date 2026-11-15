@@ -31,7 +31,7 @@ If it ever has to be set up again: Netlify → Add new project → Import from G
 
 Both forms use Netlify Forms, nothing to host.
 
-- **Where replies are listed:** Netlify → project → **Forms**. `rsvp` holds the replies (name, email, attending, days, adults, children, rooms booked at the hotel, dietary notes, message, lang; entries from before 15 November 2026 have one "guests" number instead); `olive-trees` holds the gifts (name, email, number of trees, total in euros, chosen payment method, lang; entries from before 15 November 2026 may also carry gift and amount). Both can be exported as CSV.
+- **Where replies are listed:** Netlify → project → **Forms**. `rsvp` holds the replies (name, email, attending, days, adults, children, rooms booked at the hotel, dietary notes, message, lang; entries from before 15 November 2026 have one "guests" number instead); `olive-trees` holds the gifts (name, number of trees, total in euros, chosen payment method, lang; entries from before 15 November 2026 may also carry gift and amount). Both can be exported as CSV.
 - **Email notifications:** Forms → **Submission notifications** → **Add notification** → *Email notification*, once per form, with the address that should receive each entry.
 - **Spam:** both forms have a hidden honeypot field and Netlify filters the rest. Flagged entries appear under *Spam*.
 - The free plan includes 100 submissions per month across both forms. If the invitation goes out to everyone at once, RSVPs plus tree reservations can exceed that in one month: either upgrade Netlify Forms for those months or send the link in waves and watch Forms → Usage.

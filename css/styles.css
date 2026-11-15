@@ -286,7 +286,7 @@ html[data-lang="zh"] .hero__date { letter-spacing: .04em; }
   font-size: clamp(1.35rem, 1.15rem + 1vw, 2rem); font-weight: 600; letter-spacing: .04em; color: var(--gold-text);
   margin: 0 0 var(--s4);
 }
-.hero__headline { font-family: var(--font-serif); font-size: clamp(1.4rem, 1.15rem + 1vw, 2rem); color: var(--green); margin: 0 0 var(--s6); }
+.hero__headline { font-family: var(--font-serif); font-size: clamp(1.9rem, 1.45rem + 2vw, 2.9rem); line-height: 1.15; color: var(--green); margin: var(--s6) 0 var(--s7); } /* "We are getting married": larger, with air above and below */
 
 .hero__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--s3); }
 .hero__actions .btn { flex: 1 1 11rem; max-width: 18rem; }
@@ -431,7 +431,6 @@ html[data-lang="zh"] .dress { column-gap: 0; }
 .stay__policy { gap: 1.25rem; }
 .stay__policy .stay__row { gap: .2rem; }
 .stay__policy dd { color: var(--green-body); }
-.stay__closing { margin-top: var(--s6); font-family: var(--font-serif); font-size: var(--fs-3); line-height: 1.25; color: var(--green); }
 @media (min-width: 50em) {
   .stay { max-width: none; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(2rem, 2rem + 2vw, 4rem); align-items: start; }
 }

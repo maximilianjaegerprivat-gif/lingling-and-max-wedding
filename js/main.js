@@ -26,7 +26,7 @@
       description: {
         en: '18:00–22:00 Welcome get-together at the Grandhotel Kitzbühel. A relaxed evening to arrive and say hello, with a Tyrolean buffet, cold cuts and drinks in the cosy Stube',
         de: '18:00–22:00 Get-together zur Begrüßung im Grandhotel Kitzbühel. Ein entspannter Abend zum Ankommen und Hallo sagen, mit Tiroler Buffet, Aufschnitt und Getränken in der gemütlichen Stube',
-        zh: '18:00–22:00 在 Grandhotel Kitzbühel 举行欢迎聚会。轻松的夜晚，抵达后互相问候，在温馨的传统木屋餐厅（Stube）享用蒂罗尔自助餐、冷切肉和饮品'
+        zh: '18:00–22:00 在 Grandhotel Kitzbühel 举行欢迎聚会。一个轻松的夜晚，大家抵达后互相问候，在温馨的传统木屋餐厅（Stube）享用蒂罗尔风味自助餐、冷切肉和饮品'
       }
     },
     {
@@ -38,7 +38,7 @@
       description: {
         en: 'Coffee, pretzels, and one last morning together before everyone travels home',
         de: 'Kaffee, Brezen und ein letzter gemeinsamer Morgen, bevor alle nach Hause fahren',
-        zh: '咖啡、碱水面包，以及大家各自踏上归途前最后一个共度的早晨'
+        zh: '咖啡、碱水面包，以及大家各自踏上归途前共度的最后一个早晨'
       }
     },
     {
@@ -50,7 +50,7 @@
       description: {
         en: '11:00 or 12:00 (to be confirmed) Church ceremony · Group photo · 13:00–15:00 Reception with coffee & tea · 15:00–17:00 Free time · 17:00–18:00 Cocktail reception · 18:00–21:30 Wedding dinner, a four-course menu with speeches · 21:30 Opening dance · 21:45 Party until late. Children are warmly welcome: guests under 16 have their own dinner, games and fun in a separate room during dinner',
         de: '11:00 oder 12:00 Uhr (wird noch bestätigt) Kirchliche Trauung · Gruppenfoto · 13:00–15:00 Empfang mit Kaffee & Tee · 15:00–17:00 Freie Zeit · 17:00–18:00 Cocktailempfang · 18:00–21:30 Hochzeitsessen, ein Vier-Gänge-Menü mit Reden · 21:30 Eröffnungstanz · 21:45 Party bis spät. Kinder sind herzlich willkommen: Gäste unter 16 bekommen während des Essens ihr eigenes Abendessen, Spiele und Spaß in einem separaten Raum',
-        zh: '11:00 或 12:00（待确认）教堂婚礼仪式 · 合影 · 13:00–15:00 咖啡与茶招待会 · 15:00–17:00 自由活动 · 17:00–18:00 鸡尾酒会 · 18:00–21:30 婚宴（四道菜，席间有致辞） · 21:30 开场舞 · 21:45 派对直到深夜。热烈欢迎孩子们：16 岁以下的小宾客在晚宴期间将在单独的房间享用自己的晚餐、游戏和乐趣'
+        zh: '11:00 或 12:00（待确认）教堂婚礼仪式 · 合影 · 13:00–15:00 咖啡与茶招待会 · 15:00–17:00 自由活动 · 17:00–18:00 鸡尾酒会 · 18:00–21:30 婚宴（四道菜，席间有致辞） · 21:30 开场舞 · 21:45 派对直到深夜。热烈欢迎孩子们：晚宴期间，16 岁以下的小宾客将在单独的房间里享用专属晚餐，还有游戏和娱乐活动'
       }
     }
   ];
@@ -58,7 +58,7 @@
   var TITLES = {
     en: 'Lingling & Max — Wedding 2027',
     de: 'Lingling & Max — Hochzeit 2027',
-    zh: 'Lingling & Max — 2027 婚礼'
+    zh: 'Lingling & Max — 2027年婚礼'
   };
   var LANGS = ['en', 'de', 'zh'];
 
@@ -353,7 +353,7 @@
       btn.addEventListener('click', function () {
         var target = form.querySelector('[data-copy-value="' + btn.getAttribute('data-copy') + '"]');
         var status = form.querySelector('[data-copy-status]');
-        var MSG = { copied: { en: 'Copied', de: 'Kopiert', zh: '已复制' }, selected: { en: 'Text selected, press Ctrl or Cmd and C to copy', de: 'Text markiert, mit Strg oder Cmd und C kopieren', zh: '文本已选中，请按 Ctrl 或 Cmd 加 C 复制' } };
+        var MSG = { copied: { en: 'Copied', de: 'Kopiert', zh: '已复制' }, selected: { en: 'Text selected, press Ctrl or Cmd and C to copy', de: 'Text markiert, mit Strg oder Cmd und C kopieren', zh: '文本已选中，请按 Ctrl+C（Mac 用 Cmd+C）复制' } };
         function say(key) { if (status) { status.textContent = ''; setTimeout(function () { status.textContent = MSG[key][getLang()]; }, 50); } }
         if (!target) { return; }
         if (!navigator.clipboard) { var r0 = doc.createRange(); r0.selectNodeContents(target); var s0 = window.getSelection(); s0.removeAllRanges(); s0.addRange(r0); say('selected'); return; }
