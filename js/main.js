@@ -375,6 +375,23 @@
   })();
 
   /* ---------------------------------------------------------------
+     IBAN behind "Show IBAN" (gift form and gift thank-you page)
+     --------------------------------------------------------------- */
+  (function ibanPrivacy() {
+    Array.prototype.forEach.call(doc.querySelectorAll('.iban-box'), function (box) {
+      var btn = box.querySelector('.iban-toggle');
+      if (!btn) { return; }
+      var panel = box.closest ? box.closest('.pay') : null; // the SEPA QR code waits for the IBAN too
+      btn.addEventListener('click', function () {
+        var open = !box.classList.contains('is-open');
+        box.classList.toggle('is-open', open);
+        if (panel) { panel.classList.toggle('iban-open', open); }
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    });
+  })();
+
+  /* ---------------------------------------------------------------
      Thank-you page for gifts: pre-fill its PayPal link with the amount
      the guest has just chosen and show their transfer reference (both
      kept in sessionStorage by the form)

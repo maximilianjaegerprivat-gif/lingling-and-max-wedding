@@ -131,7 +131,7 @@ a:hover { color: var(--gold-text); text-decoration-color: currentColor; }
 .eyebrow.eyebrow--date {
   font-family: var(--font-serif); font-weight: 400;   /* the heading font, like the day titles */
   font-size: clamp(1.7rem, 1.35rem + 1.4vw, 2.3rem); letter-spacing: 0; text-transform: none; text-wrap: balance;   /* about 12 % smaller than the titles */
-  line-height: 1.2; padding-left: 0; margin-bottom: 1.75rem; /* a clear space before the day title */
+  line-height: 1.2; padding-left: 0; margin-bottom: var(--space-head); /* the same space as between "The Weekend" and the first date */
 }
 /* "– Saturday 10 July –": the dashes are decoration, so screen readers skip them where supported */
 .eyebrow--date::before { content: "– "; content: "– " / ""; }
@@ -471,6 +471,15 @@ html[data-lang="zh"] .dress { column-gap: 0; }
   padding: .45rem .7rem; min-height: 2.25rem; border: 1px solid var(--green-muted); border-radius: var(--radius-s); background: var(--paper); color: var(--green); cursor: pointer;
 }
 .copy:hover { border-color: var(--gold-text); color: var(--gold-text); }
+/* IBAN: masked behind "Show IBAN" when JavaScript runs (head.js sets .js before paint, so it never flashes);
+   without JavaScript the IBAN simply shows. The SEPA QR code holds the IBAN too, so it waits as well. */
+.iban-mask, .iban-hide { display: none; }
+.js .iban-box:not(.is-open) .iban-mask { display: inline; }
+.js .iban-box:not(.is-open) .iban-full, .js .iban-box:not(.is-open) .iban-extra { display: none; }
+.iban-box.is-open .iban-show { display: none; }
+.iban-box.is-open .iban-hide { display: inline; }
+.iban-mask { letter-spacing: .04em; color: var(--green-muted); }
+.js .pay--transfer:not(.iban-open) .bank__qr:not(.pay__qr) { display: none; }
 .bank__qr { margin: 0; display: grid; justify-items: center; gap: .5rem; text-align: center; max-width: 12.5rem; }
 .bank__qr canvas { image-rendering: pixelated; border: 6px solid var(--paper); outline: 1px solid var(--line); }
 .bank__qr figcaption { font-size: .95rem; color: var(--green-muted); }
