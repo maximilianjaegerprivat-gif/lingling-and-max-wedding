@@ -326,9 +326,9 @@ html[data-lang="zh"] .hero__date { letter-spacing: .04em; }
 
 /* ---------- Welcome ---------- */
 .welcome__text { max-width: var(--measure); margin-inline: auto; }
-.welcome__text .lead { margin-bottom: var(--s3); }
+.welcome__text .lead { margin-bottom: var(--s3); color: var(--green); } /* the same green as the "Welcome" heading */
 .welcome__sign { margin-top: var(--s6); font-family: var(--font-serif); font-size: clamp(2.1rem, 1.7rem + 1.6vw, 2.9rem); line-height: 1.15; color: var(--green); }
-.welcome__love { display: block; font-family: var(--font-sans); font-size: var(--fs-lead); line-height: 1.5; color: var(--green-body); margin-bottom: 1.25rem; } /* same size as the welcome text, with air before the names */
+.welcome__love { display: block; font-family: var(--font-sans); font-size: var(--fs-lead); line-height: 1.5; color: var(--green); margin-bottom: 1.25rem; } /* same size and colour as the welcome text, with air before the names */
 
 /* ---------- Schedule: all days stacked ---------- */
 .day { max-width: var(--narrow); margin-inline: auto; }
