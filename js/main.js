@@ -125,10 +125,17 @@
     return new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
   }
   function fold(line) {
-    // RFC 5545: lines longer than 75 octets are folded with CRLF + space.
-    var out = [];
-    while (line.length > 70) { out.push(line.slice(0, 70)); line = ' ' + line.slice(70); }
-    out.push(line);
+    // RFC 5545: lines longer than 75 octets (UTF-8) are folded with CRLF + space.
+    var out = [], cur = '', size = 0;
+    for (var i = 0; i < line.length; i++) {
+      var code = line.charCodeAt(i), ch = line.charAt(i), bytes;
+      if (code >= 0xD800 && code <= 0xDBFF && i + 1 < line.length) { ch += line.charAt(++i); bytes = 4; }
+      else { bytes = code < 0x80 ? 1 : code < 0x800 ? 2 : 3; }
+      if (size + bytes > 75) { out.push(cur); cur = ' '; size = 1; }
+      cur += ch;
+      size += bytes;
+    }
+    out.push(cur);
     return out.join('\r\n');
   }
 
@@ -253,69 +260,6 @@
     window.addEventListener('hashchange', function () {
       var i = fromHash();
       if (i >= 0) { select(i); }
-    });
-  })();
-
-  /* ---------------------------------------------------------------
-     Gallery lightbox (uses the native <dialog>)
-     --------------------------------------------------------------- */
-  (function lightbox() {
-    var dlg = doc.getElementById('lightbox');
-    var links = Array.prototype.slice.call(doc.querySelectorAll('.gallery__link'));
-    if (!dlg || !links.length || typeof dlg.showModal !== 'function') { return; }
-
-    var img = doc.getElementById('lightbox-img');
-    var cap = doc.getElementById('lightbox-caption');
-    var index = 0;
-    var opener = null;
-
-    function caption(a) {
-      return a.getAttribute('data-caption-' + getLang()) || a.getAttribute('data-caption-en') || '';
-    }
-
-    function show(i) {
-      index = (i + links.length) % links.length;
-      var a = links[index];
-      var thumb = a.querySelector('img');
-      img.src = a.getAttribute('href');
-      img.alt = thumb ? thumb.alt : '';
-      cap.textContent = caption(a);
-    }
-
-    function open(i, trigger) {
-      opener = trigger || null;
-      show(i);
-      dlg.showModal();
-    }
-
-    links.forEach(function (a, i) {
-      a.addEventListener('click', function (e) {
-        e.preventDefault();
-        open(i, a);
-      });
-    });
-
-    dlg.querySelector('.lightbox__close').addEventListener('click', function () { dlg.close(); });
-    dlg.querySelector('.lightbox__prev').addEventListener('click', function () { show(index - 1); });
-    dlg.querySelector('.lightbox__next').addEventListener('click', function () { show(index + 1); });
-
-    dlg.addEventListener('keydown', function (e) {
-      if (e.key === 'ArrowRight') { show(index + 1); }
-      else if (e.key === 'ArrowLeft') { show(index - 1); }
-    });
-
-    // Click on the dark backdrop (outside the figure and buttons) closes.
-    dlg.addEventListener('click', function (e) {
-      if (e.target === dlg || e.target.classList.contains('lightbox__figure')) { dlg.close(); }
-    });
-
-    dlg.addEventListener('close', function () {
-      img.removeAttribute('src');
-      if (opener) { opener.focus(); }
-    });
-
-    doc.addEventListener('langchange', function () {
-      if (dlg.open) { cap.textContent = caption(links[index]); }
     });
   })();
 

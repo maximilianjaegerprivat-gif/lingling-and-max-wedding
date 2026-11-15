@@ -8,14 +8,14 @@ Plain HTML, CSS and vanilla JavaScript. No framework, no build step, no dependen
 
 | File | What it is |
 | --- | --- |
-| `index.html` | The whole site: hero, welcome, schedule, venue and travel, hotels, gallery, gifts (olive trees), RSVP, footer |
+| `index.html` | The whole site: hero, welcome, schedule, venue and travel, hotels, RSVP, gifts (olive trees), footer |
 | `thanks.html` | The page guests see after sending the RSVP |
 | `thanks-trees.html` | The page after reserving olive trees: repeats the bank details and the PayPal, WeChat and cash notes, and shows the WeChat code to guests who chose WeChat Pay |
 | `css/styles.css` | All styling, with the colours and fonts defined at the top |
-| `js/main.js` | Lightbox, language toggle, calendar download, olive-tree form, sticky-nav highlighting |
+| `js/main.js` | Language toggle, calendar download, olive-tree form, sticky-nav highlighting |
 | `js/qr.js` | A small QR-code generator for the bank-transfer code (no library) |
 | `js/head.js` | Tiny script that restores the saved language before the page paints |
-| `images/` | Hero photo, gallery images, olive tree and sprig drawings, favicons, the social-preview image |
+| `images/` | Hero photo, the olive tree photo, the red-envelope picture, the PayPal and WeChat codes, olive sprig drawings, favicons, the social-preview image |
 | `lingling-and-max.ics` | Calendar file (used when JavaScript is off; with JS the file is generated in the chosen language) |
 | `netlify.toml` | Netlify settings: publish folder, security and privacy headers, functions |
 | `netlify/functions/submission-created.js` | Copies every form submission into a Notion database (see below) |
@@ -31,7 +31,7 @@ If it ever has to be set up again: Netlify → Add new project → Import from G
 
 Both forms use Netlify Forms, nothing to host.
 
-- **Where replies are listed:** Netlify → project → **Forms**. `rsvp` holds the replies (name, email, attending, days, guests, rooms booked at the hotel, dietary notes, message, lang); `olive-trees` holds the gifts (name, email, gift = trees or amount, the number of trees or the own amount, total in euros, chosen payment method, lang). Both can be exported as CSV.
+- **Where replies are listed:** Netlify → project → **Forms**. `rsvp` holds the replies (name, email, attending, days, guests, rooms booked at the hotel, dietary notes, message, lang); `olive-trees` holds the gifts (name, email, number of trees, total in euros, chosen payment method, lang; entries from before 15 November 2026 may also carry gift and amount). Both can be exported as CSV.
 - **Email notifications:** Forms → **Submission notifications** → **Add notification** → *Email notification*, once per form, with the address that should receive each entry.
 - **Spam:** both forms have a hidden honeypot field and Netlify filters the rest. Flagged entries appear under *Spam*.
 - The free plan includes 100 submissions per month across both forms. If the invitation goes out to everyone at once, RSVPs plus tree reservations can exceed that in one month: either upgrade Netlify Forms for those months or send the link in waves and watch Forms → Usage.
@@ -59,7 +59,7 @@ Domain management → **Add a domain**. Netlify shows the DNS records for the re
 Search `index.html` for `PLACEHOLDER`. The important ones:
 
 1. **Bank details** for the olive trees: in the gifts section, the `<dl class="bank">` element carries `data-holder`, `data-iban` and `data-bic` (used for the QR code) and shows the same values as text. IBAN and account holder (Maximilian Jaeger) are in; the BIC `NTSBDEB1XXX` was derived from the IBAN (N26).
-2. **PayPal link:** done. The PayPal button in the gifts section and the link on `thanks-trees.html` point to `https://paypal.me/maxandlingling` (attributes `data-paypal` and `href`; the profile shows "Maximilian Jaeger"). The amount is added automatically (`/300EUR` for two trees, `/50EUR` for an own amount of 50). The PayPal address `maxandlingling@gmail.com` is shown next to it for guests who prefer to send from the PayPal app.
+2. **PayPal link:** done. The PayPal button in the gifts section and the link on `thanks-trees.html` point to `https://paypal.me/maxandlingling` (attributes `data-paypal` and `href`; the profile shows "Maximilian Jaeger"). The amount is added automatically (`/150EUR` for one tree, `/300EUR` for two). The PayPal address `maxandlingling@gmail.com` is shown next to it for guests who prefer to send from the PayPal app.
 3. **The church** for the ceremony and whether it starts at 11:00 or 12:00 (the page says "to be confirmed"), where Saturday's coffee and tea takes place, travel details (parking).
 4. **Hotels:** done. Guests book directly with the Grandhotel Kitzbühel (email, phone, keyword "Hochzeit Max & Lingling", €239 per room and night, cancellation terms). If the hotel changes the rate or the terms, edit the accommodation section in `index.html`.
 5. **RSVP deadline**, the church-to-hotel transfer after the ceremony, the time of the Sunday breakfast, arrival advice for guests from abroad (visa invitation letters), and a day-of contact number. The audit lists all open points in `DESIGN_AUDIT.md`, section 10.
@@ -104,7 +104,7 @@ If the schedule changes, update it in three places: the texts in `index.html`, t
 
 ### Photos
 
-- **Gallery:** empty on purpose for now. To fill it, add list items inside `<ul class="gallery">` in the gallery section of `index.html`, each an `<a>` wrapping an `<img>` with the file name, `alt` text and `data-caption-en` / `data-caption-de` captions; the lightbox picks them up automatically. JPGs about 1600 px wide work best. Candidate photos from the Grandhotel and Bei Tomschy websites are in the git history (commit 0a662ba) if we want them back.
+- **Gallery:** removed on 15 November 2026 at the couple's request (it was empty). The old markup, styles and image viewer are in the git history (commit 251cda6) if it should come back.
 - **Hero:** `images/hero.jpg`, see above. The page shows the whole photo on phones and crops the top and bottom a little on wide screens.
 - **Social preview:** `images/og-image.jpg` (1200 × 630) is what WhatsApp, iMessage and the like show when the link is shared. It is rendered from `images/og-image.svg`; on a Mac: `sips -s format jpeg -s formatOptions 85 images/og-image.svg --out images/og-image.jpg`.
 - **Olive tree with the plaque:** the photo `images/olive-gift.jpg` at the top of the gifts section (1280 px wide; replace the file to change it). The earlier drawing `images/olive-tree.svg` is still in the folder but no longer used.
