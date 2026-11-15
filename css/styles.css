@@ -129,7 +129,8 @@ a:hover { color: var(--gold-text); text-decoration-color: currentColor; }
 }
 /* Dates: big and clear, normal case (the couple's request) */
 .eyebrow.eyebrow--date {
-  font-size: var(--fs-2); letter-spacing: 0; text-transform: none; text-wrap: balance;   /* as big as the day titles */
+  font-family: var(--font-serif); font-weight: 400;   /* the heading font, like the day titles */
+  font-size: clamp(1.7rem, 1.35rem + 1.4vw, 2.3rem); letter-spacing: 0; text-transform: none; text-wrap: balance;   /* about 12 % smaller than the titles */
   line-height: 1.2; padding-left: 0; margin-bottom: 1.75rem; /* a clear space before the day title */
 }
 /* "– Saturday 10 July –": the dashes are decoration, so screen readers skip them where supported */
