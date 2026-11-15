@@ -326,6 +326,7 @@ html[data-lang="zh"] .hero__date { letter-spacing: .04em; }
 .section__head { margin-bottom: var(--space-head); }
 .section__head .lead { max-width: var(--measure); margin-inline: auto; }
 .section__head h2 { margin-bottom: var(--s3); }
+#schedule-title::after { content: ""; display: block; width: 6rem; height: 1px; margin: var(--s4) auto 0; background: var(--gold); } /* the line under "The Weekend" */
 .section__head .lead { margin-top: var(--s3); }
 
 /* ---------- Welcome ---------- */
@@ -338,7 +339,7 @@ html[data-lang="zh"] .hero__date { letter-spacing: .04em; }
 .day { max-width: var(--narrow); margin-inline: auto; }
 .day + .day { margin-top: var(--s7); padding-top: var(--s7); border-top: 1px solid var(--line); }
 .day__head { margin-bottom: var(--s6); text-align: center; }
-.day__title { font-size: var(--fs-2); margin-bottom: var(--s2); }
+.day__title { font-size: var(--fs-2); margin-bottom: var(--s5); } /* air before the line below the title */
 .day__meta { display: flex; flex-wrap: wrap; justify-content: center; gap: .25rem 1rem; color: var(--green-muted); margin-bottom: var(--s3); }
 .day__time { color: var(--green); font-variant-numeric: tabular-nums; }
 /* Dress code: the same font, size and colour as the event descriptions, no rules around it */
