@@ -22,6 +22,8 @@ const COLUMNS = {
   'Attending': 'select',
   'Days': 'multi_select',
   'Guests': 'number',
+  'Adults': 'number',
+  'Children': 'number',
   'Rooms': 'number',
   'Dietary': 'rich_text',
   'Message': 'rich_text',
@@ -182,7 +184,13 @@ function buildProperties(columns, payload) {
   if (form === 'rsvp') {
     set('Attending', select(d.attending, { yes: 'Yes', no: 'No' }));
     set('Days', multi(d.days, { friday: 'Friday', saturday: 'Saturday' }));
-    set('Guests', number(d.guests));
+    // Since 15 Nov 2026 the form asks for adults and children; Guests keeps the total.
+    // Older entries only sent "guests".
+    const adults = parseInt(d.adults, 10);
+    const children = parseInt(d.children, 10);
+    set('Adults', number(d.adults));
+    set('Children', number(d.children));
+    set('Guests', Number.isFinite(adults) ? { number: adults + (Number.isFinite(children) ? children : 0) } : number(d.guests));
     set('Rooms', number(d.rooms)); // empty when the guest did not answer
     set('Dietary', text(d.dietary));
     set('Message', text(d.message));

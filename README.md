@@ -31,7 +31,7 @@ If it ever has to be set up again: Netlify → Add new project → Import from G
 
 Both forms use Netlify Forms, nothing to host.
 
-- **Where replies are listed:** Netlify → project → **Forms**. `rsvp` holds the replies (name, email, attending, days, guests, rooms booked at the hotel, dietary notes, message, lang); `olive-trees` holds the gifts (name, email, number of trees, total in euros, chosen payment method, lang; entries from before 15 November 2026 may also carry gift and amount). Both can be exported as CSV.
+- **Where replies are listed:** Netlify → project → **Forms**. `rsvp` holds the replies (name, email, attending, days, adults, children, rooms booked at the hotel, dietary notes, message, lang; entries from before 15 November 2026 have one "guests" number instead); `olive-trees` holds the gifts (name, email, number of trees, total in euros, chosen payment method, lang; entries from before 15 November 2026 may also carry gift and amount). Both can be exported as CSV.
 - **Email notifications:** Forms → **Submission notifications** → **Add notification** → *Email notification*, once per form, with the address that should receive each entry.
 - **Spam:** both forms have a hidden honeypot field and Netlify filters the rest. Flagged entries appear under *Spam*.
 - The free plan includes 100 submissions per month across both forms. If the invitation goes out to everyone at once, RSVPs plus tree reservations can exceed that in one month: either upgrade Netlify Forms for those months or send the link in waves and watch Forms → Usage.
@@ -44,7 +44,7 @@ What is already set up (October 2026):
 
 - Notion connection **Wedding site** (Developer tools → Connections) with content access to the Wedding RSVP database.
 - Netlify environment variable `NOTION_DATABASE_ID` = `895bc95144ae4d8f93927d77224e4d65` (the 32 characters at the end of the Wedding RSVP page URL). The function writes into the first database inside that page: the inline table **Replies**, which it created on the first submission (if the page ever has no database, it creates one again).
-- Columns: Name, Form (RSVP or Olive tree; entries from before 15 November 2026 may say Own amount), Email, Attending, Days, Guests, Rooms (rooms booked at the hotel; empty if not answered), Dietary, Message, Trees, Amount (in euros: trees × price), Payment, Language, Submitted, Netlify ID. Columns you add by hand are left alone; if you rename one, the function adds the original name back on the next submission.
+- Columns: Name, Form (RSVP or Olive tree; entries from before 15 November 2026 may say Own amount), Email, Attending, Days, Guests (adults + children), Adults, Children, Rooms (rooms booked at the hotel; empty if not answered), Dietary, Message, Trees, Amount (in euros: trees × price), Payment, Language, Submitted, Netlify ID. Columns you add by hand are left alone; if you rename one, the function adds the original name back on the next submission.
 
 Still needed once: the connection's secret token. Open the connection in Notion, copy the **API token** (Configuration tab), then in Netlify → project → **Project configuration → Environment variables** add `NOTION_TOKEN` with that value (tick "Contains secret values" and paste it into the Production field). Then **Deploys → Trigger deploy** once so the function picks it up, send one test reply from the website and check the database. The function's log is under **Logs → Functions** if something is off.
 
@@ -73,7 +73,7 @@ Guests choose a number of trees (€150 each), see the total, enter their name f
 - **Bank transfer:** shows the account details, a copy button, and a QR code in the European EPC/GiroCode format with the amount and reference pre-filled. Most banking apps in Germany and Austria scan it directly.
 - **PayPal:** opens your PayPal.me page with the amount pre-filled (a link, so no PayPal script is loaded on the site). The thank-you page repeats the link, again with the amount. The panel also shows your PayPal QR code (`images/paypal-qr.png`, exported from the PayPal app); it opens the PayPal app without an amount, so guests type the amount there.
 - **WeChat Pay:** shows Lingling's WeChat Pay code (`images/wechat-pay-qr.jpg`, cropped from the image exported in WeChat). WeChat pays in yuan, so the note asks for the equivalent of the euro total.
-- **Cash in a red envelope** (the option's name): "Red envelopes in which you can put the money will be provided for you", with a picture of the red envelope box (`images/red-envelope.jpg`).
+- **Cash in a red envelope** (the option's name): "Red envelopes in which you can put the money will be provided for you at the venue", with a picture of the red envelope box (`images/red-envelope.jpg`).
 
 The form entry tells you who gave how many trees (plus the total in euros) and how they intend to pay; match it against the bank account, the PayPal account or Lingling's WeChat wallet (WeChat gifts arrive in yuan; the Amount column stays in euros). The price lives in one place: `data-price="150"` on the form in `index.html` (the texts mention €150 too, in `index.html` and `thanks-trees.html`).
 
