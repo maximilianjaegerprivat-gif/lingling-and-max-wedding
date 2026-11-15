@@ -18,7 +18,7 @@ Plain HTML, CSS and vanilla JavaScript. No framework, no build step, no dependen
 | `images/` | Hero photo, the olive tree photo, the red-envelope picture, the PayPal and WeChat codes, olive sprig drawings, favicons, the social-preview image |
 | `lingling-and-max.ics` | Calendar file (used when JavaScript is off; with JS the file is generated in the chosen language) |
 | `netlify.toml` | Netlify settings: publish folder, security and privacy headers, functions |
-| `netlify/functions/submission-created.js` | Copies every form submission into a Notion database (see below) |
+| `netlify/functions/submission-created.js` | Copies every RSVP and every olive-tree gift into Notion (see below) |
 | `DESIGN_AUDIT.md`, `DESIGN_SYSTEM.md` | The design audit (scores, guest journeys, open decisions) and the design tokens the stylesheet follows |
 
 ## Netlify (done)
@@ -38,13 +38,14 @@ Both forms use Netlify Forms, nothing to host.
 
 ### Replies in Notion (automatic copy)
 
-`netlify/functions/submission-created.js` runs on Netlify after every form submission and adds a row to the Notion database **Wedding RSVP** (under LIFE → Max and Lingling → Wedding Kitzbühel), so RSVPs and olive-tree reservations also appear in Notion. Netlify's own Forms list keeps every entry regardless.
+`netlify/functions/submission-created.js` runs on Netlify after every form submission and adds a row in Notion (under LIFE → M&L Private → Wedding → Wedding Kitzbühel): RSVPs go to the **Replies** table on the **RSVP** page, olive-tree gifts go to the **Olive Tree Gift List** (since 15 November 2026). Netlify's own Forms list keeps every entry regardless.
 
 What is already set up (October 2026):
 
 - Notion connection **Wedding site** (Developer tools → Connections) with content access to the Wedding RSVP database.
 - Netlify environment variable `NOTION_DATABASE_ID` = `895bc95144ae4d8f93927d77224e4d65` (the 32 characters at the end of the Wedding RSVP page URL). The function writes into the first database inside that page: the inline table **Replies**, which it created on the first submission (if the page ever has no database, it creates one again).
-- Columns: Name, Form (RSVP or Olive tree; entries from before 15 November 2026 may say Own amount), Email, Attending, Days, Guests (adults + children), Adults, Children, Rooms (rooms booked at the hotel; empty if not answered), Dietary, Message, Trees, Amount (in euros: trees × price), Payment, Language, Submitted, Netlify ID. Columns you add by hand are left alone; if you rename one, the function adds the original name back on the next submission.
+- Replies columns: Name, Form (RSVP or Olive tree; entries from before 15 November 2026 may say Own amount), Email, Attending, Days, Guests (adults + children), Adults, Children, Rooms (rooms booked at the hotel; empty if not answered), Dietary, Message, Trees, Amount (in euros: trees × price), Payment, Language, Submitted, Netlify ID. Columns you add by hand are left alone; if you rename one, the function adds the original name back on the next submission.
+- **Olive Tree Gift List** (a full-page database under Wedding Kitzbühel, ID `41989e1707f381bd8ef9d72b22b1d4cf`, written into the function): one row per gift with Name (for the plaque), Trees, Amount (euros), Payment (Cash, PayPal, Bank transfer, WeChat Pay), Submitted, Language, Netlify ID, plus a **Received** tick box for you to tick when the money has arrived (the function never touches it). Views: Gift list (newest first), Total trees, Total amount. The connection **Wedding site** needs access to this database too (open it → ··· → Connections). If it cannot reach the list, a gift goes into the Replies table as before, marked Olive tree, so nothing is lost; the function log then says "gift list not reachable". To use a different list, set `NOTION_GIFTS_DATABASE_ID` in Netlify.
 
 Still needed once: the connection's secret token. Open the connection in Notion, copy the **API token** (Configuration tab), then in Netlify → project → **Project configuration → Environment variables** add `NOTION_TOKEN` with that value (tick "Contains secret values" and paste it into the Production field). Then **Deploys → Trigger deploy** once so the function picks it up, send one test reply from the website and check the database. The function's log is under **Logs → Functions** if something is off.
 

@@ -1,21 +1,30 @@
 /* =====================================================================
    Netlify runs a function with exactly this name on every form
-   submission ("submission-created" event). It copies the entry into a
-   Notion database so Lingling and Max can see every RSVP and every
-   olive-tree reservation in Notion.
+   submission ("submission-created" event). It copies the entry into
+   Notion so Lingling and Max see every RSVP and every olive-tree gift:
+     RSVPs            → the Replies table on the RSVP page
+     olive-tree gifts → the Olive Tree Gift List (its own page under
+                        Wedding Kitzbühel, since 15 November 2026)
 
    Configuration (Netlify → Site configuration → Environment variables):
-     NOTION_TOKEN        secret of an internal Notion integration
-     NOTION_DATABASE_ID  the database under the wedding page
-   Without them the function does nothing; Netlify still stores the
-   submission under Forms, so nothing is ever lost.
+     NOTION_TOKEN              secret of an internal Notion integration
+     NOTION_DATABASE_ID        the RSVP database (or the page holding it)
+     NOTION_GIFTS_DATABASE_ID  optional: a gift list other than the one below
+   The integration needs access to both in Notion (··· → Connections).
+   If it cannot reach the gift list, a gift goes into the RSVP database
+   as before. Without a token the function does nothing; Netlify still
+   stores every submission under Forms, so nothing is ever lost.
    No dependencies: Node's built-in fetch talks to the Notion API.
    ===================================================================== */
 
 const NOTION_API = 'https://api.notion.com/v1';
 const NOTION_VERSION = '2022-06-28';
 
-// Columns the function needs, by Notion property type.
+// The "Olive Tree Gift List" database under Wedding Kitzbühel.
+const GIFTS_DATABASE_ID = '41989e1707f381bd8ef9d72b22b1d4cf';
+
+// Columns of the RSVP database, by Notion property type. Trees, Amount and
+// Payment are there for gifts that cannot reach the gift list.
 const COLUMNS = {
   'Form': 'select',
   'Email': 'email',
@@ -34,6 +43,19 @@ const COLUMNS = {
   'Submitted': 'date',
   'Netlify ID': 'rich_text'
 };
+
+// Columns of the gift list. "Received" is ticked by hand and left alone.
+const GIFT_COLUMNS = {
+  'Trees': 'number',
+  'Amount': 'number',
+  'Payment': 'select',
+  'Language': 'select',
+  'Submitted': 'date',
+  'Netlify ID': 'rich_text'
+};
+
+const LANGUAGES = { en: 'English', de: 'Deutsch', zh: '中文' };
+const PAYMENTS = { 'bank-transfer': 'Bank transfer', 'paypal': 'PayPal', 'wechat': 'WeChat Pay', 'cash': 'Cash' };
 
 // How a column is set up when the function has to create it (the amount shows as euros).
 const COLUMN_OPTIONS = {
@@ -102,15 +124,15 @@ async function notion(token, method, path, body) {
   return json;
 }
 
-// NOTION_DATABASE_ID may point at the database itself or at a page that holds
-// one inline (the ID in the page URL). Find the database either way.
-let resolved = null;
-async function resolveDatabase(token, id) {
-  if (resolved) return resolved;
+// An ID may point at the database itself or at a page that holds one inline
+// (the ID in the page URL). Find the database either way.
+const resolved = {};
+async function resolveDatabase(token, id, newTitle, columnsDef) {
+  if (resolved[id]) return resolved[id];
   try {
     const db = await notion(token, 'GET', '/databases/' + id);
-    resolved = { id, db };
-    return resolved;
+    resolved[id] = { id, db };
+    return resolved[id];
   } catch (err) {
     if (!/is a page/i.test(err.message)) throw err;
   }
@@ -122,27 +144,27 @@ async function resolveDatabase(token, id) {
       const dbId = String(child.id).replace(/-/g, '');
       const db = await notion(token, 'GET', '/databases/' + dbId);
       console.log('submission-created: using database ' + dbId + ' inside page ' + id);
-      resolved = { id: dbId, db };
-      return resolved;
+      resolved[id] = { id: dbId, db };
+      return resolved[id];
     }
     cursor = res.has_more ? res.next_cursor : null;
   } while (cursor);
-  // The page holds no database yet (a simple table is not one): create "Replies" in it.
+  // The page holds no database yet (a simple table is not one): create one in it.
   const properties = { 'Name': { title: {} } };
-  for (const name of Object.keys(COLUMNS)) { properties[name] = { [COLUMNS[name]]: COLUMN_OPTIONS[name] || {} }; }
+  for (const name of Object.keys(columnsDef)) { properties[name] = { [columnsDef[name]]: COLUMN_OPTIONS[name] || {} }; }
   const created = await notion(token, 'POST', '/databases', {
     parent: { type: 'page_id', page_id: id },
-    title: [{ type: 'text', text: { content: 'Replies' } }],
+    title: [{ type: 'text', text: { content: newTitle } }],
     properties
   });
   const createdId = String(created.id).replace(/-/g, '');
   console.log('submission-created: created database ' + createdId + ' inside page ' + id);
-  resolved = { id: createdId, db: created };
-  return resolved;
+  resolved[id] = { id: createdId, db: created };
+  return resolved[id];
 }
 
 // Make sure the database has every column we write to; add the missing ones.
-async function ensureColumns(token, databaseId, db) {
+async function ensureColumns(token, databaseId, db, columnsDef) {
   const existing = db.properties || {};
   let titleName = 'Name';
   for (const name of Object.keys(existing)) {
@@ -152,35 +174,66 @@ async function ensureColumns(token, databaseId, db) {
   const types = {};
   const missing = {};
   const usable = (col, type) => existing[col] && (existing[col].type === type || existing[col].type === 'rich_text');
-  for (const name of Object.keys(COLUMNS)) {
-    const col = usable(name, COLUMNS[name]) ? name : (ALIASES[name] || []).find(a => usable(a, COLUMNS[name]));
+  for (const name of Object.keys(columnsDef)) {
+    const col = usable(name, columnsDef[name]) ? name : (ALIASES[name] || []).find(a => usable(a, columnsDef[name]));
     if (col) { names[name] = col; types[name] = existing[col].type; continue; }
     names[name] = name;
-    types[name] = COLUMNS[name];
-    if (!existing[name]) { missing[name] = { [COLUMNS[name]]: COLUMN_OPTIONS[name] || {} }; }
+    types[name] = columnsDef[name];
+    if (!existing[name]) { missing[name] = { [columnsDef[name]]: COLUMN_OPTIONS[name] || {} }; }
   }
   if (Object.keys(missing).length) {
     const updated = await notion(token, 'PATCH', '/databases/' + databaseId, { properties: missing });
     // Keep the cached copy current, so a warm function does not add the columns again.
     if (updated && updated.properties) { db.properties = updated.properties; }
   }
-  return { titleName, names, types };
+  return { titleName, names, types, wanted: columnsDef };
 }
 
+// Writes a value under the column's real name, as text when the column is plain text.
+function setter(columns, props) {
+  return (name, value) => {
+    const col = columns.names[name] || name;
+    props[col] = columns.types[name] === columns.wanted[name] ? value : asText(value);
+  };
+}
+
+// Name, language, time and Netlify ID: the same in both databases.
+function baseFields(columns, props, set, payload) {
+  const d = payload.data || {};
+  props[columns.titleName] = { title: [{ text: { content: String(d.name || payload.name || 'Unnamed').slice(0, 200) } }] };
+  set('Language', select(d.lang, LANGUAGES));
+  set('Submitted', { date: { start: payload.created_at || new Date().toISOString() } });
+  set('Netlify ID', text(payload.id || payload.number || ''));
+}
+
+// Trees, amount and payment of an olive-tree gift. "total" is trees × price,
+// filled in by the page's script (empty without JavaScript). Entries from
+// before 15 Nov 2026 may carry an own amount instead of trees.
+function giftFields(set, d) {
+  const own = d.gift === 'amount';
+  set('Trees', number(own ? '' : d.trees));
+  set('Amount', euros(own ? (d.total || d.amount) : d.total));
+  set('Payment', select(d.payment, PAYMENTS));
+}
+
+// A row of the Olive Tree Gift List.
+function buildGiftProperties(columns, payload) {
+  const props = {};
+  const set = setter(columns, props);
+  baseFields(columns, props, set, payload);
+  giftFields(set, payload.data || {});
+  return props;
+}
+
+// A row of the RSVP database (RSVPs, and gifts when the gift list cannot be reached).
 function buildProperties(columns, payload) {
   const d = payload.data || {};
   const form = payload.form_name || '';
   const props = {};
-  const set = (name, value) => {
-    const col = columns.names[name] || name;
-    props[col] = columns.types[name] === COLUMNS[name] ? value : asText(value);
-  };
-  props[columns.titleName] = { title: [{ text: { content: String(d.name || payload.name || 'Unnamed').slice(0, 200) } }] };
+  const set = setter(columns, props);
+  baseFields(columns, props, set, payload);
   set('Form', select(form, { 'rsvp': 'RSVP', 'olive-trees': 'Olive tree' }));
   set('Email', { email: d.email ? String(d.email).slice(0, 200) : null });
-  set('Language', select(d.lang, { en: 'English', de: 'Deutsch', zh: '中文' }));
-  set('Submitted', { date: { start: payload.created_at || new Date().toISOString() } });
-  set('Netlify ID', text(payload.id || payload.number || ''));
   if (form === 'rsvp') {
     set('Attending', select(d.attending, { yes: 'Yes', no: 'No' }));
     set('Days', multi(d.days, { friday: 'Friday', saturday: 'Saturday' }));
@@ -195,20 +248,32 @@ function buildProperties(columns, payload) {
     set('Dietary', text(d.dietary));
     set('Message', text(d.message));
   } else if (form === 'olive-trees') {
-    // Either whole trees or an own amount. "total" is filled in by the page's script:
-    // trees × price, or the own amount; without JavaScript only the own amount is known.
-    const own = d.gift === 'amount';
-    if (own) { set('Form', { select: { name: 'Own amount' } }); }
-    set('Trees', number(own ? '' : d.trees));
-    set('Amount', euros(own ? (d.total || d.amount) : d.total));
-    set('Payment', select(d.payment, { 'bank-transfer': 'Bank transfer', 'paypal': 'PayPal', 'wechat': 'WeChat Pay', 'cash': 'Cash' }));
+    if (d.gift === 'amount') { set('Form', { select: { name: 'Own amount' } }); }
+    giftFields(set, d);
   }
   return props;
+}
+
+// Find the database, add missing columns, add the row. A failed attempt
+// forgets the cached database, so the next submission looks again.
+async function store(token, id, newTitle, columnsDef, build, payload) {
+  try {
+    const target = await resolveDatabase(token, id, newTitle, columnsDef);
+    const columns = await ensureColumns(token, target.id, target.db, columnsDef);
+    return await notion(token, 'POST', '/pages', {
+      parent: { database_id: target.id },
+      properties: build(columns, payload)
+    });
+  } catch (err) {
+    delete resolved[id];
+    throw err;
+  }
 }
 
 exports.handler = async function (event) {
   const token = process.env.NOTION_TOKEN;
   const databaseId = (process.env.NOTION_DATABASE_ID || '').replace(/-/g, '');
+  const giftsId = (process.env.NOTION_GIFTS_DATABASE_ID || GIFTS_DATABASE_ID).replace(/-/g, '');
   if (!token || !databaseId) {
     console.log('submission-created: Notion not configured, nothing to do');
     return { statusCode: 200, body: 'notion not configured' };
@@ -222,21 +287,25 @@ exports.handler = async function (event) {
   if (!payload || !payload.form_name) {
     return { statusCode: 400, body: 'no submission payload' };
   }
+  if (payload.form_name === 'olive-trees') {
+    try {
+      const page = await store(token, giftsId, 'Tree gifts', GIFT_COLUMNS, buildGiftProperties, payload);
+      console.log('submission-created: stored in the Olive Tree Gift List as', page.id);
+      return { statusCode: 200, body: 'stored' };
+    } catch (err) {
+      console.error('submission-created: gift list not reachable, using the RSVP database instead: ' + err.message);
+    }
+  }
   try {
-    const target = await resolveDatabase(token, databaseId);
-    const columns = await ensureColumns(token, target.id, target.db);
-    const page = await notion(token, 'POST', '/pages', {
-      parent: { database_id: target.id },
-      properties: buildProperties(columns, payload)
-    });
+    const page = await store(token, databaseId, 'Replies', COLUMNS, buildProperties, payload);
     console.log('submission-created: stored in Notion as', page.id);
     return { statusCode: 200, body: 'stored' };
   } catch (err) {
     // The submission itself is already saved by Netlify Forms; just report.
-    resolved = null;
     console.error('submission-created: ' + err.message);
     return { statusCode: 500, body: err.message };
   }
 };
 
 exports.buildProperties = buildProperties; // for the local test
+exports.buildGiftProperties = buildGiftProperties;
