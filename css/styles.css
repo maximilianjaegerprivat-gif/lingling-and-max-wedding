@@ -130,7 +130,7 @@ a:hover { color: var(--gold-text); text-decoration-color: currentColor; }
 /* Dates: big and clear, normal case (the couple's request) */
 .eyebrow.eyebrow--date {
   font-size: clamp(1.25rem, 1.1rem + .6vw, 1.5rem); letter-spacing: .02em; text-transform: none;
-  line-height: 1.3; padding-left: 0; margin-bottom: var(--s4);
+  line-height: 1.3; padding-left: 0; margin-bottom: 1.75rem; /* a clear space before the day title */
 }
 
 .lead {
@@ -337,12 +337,14 @@ html[data-lang="zh"] .hero__date { letter-spacing: .04em; }
 .day__title { font-size: var(--fs-2); margin-bottom: var(--s2); }
 .day__meta { display: flex; flex-wrap: wrap; justify-content: center; gap: .25rem 1rem; color: var(--green-muted); margin-bottom: var(--s3); }
 .day__time { color: var(--green); font-variant-numeric: tabular-nums; }
+/* Dress code: the same font, size and colour as the event descriptions, no rules around it */
 .dress {
-  display: inline-flex; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: .25rem .6rem;
-  font-size: 1rem; color: var(--green-muted);
-  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: .45rem 1rem; text-wrap: balance;
+  display: inline-flex; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: .1rem .35rem;
+  font-size: var(--fs-body); line-height: 1.65; color: var(--green-body); margin: 0; text-wrap: balance;
 }
-.dress__label { font-size: var(--label-s); letter-spacing: var(--track-s); text-transform: uppercase; font-weight: 600; color: var(--gold-text); }
+.dress__label::after { content: ":"; }
+html[data-lang="zh"] .dress__label::after { content: "："; }
+html[data-lang="zh"] .dress { column-gap: 0; }
 
 /* Timeline: a gold line with icon medallions. Phones: the time on its own line above the
    title, so the text gets the full width. From 40em: the times in a column on the left. */
