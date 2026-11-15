@@ -154,6 +154,10 @@ a:hover { color: var(--gold-text); text-decoration-color: currentColor; }
 .ornament { display: flex; align-items: center; justify-content: center; gap: .8rem; color: var(--gold); margin: 0 0 var(--s5); }
 .ornament span { display: block; width: 3.25rem; height: 1px; background: currentColor; }
 .ornament svg { flex: none; }
+/* The heart above the names and on the thank-you pages: larger, as the couple asked */
+.ornament--large { gap: 1rem; }
+.ornament--large span { width: 5rem; }
+.ornament--large svg { width: 2rem; height: 2rem; }
 
 /* Panels: one base for every card */
 .panel { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: var(--pad-panel); }
@@ -272,7 +276,6 @@ html[data-lang="zh"] .hero__date { letter-spacing: .04em; }
   grid-row: 1; align-self: center; justify-self: center; max-width: 58rem;
   padding: clamp(2.5rem, 1.5rem + 3vw, 4rem) var(--s4) var(--s6);
 }
-.hero__eyebrow { margin-bottom: var(--s4); }
 .ornament--hero { margin-bottom: var(--s5); }
 .hero__names { font-size: var(--fs-display); line-height: 1; margin: 0 0 .2em; letter-spacing: -.01em; }
 .hero__names .amp { font-size: .92em; margin-inline: .02em; }
