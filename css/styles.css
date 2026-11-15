@@ -367,6 +367,7 @@ html[data-lang="zh"] .hero__date { letter-spacing: .04em; }
 .timeline__title { font-family: var(--font-sans); font-size: 1.25rem; font-weight: 600; line-height: 1.35; margin-bottom: .15rem; }
 .timeline__place { font-size: 1rem; font-weight: 600; color: var(--gold-text); margin-bottom: .3rem; }
 .timeline__place a { color: inherit; }
+.timeline__body .note { font-size: inherit; } /* the children's note at dinner: same size as the event text */
 @media (min-width: 40em) {
   .timeline::before { left: 11rem; }
   .timeline__item { grid-template-columns: 9.25rem minmax(0, 1fr); column-gap: 3.75rem; padding: 1.15rem 0; }
